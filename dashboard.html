@@ -335,6 +335,85 @@
     }
     .form-control:focus { border-color: var(--primary); }
 
+    /* ── 幹部專屬筆記與工具箱樣式 ── */
+    .role-switcher {
+      display: flex; gap: 8px; overflow-x: auto; padding: 4px 0 16px; margin-bottom: 20px;
+      border-bottom: 1.5px solid rgba(0, 75, 151, .1); scrollbar-width: thin;
+    }
+    .role-tab-btn {
+      white-space: nowrap; background: var(--bg); border: 1.5px solid rgba(0, 75, 151, .15);
+      color: var(--text-main); font-size: 13px; font-weight: 700; padding: 8px 16px;
+      border-radius: var(--pill-radius); cursor: pointer; transition: all .2s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .role-tab-btn:hover { background: #fff; border-color: var(--primary); color: var(--primary); }
+    .role-tab-btn.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0, 75, 151, .25);
+    }
+    .role-content-pane { display: none; }
+    .role-content-pane.active { display: block; animation: fadeIn .25s ease; }
+
+    /* 幹部筆記框 (Scratchpad) */
+    .scratchpad-card {
+      background: #fff; border: 1.5px solid rgba(0, 75, 151, .15); border-radius: 12px;
+      padding: 20px; margin-bottom: 22px; box-shadow: var(--shadow-sm);
+    }
+    .scratchpad-header {
+      display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;
+      flex-wrap: wrap; gap: 8px;
+    }
+    .scratchpad-title {
+      font-size: 16px; font-weight: 900; color: var(--text-main); display: flex; align-items: center; gap: 8px;
+    }
+    .scratchpad-status {
+      font-size: 11.5px; font-weight: 700; color: #059669; background: #ecfdf5;
+      padding: 3px 10px; border-radius: var(--pill-radius); border: 1px solid rgba(5, 150, 105, .2);
+    }
+    .scratchpad-textarea {
+      width: 100%; min-height: 180px; padding: 14px 16px; border-radius: 10px;
+      border: 1.5px solid #cbd5e1; font-size: 14px; line-height: 1.7; font-family: inherit;
+      outline: none; resize: vertical; background: #fafcff; transition: all .2s;
+    }
+    .scratchpad-textarea:focus { background: #fff; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 75, 151, .1); }
+    .scratchpad-footer {
+      display: flex; justify-content: space-between; align-items: center; margin-top: 12px;
+      flex-wrap: wrap; gap: 10px; font-size: 12px; color: var(--text-muted);
+    }
+
+    /* 工具生成器卡片 */
+    .tool-card {
+      background: #f8fafc; border: 1px solid rgba(0, 75, 151, .12); border-radius: 12px;
+      padding: 20px; margin-bottom: 20px;
+    }
+    .tool-card-title {
+      font-size: 15px; font-weight: 900; color: var(--primary); margin-bottom: 14px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .preview-box {
+      background: #fff; border: 1.5px dashed rgba(0, 75, 151, .2); border-radius: 10px;
+      padding: 16px; font-family: inherit; font-size: 13.5px; line-height: 1.6;
+      white-space: pre-wrap; margin-top: 12px; max-height: 320px; overflow-y: auto; color: var(--text-main);
+    }
+
+    /* 隨身便簽板 (Sticky Board) */
+    .sticky-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px; margin-top: 16px;
+    }
+    .sticky-note {
+      border-radius: 12px; padding: 18px; box-shadow: 0 4px 12px rgba(0,0,0,.06);
+      display: flex; flex-direction: column; justify-content: space-between;
+      min-height: 160px; position: relative; transition: transform .2s;
+    }
+    .sticky-note:hover { transform: translateY(-2px); }
+    .sticky-yellow { background: #fef9c3; border: 1px solid #fde047; color: #713f12; }
+    .sticky-green { background: #dcfce7; border: 1px solid #86efac; color: #14532d; }
+    .sticky-blue { background: #e0f2fe; border: 1px solid #7dd3fc; color: #0c4a6e; }
+    .sticky-pink { background: #fce7f3; border: 1px solid #f9a8d4; color: #831843; }
+    .sticky-text { font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; flex: 1; outline: none; }
+    .sticky-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 11px; }
+
     /* 響應式優化 */
     @media (max-width: 768px) {
       .site-header { padding: 10px 16px; }
@@ -493,6 +572,7 @@
     <div class="dash-tabs" id="tabNav">
       <button class="tab-btn active" onclick="switchTab('tab-roster', this)">👥 即時報名名冊 (<span id="tab-roster-count">0</span>)</button>
       <button class="tab-btn" onclick="switchTab('tab-checkin', this)">🏓 現場簽到打卡 (<span id="tab-checkin-count">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab('tab-notes', this)">📓 幹部工作筆記與工具箱</button>
       <button class="tab-btn" onclick="switchTab('tab-sop', this)">👑 總管 SOP 與組織</button>
       <button class="tab-btn" onclick="switchTab('tab-admin', this)">📝 行政文書 (申請與紀錄)</button>
       <button class="tab-btn" onclick="switchTab('tab-finance', this)">💰 總務器材與經費預算</button>
@@ -668,6 +748,495 @@
             </div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB: 幹部專屬工作筆記與實用工具箱 -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-notes">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">📓 幹部各角色工作筆記與實用協作工具箱</div>
+            <div class="module-desc">專為 6 大幹部角色量身打造：即時隨身便簽（自動存檔）、LINE 通知產生器、紀錄表草稿生成、器材借還登記與經費試算。</div>
+          </div>
+          <span class="module-source">功能：幹部專用 LocalStorage 永久存檔</span>
+        </div>
+
+        <!-- 角色工作台切換選單 -->
+        <div class="role-switcher">
+          <button class="role-tab-btn active" onclick="switchRoleWorkspace('role-convener', this)">🎯 召集人 (PM)</button>
+          <button class="role-tab-btn" onclick="switchRoleWorkspace('role-admin', this)">📝 行政文書組</button>
+          <button class="role-tab-btn" onclick="switchRoleWorkspace('role-finance', this)">💰 總務財務組</button>
+          <button class="role-tab-btn" onclick="switchRoleWorkspace('role-marketing', this)">📢 社群行銷組</button>
+          <button class="role-tab-btn" onclick="switchRoleWorkspace('role-media', this)">🎥 活動影音組</button>
+          <button class="role-tab-btn" onclick="switchRoleWorkspace('role-tech', this)">💻 AI 體感技術組</button>
+          <button class="role-tab-btn" onclick="switchRoleWorkspace('role-sticky', this)">📌 全體通用便利貼</button>
+        </div>
+
+        <!-- ── 1. 召集人 (PM) 工作台 ── -->
+        <div class="role-content-pane active" id="role-convener">
+          <!-- 專屬筆記本 -->
+          <div class="scratchpad-card">
+            <div class="scratchpad-header">
+              <div class="scratchpad-title">
+                <span>🎯 社群召集人 (PM) 專屬工作便簽</span>
+              </div>
+              <span class="scratchpad-status" id="status-note-convener">🟢 自動存檔已就緒</span>
+            </div>
+            <textarea id="note-convener" class="scratchpad-textarea" placeholder="在此輸入召集人個人筆記、與教發中心 / 許銘華老師的溝通待辦、重要議程想法...（打字即自動儲存，重整不遺失）" oninput="autoSaveNote('convener', this.value)"></textarea>
+            <div class="scratchpad-footer">
+              <span>💡 提示：此筆記保存在您的瀏覽器中，不論重開幾次都會自動保留！</span>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-action" onclick="copyNote('convener')">📋 複製筆記</button>
+                <button class="btn-action" onclick="exportNote('convener', '社群召集人筆記')">📥 匯出 TXT</button>
+                <button class="btn-action" style="color:var(--rose); border-color:#fca5a5;" onclick="clearNote('convener')">🗑️ 清空</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 工具 1: LINE 官方群聚會行前通知產生器 -->
+          <div class="tool-card">
+            <div class="tool-card-title">📢 LINE 官方群「聚會行前提醒」一鍵生成器</div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+              每次實體聚會前 2 天或前 1 天，填寫以下簡單資訊，點擊即可生成帶有豐富排版與 Emoji 的 LINE 廣播通知文案！
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 12px;">
+              <div class="form-group" style="margin:0;">
+                <label class="form-label">聚會活動次數</label>
+                <select id="line-session" class="form-control">
+                  <option value="第 1 次實體聚會 (破冰、規則與基礎握拍)">第 1 次聚會 (破冰與基礎握拍)</option>
+                  <option value="第 2 次實體聚會 (正反手平擊球與截擊教學)">第 2 次聚會 (正反手平擊球教學)</option>
+                  <option value="第 3 次實體聚會 (發球站位與雙打跑位實戰)">第 3 次聚會 (發球站位與跑位)</option>
+                  <option value="第 4 次實體聚會 (AI 體感即時動作分析實測)">第 4 次聚會 (AI 體感動作實測)</option>
+                  <option value="第 5 次實體聚會 (社群分組排名循環對抗賽)">第 5 次聚會 (分組排名對抗賽)</option>
+                  <option value="第 6 次實體聚會 (期末成果展示與教學展評)">第 6 次聚會 (期末成果教學展評)</option>
+                  <option value="社群週末自由約打 / 加練活動">社群週末自由約打 / 加練活動</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label">活動日期與時間</label>
+                <input type="text" id="line-datetime" class="form-control" placeholder="例：本週三 19:00 - 21:00">
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label">集合地點</label>
+                <input type="text" id="line-location" class="form-control" value="中興大學惠蓀堂旁匹克球場 (雨天改至體育館地下室)">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">攜帶物與特別叮嚀</label>
+              <input type="text" id="line-tips" class="form-control" value="攜帶水壺、毛巾、穿著運動服裝球鞋。現場備有公用球拍，無球拍同學免擔心！">
+            </div>
+
+            <button class="btn-action primary" onclick="generateLineNotice()">🚀 立即生成 LINE 通知文案</button>
+
+            <div id="line-preview-wrap" style="display:none; margin-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span style="font-size:12px; font-weight:700; color:var(--text-muted);">📋 LINE 預覽（可直接複製）：</span>
+                <button class="btn-action" onclick="copyLineNotice()">📋 一鍵複製整篇文案</button>
+              </div>
+              <div id="line-preview-box" class="preview-box"></div>
+            </div>
+          </div>
+
+          <!-- 工具 2: 2小時聚會時間掌控表 -->
+          <div class="tool-card">
+            <div class="tool-card-title">⏱️ 每次 2 小時聚會標準流程節奏把控卡</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
+              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid var(--primary);">
+                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">00 - 15 分鐘</div>
+                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">集合點名與暖身</div>
+                <div style="font-size:12px; color:var(--text-muted);">行政點名、動態熱身拉筋、架設球網。</div>
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid #0284c7;">
+                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">15 - 45 分鐘</div>
+                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">技術示範與多球練習</div>
+                <div style="font-size:12px; color:var(--text-muted);">林教練或幹部帶領基礎持拍、定點擊球。</div>
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid var(--purple);">
+                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">45 - 65 分鐘</div>
+                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">AI 體感互動實測</div>
+                <div style="font-size:12px; color:var(--text-muted);">輪流在筆電鏡頭前挑戰 3D 遊戲與骨架分析。</div>
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid var(--emerald);">
+                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">65 - 110 分鐘</div>
+                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">分組雙打實戰對抗</div>
+                <div style="font-size:12px; color:var(--text-muted);">實戰循環交流，影音組側拍揮拍與大合照。</div>
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid var(--amber);">
+                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">110 - 120 分鐘</div>
+                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">收尾收球與心得圍圈</div>
+                <div style="font-size:12px; color:var(--text-muted);">伸展、清點借出球拍、發布下週預告。</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 2. 行政文書組 工作台 ── -->
+        <div class="role-content-pane" id="role-admin">
+          <!-- 專屬筆記本 -->
+          <div class="scratchpad-card">
+            <div class="scratchpad-header">
+              <div class="scratchpad-title">
+                <span>📝 行政文書幹部專屬工作便簽</span>
+              </div>
+              <span class="scratchpad-status" id="status-note-admin">🟢 自動存檔已就緒</span>
+            </div>
+            <textarea id="note-admin" class="scratchpad-textarea" placeholder="在此輸入行政文書組工作事項、成員衝堂追蹤、教發中心收發件紀錄...（打字即自動儲存，重整不遺失）" oninput="autoSaveNote('admin', this.value)"></textarea>
+            <div class="scratchpad-footer">
+              <span>💡 提示：輸入完後點擊複製，隨時回報給召集人或上傳！</span>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-action" onclick="copyNote('admin')">📋 複製筆記</button>
+                <button class="btn-action" onclick="exportNote('admin', '行政文書組筆記')">📥 匯出 TXT</button>
+                <button class="btn-action" style="color:var(--rose); border-color:#fca5a5;" onclick="clearNote('admin')">🗑️ 清空</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 工具: 教發中心「活動紀錄表」30秒草稿產生器 -->
+          <div class="tool-card">
+            <div class="tool-card-title">📄 教發中心「每次聚會討論紀錄表」30 秒草稿產生器</div>
+            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+              聚會結束後 48 小時內需上傳至教發中心雲端。填妥以下摘要，一鍵生成符合規格的標準格式，直接複製貼上至 Google Docs！
+            </p>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 12px;">
+              <div class="form-group" style="margin:0;">
+                <label class="form-label">活動場次</label>
+                <select id="doc-session" class="form-control">
+                  <option value="第 1 次聚會">第 1 次聚會</option>
+                  <option value="第 2 次聚會">第 2 次聚會</option>
+                  <option value="第 3 次聚會">第 3 次聚會</option>
+                  <option value="第 4 次聚會">第 4 次聚會</option>
+                  <option value="第 5 次聚會">第 5 次聚會</option>
+                  <option value="第 6 次聚會">第 6 次聚會</option>
+                </select>
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label">聚會日期</label>
+                <input type="text" id="doc-date" class="form-control" placeholder="例：2026/10/14 (三)">
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label class="form-label">出席人數</label>
+                <input type="text" id="doc-attendees" class="form-control" placeholder="例：8 人 (名冊見簽到表)">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">研討主題 / 活動核心內容</label>
+              <input type="text" id="doc-theme" class="form-control" placeholder="例：匹克球基礎規則講解、持拍幾何角度分析與 AI 體感初體驗">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">討論要點與社員學習收穫 (條列式)</label>
+              <textarea id="doc-summary" class="form-control" rows="3" placeholder="1. 全員熟悉廚房非截擊區 (Non-Volley Zone) 規則&#10;2. 實測 MediaPipe 姿態辨識之擊球幀率反饋&#10;3. 分組進行 11 分制發球搶分循環賽"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">下次預計進度與交辦待辦</label>
+              <input type="text" id="doc-next" class="form-control" value="進階截擊與發球落點戰術練習，總務組採購比賽球補充耗材。">
+            </div>
+
+            <button class="btn-action primary" onclick="generateMeetingReport()">📄 立即生成紀錄表文字草稿</button>
+
+            <div id="doc-preview-wrap" style="display:none; margin-top:14px;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <span style="font-size:12px; font-weight:700; color:var(--text-muted);">📋 紀錄表文字草稿（可直接貼入 Google Docs / 系統）：</span>
+                <button class="btn-action" onclick="copyMeetingReport()">📋 一鍵複製整份紀錄</button>
+              </div>
+              <div id="doc-preview-box" class="preview-box"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 3. 總務財務組 工作台 ── -->
+        <div class="role-content-pane" id="role-finance">
+          <!-- 專屬筆記本 -->
+          <div class="scratchpad-card">
+            <div class="scratchpad-header">
+              <div class="scratchpad-title">
+                <span>💰 總務財務幹部專屬工作便簽</span>
+              </div>
+              <span class="scratchpad-status" id="status-note-finance">🟢 自動存檔已就緒</span>
+            </div>
+            <textarea id="note-finance" class="scratchpad-textarea" placeholder="在此輸入總務器材盤點備忘、待採購清單、發票統編核銷備忘...（打字即自動儲存，重整不遺失）" oninput="autoSaveNote('finance', this.value)"></textarea>
+            <div class="scratchpad-footer">
+              <span>🏫 提醒：採購發票務必打統編 <strong>52024101</strong> 並當天拍照！</span>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-action" onclick="copyNote('finance')">📋 複製筆記</button>
+                <button class="btn-action" onclick="exportNote('finance', '總務財務組筆記')">📥 匯出 TXT</button>
+                <button class="btn-action" style="color:var(--rose); border-color:#fca5a5;" onclick="clearNote('finance')">🗑️ 清空</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 工具 1: 實體球具器材借還追蹤看板 -->
+          <div class="tool-card">
+            <div class="tool-card-title">🏓 實體公用球具「借還登記追蹤看板」</div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap; margin-bottom:14px; background:#fff; padding:12px 16px; border-radius:8px; border:1px solid #e2e8f0;">
+              <div>📦 <strong>公拍在庫狀態</strong>：總計 8 支 ｜ 借出中：<strong id="loan-out-count" style="color:var(--rose);">0</strong> 支 ｜ 在庫存量：<strong id="loan-remain-count" style="color:var(--emerald);">8</strong> 支</div>
+              <div>🕸️ <strong>球網</strong>：2 組</div>
+              <div>🟡 <strong>比賽球</strong>：3 筒 (12 顆)</div>
+            </div>
+
+            <!-- 借出登記輸入列 -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 12px;">
+              <input type="text" id="loan-name" class="form-control" placeholder="借用人姓名">
+              <input type="text" id="loan-sid" class="form-control" placeholder="借用人學號">
+              <select id="loan-item" class="form-control">
+                <option value="公拍 1 支">公拍 1 支</option>
+                <option value="公拍 2 支">公拍 2 支</option>
+                <option value="比賽球 1 筒">比賽球 1 筒</option>
+                <option value="便攜球網 1 組">便攜球網 1 組</option>
+              </select>
+              <input type="text" id="loan-note" class="form-control" placeholder="借用原因/備註">
+              <button class="btn-action primary" onclick="addLoanItem()">➕ 登記借出</button>
+            </div>
+
+            <!-- 借還紀錄表 -->
+            <div class="table-responsive" style="max-height: 240px; overflow-y: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>借出時間</th>
+                    <th>借用人</th>
+                    <th>學號</th>
+                    <th>借用品項</th>
+                    <th>狀態</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="loan-tbody">
+                  <tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:20px;">目前無借用紀錄</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- 工具 2: 10,000 元經費即時記帳試算器 -->
+          <div class="tool-card">
+            <div class="tool-card-title">💰 10,000 元學習社群經費「即時記帳防呆試算器」</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 14px;">
+              <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #cbd5e1; text-align:center;">
+                <div style="font-size:12px; color:var(--text-muted);">總核定經費</div>
+                <div style="font-size:20px; font-weight:900; color:var(--primary);">NT$ 10,000</div>
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #cbd5e1; text-align:center;">
+                <div style="font-size:12px; color:var(--text-muted);">已登記支出</div>
+                <div style="font-size:20px; font-weight:900; color:var(--rose);" id="exp-total-cost">NT$ 0</div>
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #cbd5e1; text-align:center;">
+                <div style="font-size:12px; color:var(--text-muted);">剩餘可用額度</div>
+                <div style="font-size:20px; font-weight:900; color:var(--emerald);" id="exp-remain-budget">NT$ 10,000</div>
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #cbd5e1; text-align:center;">
+                <div style="font-size:12px; color:var(--text-muted);">統編 (52024101) 合規率</div>
+                <div style="font-size:20px; font-weight:900; color:var(--amber);" id="exp-tax-rate">100%</div>
+              </div>
+            </div>
+
+            <!-- 新增支出輸入框 -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 12px; align-items:center;">
+              <input type="text" id="exp-name" class="form-control" placeholder="品名 (如:比賽球2筒)">
+              <input type="number" id="exp-amount" class="form-control" placeholder="金額 (NT$)">
+              <input type="text" id="exp-inv" class="form-control" placeholder="發票號碼 (例:AB-12345678)">
+              <label style="font-size:12px; display:inline-flex; align-items:center; gap:4px; cursor:pointer;">
+                <input type="checkbox" id="exp-has-tax" checked style="accent-color:var(--primary);"> 有打統編 52024101
+              </label>
+              <button class="btn-action primary" onclick="addExpenseItem()">➕ 記錄支出</button>
+            </div>
+
+            <!-- 支出表格 -->
+            <div class="table-responsive" style="max-height: 240px; overflow-y: auto;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>登記時間</th>
+                    <th>品名項目</th>
+                    <th>金額</th>
+                    <th>發票號碼</th>
+                    <th>統編檢核</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="expense-tbody">
+                  <tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:20px;">目前尚無支出紀錄</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div style="margin-top:10px; display:flex; justify-content:flex-end;">
+              <button class="btn-action" onclick="exportExpensesCsv()">📥 匯出支出記帳表 (CSV)</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 4. 社群行銷組 工作台 ── -->
+        <div class="role-content-pane" id="role-marketing">
+          <!-- 專屬筆記本 -->
+          <div class="scratchpad-card">
+            <div class="scratchpad-header">
+              <div class="scratchpad-title">
+                <span>📢 社群行銷夥伴專屬工作便簽</span>
+              </div>
+              <span class="scratchpad-status" id="status-note-marketing">🟢 自動存檔已就緒</span>
+            </div>
+            <textarea id="note-marketing" class="scratchpad-textarea" placeholder="在此輸入 IG 貼文靈感、限動互動企劃、Dcard 發文文案草稿...（打字即自動儲存，重整不遺失）" oninput="autoSaveNote('marketing', this.value)"></textarea>
+            <div class="scratchpad-footer">
+              <span>💡 提示：隨時紀錄靈感，排版後直接發到官方 IG 與 LINE 社群！</span>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-action" onclick="copyNote('marketing')">📋 複製筆記</button>
+                <button class="btn-action" onclick="exportNote('marketing', '社群行銷組筆記')">📥 匯出 TXT</button>
+                <button class="btn-action" style="color:var(--rose); border-color:#fca5a5;" onclick="clearNote('marketing')">🗑️ 清空</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 工具: 熱門 Hashtags 庫與招生金句 -->
+          <div class="tool-card">
+            <div class="tool-card-title">🏷️ 社群必備爆款 Hashtag 快捷庫（一鍵複製）</div>
+            
+            <div style="margin-bottom:14px; background:#fff; padding:14px; border-radius:8px; border:1px solid #e2e8f0;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="font-size:13px; color:var(--primary);">🏫 校園與生活推廣標籤：</strong>
+                <button class="btn-action" onclick="copyText('#中興大學 #興大體育 #興大社團 #興生指南 #大學生生活 #NCHU', '已複製校園標籤組！')">📋 複製</button>
+              </div>
+              <code style="font-size:12.5px; color:var(--text-muted);">#中興大學 #興大體育 #興大社團 #興生指南 #大學生生活 #NCHU</code>
+            </div>
+
+            <div style="margin-bottom:14px; background:#fff; padding:14px; border-radius:8px; border:1px solid #e2e8f0;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="font-size:13px; color:var(--emerald);">🏓 匹克球運動風潮標籤：</strong>
+                <button class="btn-action" onclick="copyText('#匹克球 #PickleballTaiwan #新興運動 #運動日常 #新手友善 #匹克球新手', '已複製匹克球標籤組！')">📋 複製</button>
+              </div>
+              <code style="font-size:12.5px; color:var(--text-muted);">#匹克球 #PickleballTaiwan #新興運動 #運動日常 #新手友善 #匹克球新手</code>
+            </div>
+
+            <div style="margin-bottom:14px; background:#fff; padding:14px; border-radius:8px; border:1px solid #e2e8f0;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+                <strong style="font-size:13px; color:var(--purple);">⚡ 科技與社群計畫標籤：</strong>
+                <button class="btn-action" onclick="copyText('#學習社群 #AI體感 #運動科技 #MediaPipe #自主學習 #跨領域合作', '已複製科技標籤組！')">📋 複製</button>
+              </div>
+              <code style="font-size:12.5px; color:var(--text-muted);">#學習社群 #AI體感 #運動科技 #MediaPipe #自主學習 #跨領域合作</code>
+            </div>
+
+            <button class="btn-action primary" onclick="copyText('#中興大學 #興大體育 #興大社團 #興生指南 #大學生生活 #NCHU #匹克球 #PickleballTaiwan #新興運動 #運動日常 #新手友善 #學習社群 #AI體感 #運動科技 #MediaPipe', '已複製全體 15 個熱門 Hashtags！')">
+              🔥 一鍵複製「全套 15 個爆款 Hashtags」
+            </button>
+          </div>
+        </div>
+
+        <!-- ── 5. 活動影音組 工作台 ── -->
+        <div class="role-content-pane" id="role-media">
+          <!-- 專屬筆記本 -->
+          <div class="scratchpad-card">
+            <div class="scratchpad-header">
+              <div class="scratchpad-title">
+                <span>🎥 活動影音組專屬工作便簽</span>
+              </div>
+              <span class="scratchpad-status" id="status-note-media">🟢 自動存檔已就緒</span>
+            </div>
+            <textarea id="note-media" class="scratchpad-textarea" placeholder="在此輸入拍攝分鏡、剪輯軟體剪輯點紀錄、各成員心得訪談重點...（打字即自動儲存，重整不遺失）" oninput="autoSaveNote('media', this.value)"></textarea>
+            <div class="scratchpad-footer">
+              <span>💡 成果影片規範：<strong>3~10 分鐘，1080P 高畫質</strong>，需有學員個人心得採訪！</span>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-action" onclick="copyNote('media')">📋 複製筆記</button>
+                <button class="btn-action" onclick="exportNote('media', '活動影音組筆記')">📥 匯出 TXT</button>
+                <button class="btn-action" style="color:var(--rose); border-color:#fca5a5;" onclick="clearNote('media')">🗑️ 清空</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 工具: 現場必拍鏡頭清單 -->
+          <div class="tool-card">
+            <div class="tool-card-title">🎬 每次聚會「必拍鏡頭」檢核清單 (Shooting Checklist)</div>
+            <div class="todo-list">
+              <label class="todo-item">
+                <input type="checkbox" class="todo-checkbox">
+                <span class="todo-text">📸 <strong>全體社員大合照</strong>：所有成員拿拍圍繞在球網前比讚（教發中心評鑑必附！）。</span>
+              </label>
+              <label class="todo-item">
+                <input type="checkbox" class="todo-checkbox">
+                <span class="todo-text">🎾 <strong>擊球特寫 (慢動作)</strong>：低角度特寫球拍甜區擊中匹克球的瞬間殘影。</span>
+              </label>
+              <label class="todo-item">
+                <input type="checkbox" class="todo-checkbox">
+                <span class="todo-text">💻 <strong>AI 體感大螢幕操作視角</strong>：鏡頭帶出學員對著筆電鏡頭揮拍、螢幕上 MediaPipe 骨架連線。</span>
+              </label>
+              <label class="todo-item">
+                <input type="checkbox" class="todo-checkbox">
+                <span class="todo-text">👨‍🏫 <strong>指導顧問/教練互動</strong>：林教練手把手替學員微調握拍角度的溫馨互動特寫。</span>
+              </label>
+              <label class="todo-item">
+                <input type="checkbox" class="todo-checkbox">
+                <span class="todo-text">🤝 <strong>賽後碰拍 (Paddle Tap)</strong>：雙打比賽結束後隊友與對手歡樂碰拍、擊掌畫面。</span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 6. AI 體感技術組 工作台 ── -->
+        <div class="role-content-pane" id="role-tech">
+          <!-- 專屬筆記本 -->
+          <div class="scratchpad-card">
+            <div class="scratchpad-header">
+              <div class="scratchpad-title">
+                <span>💻 AI 體感技術工程組專屬工作便簽</span>
+              </div>
+              <span class="scratchpad-status" id="status-note-tech">🟢 自動存檔已就緒</span>
+            </div>
+            <textarea id="note-tech" class="scratchpad-textarea" placeholder="在此輸入 MediaPipe 關鍵點抽樣日誌、FPS 效能調校、Three.js 渲染問題、GitHub Pages 部署備忘...（打字即自動儲存，重整不遺失）" oninput="autoSaveNote('tech', this.value)"></textarea>
+            <div class="scratchpad-footer">
+              <span>🎮 現有 Demo：<a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" style="color:var(--primary); font-weight:700;">體感展示系統 V4 ↗</a></span>
+              <div style="display:flex; gap:8px;">
+                <button class="btn-action" onclick="copyNote('tech')">📋 複製筆記</button>
+                <button class="btn-action" onclick="exportNote('tech', 'AI體感技術組筆記')">📥 匯出 TXT</button>
+                <button class="btn-action" style="color:var(--rose); border-color:#fca5a5;" onclick="clearNote('tech')">🗑️ 清空</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 工具: 現場架設規範與 Bug Tracker -->
+          <div class="tool-card">
+            <div class="tool-card-title">⚡ 體感現場視訊架設防呆指南 (Hardware & Pose Setup)</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+              <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #cbd5e1;">
+                <strong>📐 鏡頭高度</strong>：1.1 ~ 1.3 公尺 (胸腰平視，避免大仰角或俯角)
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #cbd5e1;">
+                <strong>🚶 站位距離</strong>：2.5 ~ 3.5 公尺 (確保全身腳踝至舉拍頭部完整入鏡)
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #cbd5e1;">
+                <strong>💡 光線要求</strong>：正面均勻光，嚴禁背對大窗戶或西曬逆光
+              </div>
+              <div style="background:#fff; padding:12px; border-radius:8px; border:1px solid #cbd5e1;">
+                <strong>🚀 幀率標準</strong>：開啟 Chrome 硬體加速，維持 30+ FPS 流暢偵測
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 7. 全體通用便利貼 (Sticky Board) ── -->
+        <div class="role-content-pane" id="role-sticky">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+            <div>
+              <h3 style="font-size:16px; font-weight:900; color:var(--text-main);">📌 幹部臨時隨手便利貼牆</h3>
+              <p style="font-size:12.5px; color:var(--text-muted);">開會臨時記事情、電話、待買清單、備忘速記，隨貼隨存，重新整理永遠都在！</p>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-action primary" onclick="addStickyNote('sticky-yellow')">➕ 新增黃色便簽</button>
+              <button class="btn-action" style="background:#ecfdf5; color:#047857; border-color:#a7f3d0;" onclick="addStickyNote('sticky-green')">➕ 綠色</button>
+              <button class="btn-action" style="background:#f0f9ff; color:#0369a1; border-color:#bae6fd;" onclick="addStickyNote('sticky-blue')">➕ 藍色</button>
+              <button class="btn-action" style="background:#fdf2f8; color:#be185d; border-color:#fbcfe8;" onclick="addStickyNote('sticky-pink')">➕ 粉色</button>
+            </div>
+          </div>
+
+          <div class="sticky-grid" id="sticky-grid-container">
+            <!-- 動態生成便簽 -->
+          </div>
+        </div>
+
       </div>
     </div>
 
@@ -1924,11 +2493,469 @@
       }
     }
 
+    // ── 幹部專屬工作台與筆記區邏輯 ──
+    const ROLES = ['convener', 'admin', 'finance', 'marketing', 'media', 'tech'];
+
+    function switchRoleWorkspace(rolePaneId, btnEl) {
+      document.querySelectorAll('.role-tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.role-content-pane').forEach(pane => pane.classList.remove('active'));
+
+      if (btnEl) btnEl.classList.add('active');
+      const target = document.getElementById(rolePaneId);
+      if (target) target.classList.add('active');
+    }
+
+    function autoSaveNote(role, value) {
+      localStorage.setItem('pickleball_note_' + role, value);
+      const statusEl = document.getElementById('status-note-' + role);
+      if (statusEl) {
+        const time = new Date().toLocaleTimeString('zh-TW', { hour12: false });
+        statusEl.innerText = `💾 已自動儲存 (${time})`;
+      }
+    }
+
+    function loadNotes() {
+      ROLES.forEach(r => {
+        const saved = localStorage.getItem('pickleball_note_' + r);
+        const ta = document.getElementById('note-' + r);
+        if (ta && saved !== null) {
+          ta.value = saved;
+        }
+      });
+    }
+
+    function copyNote(role) {
+      const ta = document.getElementById('note-' + role);
+      if (!ta || !ta.value.trim()) {
+        showToast('筆記內容目前為空！');
+        return;
+      }
+      copyText(ta.value, '已成功複製該幹部筆記！');
+    }
+
+    function exportNote(role, title) {
+      const ta = document.getElementById('note-' + role);
+      const content = ta ? ta.value : '';
+      if (!content.trim()) {
+        showToast('筆記內容為空，無法匯出！');
+        return;
+      }
+      const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = `115-1_匹克球學習社群_${title}.txt`;
+      link.click();
+      showToast('📥 筆記文字檔已下載！');
+    }
+
+    function clearNote(role) {
+      if (confirm('確定要清空此幹部的所有筆記內容嗎？此動作無法復原。')) {
+        const ta = document.getElementById('note-' + role);
+        if (ta) ta.value = '';
+        localStorage.removeItem('pickleball_note_' + role);
+        const statusEl = document.getElementById('status-note-' + role);
+        if (statusEl) statusEl.innerText = '🟢 已清空';
+        showToast('已清空該筆記！');
+      }
+    }
+
+    // ── 召集人：LINE 通知文案生成器 ──
+    function generateLineNotice() {
+      const session = document.getElementById('line-session').value;
+      const datetime = (document.getElementById('line-datetime').value || '本週聚會時間待定').trim();
+      const location = (document.getElementById('line-location').value || '惠蓀堂旁匹克球場').trim();
+      const tips = (document.getElementById('line-tips').value || '請攜帶水壺毛巾，穿著運動服裝球鞋。').trim();
+
+      const text = `📢【NCHU 匹克球學生學習社群】聚會行前通知 🏓
+
+各位社群夥伴大家好！我們即將舉行實體聚會囉，請大家互相提醒並準時出席：
+
+📅 活動主題：${session}
+🕒 聚會時間：${datetime}
+📍 集合地點：${location}
+🎒 攜帶物品與裝備：
+${tips}
+
+💡 特別說明：
+1. 現場備有公用球拍與比賽球，無球拍的同學也可直接參加！
+2. 聚會中將同步進行「AI 體感即時動作分析」，歡迎大家來挑戰自己的擊球動作力學數據！
+
+收到請在下方按個貼圖 👍 讓幹部知道你有看到喔～期待在球場見到大家！🔥`;
+
+      const previewBox = document.getElementById('line-preview-box');
+      const previewWrap = document.getElementById('line-preview-wrap');
+      if (previewBox && previewWrap) {
+        previewBox.innerText = text;
+        previewWrap.style.display = 'block';
+        showToast('LINE 通知文案已生成！');
+      }
+    }
+
+    function copyLineNotice() {
+      const previewBox = document.getElementById('line-preview-box');
+      if (previewBox && previewBox.innerText) {
+        copyText(previewBox.innerText, '✅ 已複製整篇 LINE 通知文案！');
+      }
+    }
+
+    // ── 行政組：教發中心紀錄表 30 秒草稿生成器 ──
+    function generateMeetingReport() {
+      const session = document.getElementById('doc-session').value;
+      const date = (document.getElementById('doc-date').value || new Date().toLocaleDateString('zh-TW')).trim();
+      const attendees = (document.getElementById('doc-attendees').value || '全體成員 (詳見簽到名冊)').trim();
+      const theme = (document.getElementById('doc-theme').value || '匹克球教學與體感互動').trim();
+      const summary = (document.getElementById('doc-summary').value || '無額外摘要').trim();
+      const next = (document.getElementById('doc-next').value || '持續進行下一次技術教學').trim();
+
+      const text = `【中興大學 115-1 學生學習社群聚會討論紀錄表】
+────────────────────────────────────────
+一、 基本資訊
+社群名稱：匹克球 AI 體感互動教學與動作特徵實證研習社群
+活動場次：${session}
+活動時間：${date}
+出席人數：${attendees}
+指導顧問：許銘華 助理教授 (體育室)
+
+二、 研討活動主題
+${theme}
+
+三、 討論研討核心重點與社員學習收穫
+${summary}
+
+四、 具體成效反思
+本週聚會學員出席踴躍，實際結合球場實體打法與 MediaPipe 體感視覺回饋，有效縮短零基礎同學的持拍摸索期，隊員間亦透過雙打循環賽增進跨系所情感交流。
+
+五、 下次預計進度與交辦事項
+${next}
+────────────────────────────────────────`;
+
+      const previewBox = document.getElementById('doc-preview-box');
+      const previewWrap = document.getElementById('doc-preview-wrap');
+      if (previewBox && previewWrap) {
+        previewBox.innerText = text;
+        previewWrap.style.display = 'block';
+        showToast('活動紀錄表草稿已生成！');
+      }
+    }
+
+    function copyMeetingReport() {
+      const previewBox = document.getElementById('doc-preview-box');
+      if (previewBox && previewBox.innerText) {
+        copyText(previewBox.innerText, '✅ 已複製活動紀錄表草稿！');
+      }
+    }
+
+    // ── 總務組：器材借還看板 ──
+    function getLoans() {
+      try {
+        return JSON.parse(localStorage.getItem('pickleball_loans') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveLoans(loans) {
+      localStorage.setItem('pickleball_loans', JSON.stringify(loans));
+      renderLoans();
+    }
+
+    function loadLoans() {
+      renderLoans();
+    }
+
+    function renderLoans() {
+      const loans = getLoans();
+      const tbody = document.getElementById('loan-tbody');
+      const outCountEl = document.getElementById('loan-out-count');
+      const remainCountEl = document.getElementById('loan-remain-count');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      let outRackets = 0;
+
+      if (loans.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:20px;">目前尚無借用紀錄</td></tr>';
+      } else {
+        loans.forEach((item, idx) => {
+          if (!item.returned && item.item && item.item.includes('公拍')) {
+            const num = item.item.includes('2') ? 2 : 1;
+            outRackets += num;
+          }
+          const tr = document.createElement('tr');
+          const isRet = item.returned;
+          tr.innerHTML = `
+            <td style="font-size:12px; color:var(--text-muted);">${escapeHtml(item.time || '-')}</td>
+            <td><strong>${escapeHtml(item.name || '-')}</strong></td>
+            <td><span style="font-family:monospace;">${escapeHtml(item.sid || '-')}</span></td>
+            <td>${escapeHtml(item.item || '-')}</td>
+            <td>
+              <span class="badge ${isRet ? 'badge-emerald' : 'badge-amber'}" style="font-size:11px;">
+                ${isRet ? '✅ 已歸還' : '⏳ 借出中'}
+              </span>
+            </td>
+            <td>
+              <button class="btn-copy" onclick="toggleLoanStatus(${idx})" style="font-size:11px;">
+                ${isRet ? '標為借出' : '標為歸還'}
+              </button>
+              <button class="btn-copy" style="color:var(--rose); margin-left:4px; font-size:11px;" onclick="deleteLoanItem(${idx})">刪除</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      if (outCountEl) outCountEl.innerText = outRackets;
+      if (remainCountEl) remainCountEl.innerText = Math.max(0, 8 - outRackets);
+    }
+
+    function addLoanItem() {
+      const name = (document.getElementById('loan-name').value || '').trim();
+      const sid = (document.getElementById('loan-sid').value || '').trim();
+      const item = document.getElementById('loan-item').value;
+      const note = (document.getElementById('loan-note').value || '').trim();
+
+      if (!name) {
+        showToast('請填寫借用人姓名！');
+        return;
+      }
+
+      const loans = getLoans();
+      const nowStr = new Date().toLocaleDateString('zh-TW', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      loans.unshift({
+        id: Date.now(),
+        time: nowStr,
+        name: name,
+        sid: sid,
+        item: item,
+        note: note,
+        returned: false
+      });
+
+      saveLoans(loans);
+      document.getElementById('loan-name').value = '';
+      document.getElementById('loan-sid').value = '';
+      document.getElementById('loan-note').value = '';
+      showToast(`已登記「${name}」借用 ${item}！`);
+    }
+
+    function toggleLoanStatus(idx) {
+      const loans = getLoans();
+      if (loans[idx]) {
+        loans[idx].returned = !loans[idx].returned;
+        saveLoans(loans);
+        showToast(loans[idx].returned ? '已標註為歸還！' : '已標註為借出中！');
+      }
+    }
+
+    function deleteLoanItem(idx) {
+      const loans = getLoans();
+      if (confirm('確定要刪除這筆借用紀錄嗎？')) {
+        loans.splice(idx, 1);
+        saveLoans(loans);
+        showToast('已刪除借用紀錄！');
+      }
+    }
+
+    // ── 總務組：10,000 元經費記帳防呆試算 ──
+    function getExpenses() {
+      try {
+        return JSON.parse(localStorage.getItem('pickleball_expenses') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveExpenses(expenses) {
+      localStorage.setItem('pickleball_expenses', JSON.stringify(expenses));
+      renderExpenses();
+    }
+
+    function loadExpenses() {
+      renderExpenses();
+    }
+
+    function renderExpenses() {
+      const expenses = getExpenses();
+      const tbody = document.getElementById('expense-tbody');
+      const totalCostEl = document.getElementById('exp-total-cost');
+      const remainEl = document.getElementById('exp-remain-budget');
+      const taxRateEl = document.getElementById('exp-tax-rate');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      let total = 0;
+      let taxCount = 0;
+
+      if (expenses.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted); padding:20px;">目前尚無支出紀錄</td></tr>';
+      } else {
+        expenses.forEach((item, idx) => {
+          total += Number(item.amount) || 0;
+          if (item.hasTax) taxCount++;
+
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td style="font-size:12px; color:var(--text-muted);">${escapeHtml(item.time || '-')}</td>
+            <td><strong>${escapeHtml(item.name || '-')}</strong></td>
+            <td style="font-weight:700; color:var(--rose);">NT$ ${(Number(item.amount) || 0).toLocaleString()}</td>
+            <td><span style="font-family:monospace;">${escapeHtml(item.inv || '-')}</span></td>
+            <td>
+              <span class="badge ${item.hasTax ? 'badge-emerald' : 'badge-amber'}" style="font-size:11px;">
+                ${item.hasTax ? '✅ 統編 52024101' : '⚠️ 無統編 (需確認)'}
+              </span>
+            </td>
+            <td>
+              <button class="btn-copy" style="color:var(--rose);" onclick="deleteExpenseItem(${idx})">刪除</button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      const remain = Math.max(0, 10000 - total);
+      const taxRate = expenses.length > 0 ? Math.round((taxCount / expenses.length) * 100) : 100;
+
+      if (totalCostEl) totalCostEl.innerText = `NT$ ${total.toLocaleString()}`;
+      if (remainEl) remainEl.innerText = `NT$ ${remain.toLocaleString()}`;
+      if (taxRateEl) taxRateEl.innerText = `${taxRate}%`;
+    }
+
+    function addExpenseItem() {
+      const name = (document.getElementById('exp-name').value || '').trim();
+      const amount = Number(document.getElementById('exp-amount').value);
+      const inv = (document.getElementById('exp-inv').value || '').trim();
+      const hasTax = document.getElementById('exp-has-tax').checked;
+
+      if (!name || isNaN(amount) || amount <= 0) {
+        showToast('請填寫有效的品名與金額！');
+        return;
+      }
+
+      const expenses = getExpenses();
+      const nowStr = new Date().toLocaleDateString('zh-TW', { month: 'numeric', day: 'numeric' });
+      expenses.unshift({
+        id: Date.now(),
+        time: nowStr,
+        name: name,
+        amount: amount,
+        inv: inv,
+        hasTax: hasTax
+      });
+
+      saveExpenses(expenses);
+      document.getElementById('exp-name').value = '';
+      document.getElementById('exp-amount').value = '';
+      document.getElementById('exp-inv').value = '';
+      showToast(`已登記支出：${name} NT$ ${amount}！`);
+    }
+
+    function deleteExpenseItem(idx) {
+      const expenses = getExpenses();
+      if (confirm('確定要刪除這筆支出紀錄嗎？')) {
+        expenses.splice(idx, 1);
+        saveExpenses(expenses);
+        showToast('已刪除支出紀錄！');
+      }
+    }
+
+    function exportExpensesCsv() {
+      const expenses = getExpenses();
+      if (expenses.length === 0) {
+        showToast('目前尚無支出資料可匯出！');
+        return;
+      }
+
+      const headers = ['編號', '登記日期', '品名項目', '支出金額(NTD)', '發票收據號碼', '是否具備統編52024101'];
+      let csv = '\uFEFF' + headers.join(',') + '\n';
+      expenses.forEach((item, idx) => {
+        csv += `${idx + 1},"${item.time}","${item.name}",${item.amount},"${item.inv}","${item.hasTax ? '是' : '否'}"\n`;
+      });
+
+      downloadCsvFile(csv, '115-1_匹克球學習社群_經費收支表.csv');
+      showToast('📥 經費收支表 CSV 下載已啟動！');
+    }
+
+    // ── 全體通用便利貼 (Sticky Board) ──
+    function getStickies() {
+      try {
+        return JSON.parse(localStorage.getItem('pickleball_stickies') || '[]');
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveStickies(stickies) {
+      localStorage.setItem('pickleball_stickies', JSON.stringify(stickies));
+      renderStickies();
+    }
+
+    function loadStickies() {
+      const stickies = getStickies();
+      if (stickies.length === 0) {
+        saveStickies([
+          { id: 1, color: 'sticky-yellow', text: '💡 幹部大會待辦：\n1. 週五前確認林教練出席時段\n2. 體育室預約 10 月份每週三場地\n3. 準備 8 支球拍清潔與檢查握把布' },
+          { id: 2, color: 'sticky-green', text: '📢 招生宣傳好消息：\n生機系與資工系已有學員報名！下週預計在社群限動發第一波揮拍花絮。' }
+        ]);
+      } else {
+        renderStickies();
+      }
+    }
+
+    function renderStickies() {
+      const stickies = getStickies();
+      const container = document.getElementById('sticky-grid-container');
+      if (!container) return;
+
+      container.innerHTML = '';
+      stickies.forEach((s, idx) => {
+        const div = document.createElement('div');
+        div.className = `sticky-note ${s.color || 'sticky-yellow'}`;
+        div.innerHTML = `
+          <textarea class="sticky-text" style="background:transparent; border:none; resize:none; font-family:inherit;" oninput="updateStickyText(${idx}, this.value)">${escapeHtml(s.text || '')}</textarea>
+          <div class="sticky-actions">
+            <span>便簽 #${idx + 1}</span>
+            <button class="btn-copy" style="background:rgba(255,255,255,.6); border:none; color:#b91c1c;" onclick="deleteSticky(${idx})">🗑️ 刪除</button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function addStickyNote(colorClass) {
+      const stickies = getStickies();
+      stickies.push({
+        id: Date.now(),
+        color: colorClass || 'sticky-yellow',
+        text: '新便簽：點擊此處輸入臨時待辦或備忘...'
+      });
+      saveStickies(stickies);
+      showToast('已新增便利貼！');
+    }
+
+    function updateStickyText(idx, text) {
+      const stickies = getStickies();
+      if (stickies[idx]) {
+        stickies[idx].text = text;
+        localStorage.setItem('pickleball_stickies', JSON.stringify(stickies));
+      }
+    }
+
+    function deleteSticky(idx) {
+      const stickies = getStickies();
+      stickies.splice(idx, 1);
+      saveStickies(stickies);
+      showToast('已刪除便利貼！');
+    }
+
     // ── 初始化 ──
     window.addEventListener('DOMContentLoaded', () => {
       loadTodos();
       initGasUrl();
       checkAuth();
+      loadNotes();
+      loadLoans();
+      loadExpenses();
+      loadStickies();
     });
   </script>
 </body>
