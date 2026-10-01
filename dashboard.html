@@ -209,6 +209,132 @@
       font-family: monospace; font-size: 12.5px; line-height: 1.6; overflow-x: auto;
     }
 
+    /* ── 幹部登入驗證彈窗 ── */
+    #login-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 39, 69, 0.90); backdrop-filter: blur(10px);
+      z-index: 99999; display: flex; align-items: center; justify-content: center; padding: 20px;
+    }
+    .login-card {
+      background: #fff; border-radius: 18px; width: 100%; max-width: 420px;
+      padding: 36px 30px; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(0, 75, 151, .15); text-align: center;
+      animation: modalFadeIn .28s ease-out;
+    }
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.94); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .login-icon {
+      width: 58px; height: 58px; border-radius: 16px;
+      background: linear-gradient(135deg, var(--primary), var(--mint));
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 28px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0, 75, 151, .2);
+    }
+    .login-input {
+      width: 100%; padding: 11px 14px; border: 1.5px solid #cbd5e1; border-radius: 9px;
+      font-size: 14px; outline: none; transition: border-color .2s; font-family: inherit;
+    }
+    .login-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 75, 151, .12); }
+    .login-btn {
+      width: 100%; background: var(--primary); color: #fff; border: none; font-size: 14.5px;
+      font-weight: 800; padding: 12px; border-radius: var(--pill-radius); cursor: pointer;
+      transition: all .2s; margin-top: 6px; box-shadow: 0 4px 12px rgba(0, 75, 151, .25);
+    }
+    .login-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .login-error {
+      background: var(--rose-bg); color: var(--rose); padding: 9px 12px;
+      border-radius: 8px; font-size: 12.5px; font-weight: 700; margin-bottom: 12px;
+      border: 1px solid rgba(225, 29, 72, .2);
+    }
+
+    /* ── 後端同步狀態列 ── */
+    .sync-banner {
+      background: #fff; border-radius: var(--card-radius); padding: 14px 20px;
+      border: 1.5px solid rgba(0, 75, 151, .15); box-shadow: var(--shadow-sm);
+      margin-bottom: 22px; display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 12px;
+    }
+    .sync-info { display: flex; align-items: center; gap: 12px; }
+    .sync-status-dot {
+      width: 12px; height: 12px; border-radius: 50%; background: #94a3b8;
+      display: inline-block; transition: background .3s;
+    }
+    .sync-status-dot.online { background: #10b981; box-shadow: 0 0 0 3px rgba(16, 185, 129, .2); }
+    .sync-status-dot.loading { background: #f59e0b; animation: pulse 1s infinite; }
+    .sync-status-dot.error { background: #ef4444; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+    .sync-time { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+    .sync-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .sync-stat-chip {
+      background: var(--bg); border: 1px solid rgba(0, 75, 151, .1); padding: 5px 12px;
+      border-radius: var(--pill-radius); font-size: 12.5px; color: var(--text-main);
+    }
+    .sync-stat-chip strong { color: var(--primary); font-weight: 900; }
+    .btn-sync-refresh {
+      background: var(--primary); color: #fff; border: none; font-size: 12px; font-weight: 700;
+      padding: 6px 14px; border-radius: var(--pill-radius); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 6px; transition: all .2s;
+    }
+    .btn-sync-refresh:hover { background: var(--primary-dark); }
+    .btn-sheet-link {
+      background: #ecfdf5; color: #047857; border: 1px solid rgba(5, 150, 105, .3);
+      text-decoration: none; font-size: 12px; font-weight: 700; padding: 5px 12px;
+      border-radius: var(--pill-radius); display: inline-flex; align-items: center; gap: 4px;
+      transition: all .2s;
+    }
+    .btn-sheet-link:hover { background: #d1fae5; }
+
+    /* ── 表單與操作工具列 ── */
+    .roster-toolbar {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 10px; margin-bottom: 16px;
+    }
+    .search-box { flex: 1; min-width: 240px; position: relative; }
+    .search-input {
+      width: 100%; padding: 8px 14px; border-radius: var(--pill-radius);
+      border: 1px solid rgba(0, 75, 151, .2); font-size: 13px; outline: none;
+      background: var(--bg); transition: all .2s;
+    }
+    .search-input:focus { background: #fff; border-color: var(--primary); }
+    .roster-btns { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn-action {
+      background: #fff; border: 1px solid rgba(0, 75, 151, .25); color: var(--primary);
+      font-size: 12.5px; font-weight: 700; padding: 7px 14px; border-radius: var(--pill-radius);
+      cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .btn-action:hover { background: var(--mint-light); border-color: var(--primary); }
+    .btn-action.primary { background: var(--primary); color: #fff; border-color: var(--primary); }
+    .btn-action.primary:hover { background: var(--primary-dark); }
+
+    /* 系所標籤 */
+    .dept-badges { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 18px; }
+    .dept-badge {
+      background: rgba(0, 75, 151, .06); border: 1px solid rgba(0, 75, 151, .12);
+      padding: 3px 10px; border-radius: var(--pill-radius); font-size: 12px; font-weight: 600;
+      color: var(--text-main); display: inline-flex; align-items: center; gap: 5px;
+    }
+    .dept-badge span { background: var(--primary); color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 999px; }
+
+    /* 現場打卡表單排版 */
+    .checkin-container {
+      display: grid; grid-template-columns: 360px 1fr; gap: 20px;
+    }
+    @media (max-width: 900px) {
+      .checkin-container { grid-template-columns: 1fr; }
+    }
+    .checkin-form-box {
+      background: var(--bg); border: 1px solid rgba(0, 75, 151, .12);
+      border-radius: 12px; padding: 20px;
+    }
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 12.5px; font-weight: 700; color: var(--text-main); margin-bottom: 5px; }
+    .form-control {
+      width: 100%; padding: 9px 12px; border-radius: 8px; border: 1px solid #cbd5e1;
+      font-size: 13.5px; font-family: inherit; outline: none; background: #fff; transition: border-color .2s;
+    }
+    .form-control:focus { border-color: var(--primary); }
+
     /* 響應式優化 */
     @media (max-width: 768px) {
       .site-header { padding: 10px 16px; }
@@ -219,6 +345,40 @@
   </style>
 </head>
 <body>
+
+  <!-- ── 幹部身分驗證 Overlay ── -->
+  <div id="login-overlay" style="display: none;">
+    <div class="login-card">
+      <div class="login-icon">🏓</div>
+      <div style="margin-bottom: 8px;">
+        <span class="badge badge-primary">NCHU 115-1 匹克球學習社群</span>
+      </div>
+      <h2 style="font-size: 21px; font-weight: 900; color: var(--primary); margin: 6px 0;">幹部內部協作工作台</h2>
+      <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 20px;">
+        本系統連線社群成員報名名冊、現場簽到紀錄與專案行政機密。<br>請輸入幹部授權憑證進入。
+      </p>
+
+      <div style="text-align: left; margin-bottom: 14px;">
+        <label style="font-size: 12.5px; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">幹部帳號</label>
+        <input type="text" id="login-username" class="login-input" placeholder="請輸入幹部帳號 (預設: 123)" autocomplete="username" onkeydown="if(event.key==='Enter') document.getElementById('login-password').focus()">
+      </div>
+
+      <div style="text-align: left; margin-bottom: 16px;">
+        <label style="font-size: 12.5px; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">幹部密碼</label>
+        <input type="password" id="login-password" class="login-input" placeholder="請輸入密碼 (預設: 123)" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleLogin()">
+      </div>
+
+      <div id="login-error" class="login-error" style="display: none;">
+        ❌ 帳號或密碼錯誤！請輸入 123 / 123。
+      </div>
+
+      <button type="button" class="login-btn" onclick="handleLogin()">🚀 驗證並進入工作台</button>
+
+      <div style="margin-top: 18px; font-size: 12px; color: var(--text-muted); background: var(--bg); padding: 9px 12px; border-radius: 8px; border: 1px dashed rgba(0, 75, 151, .15);">
+        💡 <strong>測試帳密提示</strong>：目前預設幹部帳號為 <code style="color:var(--primary); font-weight:bold;">123</code>，密碼為 <code style="color:var(--primary); font-weight:bold;">123</code>。
+      </div>
+    </div>
+  </div>
 
   <!-- ── 頂部導覽列 ── -->
   <header class="site-header">
@@ -232,6 +392,7 @@
       <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="nav-btn demo">🎮 體感 Demo</a>
       <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="nav-btn line">💬 官方 LINE</a>
       <a href="https://www.instagram.com/nchupickleball_lab1.0" target="_blank" class="nav-btn ig">📸 IG</a>
+      <button id="btn-logout" class="nav-btn" style="display:none; background:#fff; color:#b91c1c; border:1px solid #f87171; cursor:pointer;" onclick="logoutOfficer()">🚪 幹部登出</button>
     </div>
   </header>
 
@@ -244,7 +405,7 @@
         <span class="badge badge-primary">🛠️ 幹部專屬內部協作工作台</span>
         <span class="badge badge-mint">中興大學 115-1</span>
         <span class="badge badge-emerald">學生學習社群計畫 (1 萬元)</span>
-        <span class="badge badge-amber">純前端靜態運作 (零伺服器依賴)</span>
+        <span class="badge badge-amber">即時 Google Sheets 後端雙向連動</span>
       </div>
       <h1 class="dash-title">匹克球學生學習社群 <span>專案管理儀表板</span></h1>
       <p class="dash-subtitle">
@@ -265,6 +426,27 @@
         <div>
           <button class="btn-copy" onclick="window.print()">🖨️ 列印/儲存此儀表</button>
         </div>
+      </div>
+    </div>
+
+    <!-- ── 後端 Google Sheets 即時同步狀態列 ── -->
+    <div class="sync-banner">
+      <div class="sync-info">
+        <span class="sync-status-dot loading" id="sync-status-dot"></span>
+        <div>
+          <div style="font-weight: 800; font-size: 13.5px;" id="sync-status-title">Google Sheets 資料連線中... ⏳</div>
+          <div class="sync-time" id="sync-time-label">最後同步：--</div>
+        </div>
+      </div>
+      <div class="sync-actions">
+        <div class="sync-stat-chip">👥 報名名冊：<strong id="stat-reg-count">--</strong> 人</div>
+        <div class="sync-stat-chip">🏓 出席簽到：<strong id="stat-att-count">--</strong> 人次</div>
+        <button class="btn-sync-refresh" id="btn-sync-refresh" onclick="syncFullData()">
+          <span id="sync-spin-icon">🔄</span> 立即同步最新資料
+        </button>
+        <a href="#" id="link-sheet-direct" target="_blank" class="btn-sheet-link" style="display: none;">
+          📊 直達雲端試算表 ↗
+        </a>
       </div>
     </div>
 
@@ -309,19 +491,190 @@
 
     <!-- 分頁導航列 (Tabs) -->
     <div class="dash-tabs" id="tabNav">
-      <button class="tab-btn active" onclick="switchTab('tab-sop')">👑 總管 SOP 與組織</button>
-      <button class="tab-btn" onclick="switchTab('tab-admin')">📝 行政文書 (申請與紀錄)</button>
-      <button class="tab-btn" onclick="switchTab('tab-finance')">💰 總務器材與經費預算</button>
-      <button class="tab-btn" onclick="switchTab('tab-media')">🎥 活動影音 (影片分鏡)</button>
-      <button class="tab-btn" onclick="switchTab('tab-marketing')">📢 社群行銷 (LINE與文案)</button>
-      <button class="tab-btn" onclick="switchTab('tab-tech')">💻 技術開發與遊戲清單</button>
-      <button class="tab-btn" onclick="switchTab('tab-cloud')">☁️ Google 雲端權限架構</button>
+      <button class="tab-btn active" onclick="switchTab('tab-roster', this)">👥 即時報名名冊 (<span id="tab-roster-count">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab('tab-checkin', this)">🏓 現場簽到打卡 (<span id="tab-checkin-count">0</span>)</button>
+      <button class="tab-btn" onclick="switchTab('tab-sop', this)">👑 總管 SOP 與組織</button>
+      <button class="tab-btn" onclick="switchTab('tab-admin', this)">📝 行政文書 (申請與紀錄)</button>
+      <button class="tab-btn" onclick="switchTab('tab-finance', this)">💰 總務器材與經費預算</button>
+      <button class="tab-btn" onclick="switchTab('tab-media', this)">🎥 活動影音 (影片分鏡)</button>
+      <button class="tab-btn" onclick="switchTab('tab-marketing', this)">📢 社群行銷 (LINE與文案)</button>
+      <button class="tab-btn" onclick="switchTab('tab-tech', this)">💻 技術開發與遊戲清單</button>
+      <button class="tab-btn" onclick="switchTab('tab-cloud', this)">☁️ Google 雲端權限架構</button>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB: 即時報名名冊與審核 -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane active" id="tab-roster">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">👥 即時報名名冊與資格審核 (Google Sheets 直連)</div>
+            <div class="module-desc">每次開啟工作台均自動向後端獲取最新名冊，支援即時關鍵字過濾、LINE ID 一鍵複製與名冊匯出。</div>
+          </div>
+          <span class="module-source">工作表：報名名冊</span>
+        </div>
+
+        <!-- 系所分佈統計列 -->
+        <div style="margin-bottom: 16px;">
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">📊 系所成員分佈統計：</div>
+          <div class="dept-badges" id="dept-badges-container">
+            <span class="dept-badge">載入中...</span>
+          </div>
+        </div>
+
+        <!-- 工具列：搜尋與操作按鈕 -->
+        <div class="roster-toolbar">
+          <div class="search-box">
+            <input type="text" id="roster-search-input" class="search-input" placeholder="🔍 搜尋學員姓名、學號、系所或專長..." oninput="filterRoster()">
+          </div>
+          <div class="roster-btns">
+            <button class="btn-action" onclick="copyAllLineIds()">
+              📋 一鍵複製全體 LINE ID
+            </button>
+            <button class="btn-action" onclick="exportRosterCsv()">
+              📥 匯出名冊 (CSV)
+            </button>
+            <a href="#" target="_blank" id="roster-sheet-link" class="btn-action" style="display:none; text-decoration:none;">
+              📊 開啟 Google 試算表 ↗
+            </a>
+          </div>
+        </div>
+
+        <!-- 名冊表格 -->
+        <div class="table-responsive">
+          <table id="roster-table">
+            <thead>
+              <tr>
+                <th style="width: 45px;">#</th>
+                <th>登記時間</th>
+                <th>姓名</th>
+                <th>系所年級</th>
+                <th>學號</th>
+                <th>LINE ID</th>
+                <th>聯絡 Email</th>
+                <th>感興趣角色</th>
+                <th>備註 / 自我介紹</th>
+              </tr>
+            </thead>
+            <tbody id="roster-tbody">
+              <tr>
+                <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+                  連線試算表資料中... ⏳
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="roster-summary-footer" style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--text-muted); flex-wrap: wrap; gap: 8px;">
+          <span id="roster-count-text">目前顯示 0 位學員</span>
+          <span>💡 提示：點擊個別學員的 LINE ID 亦可直接複製！</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB: 聚會現場簽到打卡 -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-checkin">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">🏓 聚會現場打卡簽到工具 (即時寫入試算表)</div>
+            <div class="module-desc">幹部於實體聚會現場點名時使用。選取學員後送出，即可直接同步寫入 Google 試算表「出席簽到」表。</div>
+          </div>
+          <span class="module-source">工作表：出席簽到</span>
+        </div>
+
+        <div class="checkin-container">
+          <!-- 左側：打卡輸入卡片 -->
+          <div class="checkin-form-box">
+            <h4 style="font-size: 15px; font-weight: 900; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
+              📝 新增現場簽到
+            </h4>
+
+            <div class="form-group">
+              <label class="form-label">快速選取學員 (自動帶入)</label>
+              <select id="checkin-select-student" class="form-control" onchange="onCheckinStudentSelect(this)">
+                <option value="">-- 請選擇已報名學員 --</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">學號 <span style="color:var(--rose);">*</span></label>
+              <input type="text" id="checkin-studentid" class="form-control" placeholder="例：7112064123">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">學員姓名 <span style="color:var(--rose);">*</span></label>
+              <input type="text" id="checkin-name" class="form-control" placeholder="例：王小明">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">聚會次數 / 活動場次</label>
+              <select id="checkin-session" class="form-control">
+                <option value="第 1 次聚會 (破冰、規則與基礎握拍)">第 1 次聚會 (破冰、規則與基礎握拍)</option>
+                <option value="第 2 次聚會 (正反手平擊球與截擊教學)">第 2 次聚會 (正反手平擊球與截擊教學)</option>
+                <option value="第 3 次聚會 (發球站位與雙打跑位實戰)">第 3 次聚會 (發球站位與雙打跑位實戰)</option>
+                <option value="第 4 次聚會 (AI 體感即時動作分析實測)">第 4 次聚會 (AI 體感即時動作分析實測)</option>
+                <option value="第 5 次聚會 (社群分組排名循環對抗賽)">第 5 次聚會 (社群分組排名循環對抗賽)</option>
+                <option value="第 6 次聚會 (期末成果展示與教學展評)">第 6 次聚會 (期末成果展示與教學展評)</option>
+                <option value="臨時加練 / 自主約打">臨時加練 / 自主約打</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">備註狀況</label>
+              <input type="text" id="checkin-note" class="form-control" placeholder="例：準時、借用公拍 1 支、提早熱身">
+            </div>
+
+            <button type="button" id="btn-submit-checkin" class="login-btn" onclick="submitCheckin()" style="margin-top: 10px;">
+              ✅ 完成簽到並寫入試算表
+            </button>
+
+            <div id="checkin-status-msg" style="display: none; margin-top: 10px; font-size: 12.5px; padding: 8px 12px; border-radius: 8px;"></div>
+          </div>
+
+          <!-- 右側：歷次出席簽到紀錄 -->
+          <div>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <h4 style="font-size: 15px; font-weight: 900; color: var(--text-main);">📋 歷次出席簽到紀錄 (<span id="checkin-log-count">0</span> 次)</h4>
+              <button class="btn-action" onclick="exportAttendanceCsv()">
+                📥 匯出簽到記錄 (CSV)
+              </button>
+            </div>
+
+            <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
+              <table id="checkin-table">
+                <thead>
+                  <tr>
+                    <th style="width: 45px;">#</th>
+                    <th>簽到時間</th>
+                    <th>學號</th>
+                    <th>姓名</th>
+                    <th>活動場次</th>
+                    <th>備註</th>
+                  </tr>
+                </thead>
+                <tbody id="checkin-tbody">
+                  <tr>
+                    <td colspan="6" style="text-align: center; padding: 36px; color: var(--text-muted);">
+                      尚未有簽到資料
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- ────────────────────────────────────────────── -->
     <!-- TAB 1: 總管 SOP 與組織 -->
     <!-- ────────────────────────────────────────────── -->
-    <div class="tab-pane active" id="tab-sop">
+    <div class="tab-pane" id="tab-sop">
       <div class="module-card">
         <div class="module-header">
           <div>
@@ -983,16 +1336,486 @@
   </div>
 
   <script>
-    // Tab 切換邏輯
-    function switchTab(tabId) {
+    // ── 全域常數與狀態 ──
+    const AUTH_KEY = 'pickleball_officer_auth';
+    const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbwHaNrjFtFOm3bXBYOMh5kURG1ZLtiYv5PR-9FLNn3gW2HB_BuxN57HUYfBPFY-JfZz/exec";
+
+    window.liveData = {
+      registrations: [],
+      attendance: [],
+      deptStats: {},
+      spreadsheetName: '',
+      spreadsheetUrl: ''
+    };
+
+    function getGasUrl() {
+      return localStorage.getItem('pickleball_gas_url') || DEFAULT_GAS_URL;
+    }
+
+    // ── 幹部登入身分驗證 (預設帳密: 123 / 123) ──
+    function checkAuth() {
+      const isAuth = localStorage.getItem(AUTH_KEY) === 'true';
+      const overlay = document.getElementById('login-overlay');
+      const logoutBtn = document.getElementById('btn-logout');
+
+      if (isAuth) {
+        if (overlay) overlay.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'inline-flex';
+        // 驗證成功後自動向 Google Sheets 請求完整最新資料
+        syncFullData();
+      } else {
+        if (overlay) overlay.style.display = 'flex';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+        const userInp = document.getElementById('login-username');
+        if (userInp) setTimeout(() => userInp.focus(), 200);
+      }
+    }
+
+    function handleLogin() {
+      const userInp = document.getElementById('login-username');
+      const passInp = document.getElementById('login-password');
+      const errBox = document.getElementById('login-error');
+
+      const username = (userInp ? userInp.value : '').trim();
+      const password = (passInp ? passInp.value : '').trim();
+
+      if (username === '123' && password === '123') {
+        localStorage.setItem(AUTH_KEY, 'true');
+        if (errBox) errBox.style.display = 'none';
+        checkAuth();
+        showToast('🎉 幹部身分驗證成功，歡迎使用！');
+      } else {
+        if (errBox) {
+          errBox.style.display = 'block';
+          errBox.innerText = '❌ 帳號或密碼錯誤！請輸入預設 123 / 123。';
+        }
+        if (passInp) {
+          passInp.value = '';
+          passInp.focus();
+        }
+      }
+    }
+
+    function logoutOfficer() {
+      if (confirm('確定要登出幹部工作台嗎？')) {
+        localStorage.removeItem(AUTH_KEY);
+        checkAuth();
+        showToast('已安全登出幹部工作台');
+      }
+    }
+
+    // ── Tab 分頁切換 ──
+    function switchTab(tabId, btnElement) {
       document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
 
-      event.currentTarget.classList.add('active');
       const targetPane = document.getElementById(tabId);
-      if (targetPane) {
-        targetPane.classList.add('active');
+      if (targetPane) targetPane.classList.add('active');
+
+      if (btnElement) {
+        btnElement.classList.add('active');
+      } else if (window.event && window.event.currentTarget && window.event.currentTarget.classList) {
+        window.event.currentTarget.classList.add('active');
+      } else {
+        const btn = document.querySelector(`.tab-btn[onclick*="${tabId}"]`);
+        if (btn) btn.classList.add('active');
       }
+    }
+
+    // ── 向 Google Sheets 後端同步完整資料 (每次開啟與手動觸發) ──
+    function syncFullData() {
+      const url = getGasUrl();
+      const dot = document.getElementById('sync-status-dot');
+      const title = document.getElementById('sync-status-title');
+      const timeLabel = document.getElementById('sync-time-label');
+      const spinIcon = document.getElementById('sync-spin-icon');
+
+      if (dot) dot.className = 'sync-status-dot loading';
+      if (title) title.innerText = '與 Google Sheets 資料庫連線中... ⏳';
+      if (spinIcon) spinIcon.style.transform = 'rotate(360deg)';
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          window.liveData = data;
+          const nowStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
+
+          if (dot) dot.className = 'sync-status-dot online';
+          if (title) title.innerText = `🟢 資料已同步 (${data.spreadsheetName || 'Google Sheets'})`;
+          if (timeLabel) timeLabel.innerText = `最後同步：今天 ${nowStr}`;
+          if (spinIcon) spinIcon.style.transform = 'none';
+
+          const regCount = data.totalRegistered !== undefined ? data.totalRegistered : (data.registrations ? data.registrations.length : 0);
+          const attCount = data.totalAttendance !== undefined ? data.totalAttendance : (data.attendance ? data.attendance.length : 0);
+
+          document.getElementById('stat-reg-count').innerText = regCount;
+          document.getElementById('stat-att-count').innerText = attCount;
+          document.getElementById('tab-roster-count').innerText = regCount;
+          document.getElementById('tab-checkin-count').innerText = attCount;
+
+          // 試算表直達連結更新
+          if (data.spreadsheetUrl) {
+            const linkA = document.getElementById('link-sheet-direct');
+            if (linkA) { linkA.href = data.spreadsheetUrl; linkA.style.display = 'inline-flex'; }
+            const linkB = document.getElementById('roster-sheet-link');
+            if (linkB) { linkB.href = data.spreadsheetUrl; linkB.style.display = 'inline-flex'; }
+          }
+
+          // 渲染名冊表格、系所分佈、簽到下拉選單與簽到記錄
+          renderRosterTable(data.registrations || []);
+          renderDeptStats(data.deptStats || {});
+          populateCheckinStudents(data.registrations || []);
+          renderAttendanceTable(data.attendance || []);
+
+          showToast('✅ Google 試算表資料已成功同步！');
+        })
+        .catch(err => {
+          console.warn('Sync warning:', err);
+          if (dot) dot.className = 'sync-status-dot error';
+          if (title) title.innerText = '⚠️ 離線或讀取未完全（點擊重新同步）';
+          if (spinIcon) spinIcon.style.transform = 'none';
+
+          // 若名冊已有快取資料則維持，若無則顯示導引
+          if (!window.liveData.registrations || window.liveData.registrations.length === 0) {
+            const tbody = document.getElementById('roster-tbody');
+            if (tbody) {
+              tbody.innerHTML = `
+                <tr>
+                  <td colspan="9" style="text-align:center; padding: 40px; color: var(--text-muted);">
+                    <div style="font-size: 28px; margin-bottom: 8px;">☁️</div>
+                    <strong>尚未獲取試算表名冊資料</strong><br>
+                    <span style="font-size: 12.5px;">若您剛更新 Apps Script，請確認在 Apps Script 專案完成「管理部署 ➡️ 編輯 ➡️ 建立新版本 ➡️ 部署」。</span><br>
+                    <button class="btn-action primary" style="margin-top: 12px;" onclick="syncFullData()">🔄 再次連線同步</button>
+                  </td>
+                </tr>
+              `;
+            }
+          }
+        });
+    }
+
+    // ── 渲染即時報名名冊表格 ──
+    function renderRosterTable(list) {
+      const tbody = document.getElementById('roster-tbody');
+      const countText = document.getElementById('roster-count-text');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
+              <div style="font-size: 32px; margin-bottom: 8px;">🏓</div>
+              目前試算表尚無報名資料。<br>
+              <a href="index.html#register-form" target="_blank" style="color:var(--primary); font-weight:700; text-decoration:underline;">
+                👉 前往招募頁提交第一筆測試資料
+              </a>
+            </td>
+          </tr>
+        `;
+        if (countText) countText.innerText = '目前顯示 0 位學員';
+        return;
+      }
+
+      list.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        const rolesHtml = formatRolesBadge(item.roles);
+
+        tr.innerHTML = `
+          <td style="font-weight: 700; color: var(--text-muted);">${idx + 1}</td>
+          <td style="font-size: 12px; color: var(--text-muted); white-space: nowrap;">${escapeHtml(item.time || '-')}</td>
+          <td><strong style="color: var(--text-main); font-size: 14px;">${escapeHtml(item.name || '-')}</strong></td>
+          <td><span style="font-size: 12.5px;">${escapeHtml(item.department || '-')}</span></td>
+          <td><span style="font-family: monospace; font-weight: 700; background: var(--bg); padding: 2px 6px; border-radius: 4px; color: var(--primary);">${escapeHtml(item.studentId || '-')}</span></td>
+          <td>
+            <span style="cursor: pointer; color: #059669; font-weight: 700; display: inline-flex; align-items: center; gap: 4px;" onclick="copyText('${escapeHtml(item.lineId)}', '已複製 LINE ID：${escapeHtml(item.lineId)}')">
+              ${escapeHtml(item.lineId || '-')} 📋
+            </span>
+          </td>
+          <td>
+            ${item.email ? `<a href="mailto:${escapeHtml(item.email)}" style="color: var(--primary); font-size: 12.5px; text-decoration: none;">✉️ ${escapeHtml(item.email)}</a>` : '-'}
+          </td>
+          <td>${rolesHtml}</td>
+          <td style="font-size: 12px; color: var(--text-muted); max-width: 220px;">${escapeHtml(item.note || '-')}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      if (countText) countText.innerText = `目前顯示 ${list.length} 位學員`;
+    }
+
+    function formatRolesBadge(rolesStr) {
+      if (!rolesStr) return '<span style="color:var(--text-muted); font-size:12px;">一般成員</span>';
+      const parts = rolesStr.split(/[,、]/).map(s => s.trim()).filter(Boolean);
+      return parts.map(p => {
+        let bg = 'rgba(0, 75, 151, 0.08)';
+        let color = 'var(--primary)';
+        if (p.includes('幹部') || p.includes('管理') || p.includes('行銷')) {
+          bg = 'var(--amber-bg)'; color = 'var(--amber)';
+        } else if (p.includes('新手')) {
+          bg = 'var(--emerald-bg)'; color = 'var(--emerald)';
+        }
+        return `<span style="display:inline-block; font-size:11px; font-weight:700; background:${bg}; color:${color}; padding:2px 7px; border-radius:999px; margin:1px 2px;">${escapeHtml(p)}</span>`;
+      }).join(' ');
+    }
+
+    // ── 名冊即時過濾搜尋 ──
+    function filterRoster() {
+      const keyword = (document.getElementById('roster-search-input').value || '').trim().toLowerCase();
+      const all = window.liveData.registrations || [];
+      if (!keyword) {
+        renderRosterTable(all);
+        return;
+      }
+      const filtered = all.filter(item => {
+        const text = `${item.name} ${item.studentId} ${item.department} ${item.lineId} ${item.email} ${item.roles} ${item.note}`.toLowerCase();
+        return text.includes(keyword);
+      });
+      renderRosterTable(filtered);
+    }
+
+    // ── 渲染系所成員分佈標籤 ──
+    function renderDeptStats(stats) {
+      const container = document.getElementById('dept-badges-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const keys = Object.keys(stats);
+      if (keys.length === 0) {
+        container.innerHTML = '<span class="dept-badge">暫無系所數據</span>';
+        return;
+      }
+
+      keys.sort((a, b) => stats[b] - stats[a]).forEach(k => {
+        const span = document.createElement('span');
+        span.className = 'dept-badge';
+        span.innerHTML = `${escapeHtml(k)} <span>${stats[k]} 人</span>`;
+        container.appendChild(span);
+      });
+    }
+
+    // ── 一鍵複製所有 LINE ID ──
+    function copyAllLineIds() {
+      const list = window.liveData.registrations || [];
+      const ids = list.map(item => (item.lineId || '').trim()).filter(id => id && id !== '-');
+      const uniqueIds = Array.from(new Set(ids));
+
+      if (uniqueIds.length === 0) {
+        showToast('名冊中目前尚無 LINE ID！');
+        return;
+      }
+
+      const copyStr = uniqueIds.join(', ');
+      copyText(copyStr, `✅ 已成功複製全體 ${uniqueIds.length} 位學員 LINE ID！`);
+    }
+
+    // ── 匯出名冊 CSV ──
+    function exportRosterCsv() {
+      const list = window.liveData.registrations || [];
+      if (list.length === 0) {
+        showToast('目前尚無名冊資料可供匯出！');
+        return;
+      }
+
+      const headers = ['編號', '登記時間', '姓名', '系所年級', '學號', 'LINE ID', '聯絡 Email', '感興趣角色', '備註 / 自我介紹'];
+      let csvContent = '\uFEFF' + headers.join(',') + '\n';
+
+      list.forEach((item, idx) => {
+        const row = [
+          idx + 1,
+          `"${(item.time || '').replace(/"/g, '""')}"`,
+          `"${(item.name || '').replace(/"/g, '""')}"`,
+          `"${(item.department || '').replace(/"/g, '""')}"`,
+          `\t${(item.studentId || '')}`, // 加 tab 防止 Excel 去除前導0
+          `"${(item.lineId || '').replace(/"/g, '""')}"`,
+          `"${(item.email || '').replace(/"/g, '""')}"`,
+          `"${(item.roles || '').replace(/"/g, '""')}"`,
+          `"${(item.note || '').replace(/"/g, '""')}"`
+        ];
+        csvContent += row.join(',') + '\n';
+      });
+
+      downloadCsvFile(csvContent, '115-1_匹克球學習社群_報名名冊.csv');
+      showToast('📥 報名名冊 CSV 下載已啟動！');
+    }
+
+    // ── 現場打卡簽到工具邏輯 ──
+    function populateCheckinStudents(list) {
+      const select = document.getElementById('checkin-select-student');
+      if (!select) return;
+
+      select.innerHTML = '<option value="">-- 請選擇已報名學員快速帶入 --</option>';
+      (list || []).forEach(item => {
+        if (item.name || item.studentId) {
+          const opt = document.createElement('option');
+          opt.value = item.studentId || '';
+          opt.setAttribute('data-name', item.name || '');
+          opt.innerText = `${item.name} (${item.studentId || '無學號'} - ${item.department || '未填系所'})`;
+          select.appendChild(opt);
+        }
+      });
+    }
+
+    function onCheckinStudentSelect(selectEl) {
+      const selectedOpt = selectEl.options[selectEl.selectedIndex];
+      if (!selectedOpt || !selectedOpt.value) return;
+
+      const sid = selectedOpt.value;
+      const name = selectedOpt.getAttribute('data-name') || '';
+
+      const idInp = document.getElementById('checkin-studentid');
+      const nameInp = document.getElementById('checkin-name');
+
+      if (idInp) idInp.value = sid;
+      if (nameInp) nameInp.value = name;
+    }
+
+    function submitCheckin() {
+      const idInp = document.getElementById('checkin-studentid');
+      const nameInp = document.getElementById('checkin-name');
+      const sessionSelect = document.getElementById('checkin-session');
+      const noteInp = document.getElementById('checkin-note');
+      const btn = document.getElementById('btn-submit-checkin');
+      const statusMsg = document.getElementById('checkin-status-msg');
+
+      const studentId = (idInp ? idInp.value : '').trim();
+      const name = (nameInp ? nameInp.value : '').trim();
+      const session = sessionSelect ? sessionSelect.value : '第 1 次聚會';
+      const note = (noteInp ? noteInp.value : '').trim();
+
+      if (!studentId || !name) {
+        alert('請填寫學號與學員姓名！');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerText = '寫入 Google 試算表中... ⏳';
+
+      const payload = {
+        action: 'checkin',
+        studentId: studentId,
+        name: name,
+        session: session,
+        note: note
+      };
+
+      fetch(getGasUrl(), {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      })
+      .then(() => {
+        btn.disabled = false;
+        btn.innerText = '✅ 完成簽到並寫入試算表';
+
+        if (statusMsg) {
+          statusMsg.style.display = 'block';
+          statusMsg.style.background = 'var(--emerald-bg)';
+          statusMsg.style.color = 'var(--emerald)';
+          statusMsg.style.border = '1px solid rgba(5, 150, 105, .3)';
+          statusMsg.innerHTML = `✅ 已成功記錄 <strong>${escapeHtml(name)}</strong> 於「${escapeHtml(session)}」簽到！`;
+        }
+        showToast(`✅「${name}」簽到成功！`);
+
+        // 清空輸入框
+        if (noteInp) noteInp.value = '';
+        const select = document.getElementById('checkin-select-student');
+        if (select) select.value = '';
+
+        // 重新向後端要求一次最新資料
+        setTimeout(syncFullData, 1600);
+      })
+      .catch(err => {
+        btn.disabled = false;
+        btn.innerText = '✅ 完成簽到並寫入試算表';
+        showToast('簽到提交失敗，請檢查網路連線！');
+      });
+    }
+
+    function renderAttendanceTable(list) {
+      const tbody = document.getElementById('checkin-tbody');
+      const countBadge = document.getElementById('checkin-log-count');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+
+      if (!list || list.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="6" style="text-align: center; padding: 36px; color: var(--text-muted);">
+              尚未有現場簽到資料
+            </td>
+          </tr>
+        `;
+        if (countBadge) countBadge.innerText = '0';
+        return;
+      }
+
+      list.forEach((item, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-weight: 700; color: var(--text-muted);">${idx + 1}</td>
+          <td style="font-size: 12px; color: var(--text-muted); white-space: nowrap;">${escapeHtml(item.time || '-')}</td>
+          <td><span style="font-family: monospace; font-weight: 700;">${escapeHtml(item.studentId || '-')}</span></td>
+          <td><strong>${escapeHtml(item.name || '-')}</strong></td>
+          <td><span class="badge badge-primary" style="font-size: 11px;">${escapeHtml(item.session || '-')}</span></td>
+          <td style="font-size: 12.5px; color: var(--text-muted);">${escapeHtml(item.note || '-')}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      if (countBadge) countBadge.innerText = list.length;
+    }
+
+    function exportAttendanceCsv() {
+      const list = window.liveData.attendance || [];
+      if (list.length === 0) {
+        showToast('尚未有出席簽到紀錄可供匯出！');
+        return;
+      }
+
+      const headers = ['編號', '簽到時間', '學號', '姓名', '活動場次', '備註'];
+      let csvContent = '\uFEFF' + headers.join(',') + '\n';
+
+      list.forEach((item, idx) => {
+        const row = [
+          idx + 1,
+          `"${(item.time || '').replace(/"/g, '""')}"`,
+          `\t${(item.studentId || '')}`,
+          `"${(item.name || '').replace(/"/g, '""')}"`,
+          `"${(item.session || '').replace(/"/g, '""')}"`,
+          `"${(item.note || '').replace(/"/g, '""')}"`
+        ];
+        csvContent += row.join(',') + '\n';
+      });
+
+      downloadCsvFile(csvContent, '115-1_匹克球學習社群_出席簽到表.csv');
+      showToast('📥 簽到記錄 CSV 下載已啟動！');
+    }
+
+    // ── 通用輔助函式 ──
+    function downloadCsvFile(content, fileName) {
+      const blob = new Blob([content], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', fileName);
+      link.style.visibility = 'hidden';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
     }
 
     // 複製文字至剪貼簿
@@ -1000,7 +1823,6 @@
       navigator.clipboard.writeText(text).then(() => {
         showToast(successMsg || '已成功複製！');
       }).catch(err => {
-        // Fallback for older browsers
         const textarea = document.createElement('textarea');
         textarea.value = text;
         document.body.appendChild(textarea);
@@ -1015,6 +1837,7 @@
     function showToast(msg) {
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toast-msg');
+      if (!toast || !toastMsg) return;
       toastMsg.innerText = msg;
       toast.style.display = 'inline-flex';
       setTimeout(() => {
@@ -1035,7 +1858,7 @@
 
     function saveTodos() {
       const states = [];
-      document.querySelectorAll('.todo-checkbox').forEach((cb, idx) => {
+      document.querySelectorAll('.todo-checkbox').forEach((cb) => {
         states.push(cb.checked);
       });
       localStorage.setItem('pickleball_dashboard_todos', JSON.stringify(states));
@@ -1049,14 +1872,15 @@
           document.querySelectorAll('.todo-checkbox').forEach((cb, idx) => {
             if (states[idx]) {
               cb.checked = true;
-              cb.closest('.todo-item').classList.add('done');
+              const item = cb.closest('.todo-item');
+              if (item) item.classList.add('done');
             }
           });
         } catch (e) {}
       }
     }
 
-    // Apps Script 後端設定與連線測試
+    // Apps Script 後端設定與連線測試 (Tab 7 備用手動設定)
     function saveAndTestGasUrl() {
       const urlInput = document.getElementById('input-gas-url');
       const url = urlInput.value.trim();
@@ -1079,6 +1903,7 @@
           badge.innerText = '🟢 已連線';
           resultDiv.innerHTML = `<span style="color:var(--emerald); font-weight:700;">✅ 連線成功！</span><br>試算表狀態：${data.status}｜已報名人數：${data.totalRegistered} 人｜連線名稱：${data.spreadsheetName}`;
           showToast('Apps Script 後端連線成功！');
+          syncFullData();
         })
         .catch(err => {
           badge.className = 'badge badge-amber';
@@ -1089,8 +1914,7 @@
     }
 
     function initGasUrl() {
-      const defaultUrl = "https://script.google.com/macros/s/AKfycbwHaNrjFtFOm3bXBYOMh5kURG1ZLtiYv5PR-9FLNn3gW2HB_BuxN57HUYfBPFY-JfZz/exec";
-      const savedUrl = localStorage.getItem('pickleball_gas_url') || defaultUrl;
+      const savedUrl = localStorage.getItem('pickleball_gas_url') || DEFAULT_GAS_URL;
       const urlInput = document.getElementById('input-gas-url');
       if (urlInput) urlInput.value = savedUrl;
       const badge = document.getElementById('gas-status-badge');
@@ -1100,9 +1924,11 @@
       }
     }
 
+    // ── 初始化 ──
     window.addEventListener('DOMContentLoaded', () => {
       loadTodos();
       initGasUrl();
+      checkAuth();
     });
   </script>
 </body>

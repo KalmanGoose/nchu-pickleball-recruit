@@ -1,25 +1,22 @@
 /**
  * 🏓 115-1 中興大學匹克球學生學習社群｜Google Sheets 後端 API (Apps Script)
  * 
- * 特色：
- * 1. 智慧適配：無論是「綁定試算表」還是「獨立專案 (Standalone)」，皆能自動連線。
- * 2. 自動自我修復：若尚未綁定試算表，會自動在你的 Google Drive 建立新試算表！
- * 3. 支援線上報名 (register) 與 聚會簽到 (checkin)。
+ * 支援功能：
+ * 1. 線上報名 (action: 'register')：寫入「報名名冊」
+ * 2. 現場簽到 (action: 'checkin')：寫入「出席簽到」
+ * 3. 幹部工作台資料同步 (doGet)：自動抓取完整名冊、簽到紀錄與統計數據
+ * 4. 自癒容錯：自動建立並格式化工作表，支援獨立或綁定試算表
  */
 
-// ── 全域設定 ──
-// 若已有特定的試算表，可將其網址中的 ID 填於此處 (例如: 1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgVE2upms)
-// 若留空，系統會自動使用當前試算表，或自動在你的雲端建立一個名為「115-1 匹克球社群資料庫」的試算表！
 var SPECIFIC_SPREADSHEET_ID = ""; 
 
 var SHEET_RECRUIT = "報名名冊";
 var SHEET_ATTENDANCE = "出席簽到";
 
 /**
- * 取得或自動建立目標 Google 試算表 (超強自我修復容錯)
+ * 取得或自動建立目標 Google 試算表
  */
 function getTargetSpreadsheet(optSheetId) {
-  // 1. 優先檢查傳入參數或全域指定 ID
   var targetId = optSheetId || SPECIFIC_SPREADSHEET_ID;
   if (targetId) {
     try {
@@ -27,11 +24,9 @@ function getTargetSpreadsheet(optSheetId) {
     } catch (e) {}
   }
 
-  // 2. 嘗試獲取容器綁定之試算表
   var ss = SpreadsheetApp.getActiveSpreadsheet();
   if (ss) return ss;
 
-  // 3. 檢查 ScriptProperties 中是否已有先前自動建立的試算表 ID
   var props = PropertiesService.getScriptProperties();
   var savedId = props.getProperty("AUTO_CREATED_SHEET_ID");
   if (savedId) {
@@ -40,14 +35,13 @@ function getTargetSpreadsheet(optSheetId) {
     } catch (e) {}
   }
 
-  // 4. 若皆無，自動在使用者 Google Drive 建立一個全新的試算表
   var newSs = SpreadsheetApp.create("115-1 匹克球學生學習社群 (報名與簽到資料庫)");
   props.setProperty("AUTO_CREATED_SHEET_ID", newSs.getId());
   return newSs;
 }
 
 /**
- * 處理 POST 請求 (表單提交)
+ * 處理 POST 請求 (表單提交 & 現場簽到)
  */
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -124,7 +118,8 @@ function doPost(e) {
 
       return createJsonResponse({
         success: true,
-        message: "簽到成功！時間：" + formattedDate
+        message: "簽到成功！已記錄「" + name + "」於 " + session,
+        time: formattedDate
       });
 
     } else {
@@ -145,28 +140,83 @@ function doPost(e) {
 }
 
 /**
- * 處理 GET 請求 (測試連線)
+ * 處理 GET 請求 (幹部工作台每次打開獲取完整資料)
  */
 function doGet(e) {
   try {
     var sheetId = (e && e.parameter) ? e.parameter.sheetId : null;
     var ss = getTargetSpreadsheet(sheetId);
-    var sheet = ss.getSheetByName(SHEET_RECRUIT);
-    var count = 0;
-    if (sheet) {
-      count = Math.max(0, sheet.getLastRow() - 1);
+    
+    // 1. 抓取「報名名冊」
+    var recruitSheet = getOrCreateSheet(ss, SHEET_RECRUIT, [
+      "登記時間", "姓名", "系所年級", "學號", "LINE ID", "聯絡 Email", "感興趣角色", "備註 / 自我介紹"
+    ]);
+    var recruitRows = [];
+    if (recruitSheet.getLastRow() > 1) {
+      var rData = recruitSheet.getRange(2, 1, recruitSheet.getLastRow() - 1, 8).getValues();
+      for (var i = 0; i < rData.length; i++) {
+        var row = rData[i];
+        if (row[1] || row[3]) { // 有姓名或學號
+          recruitRows.push({
+            id: i + 1,
+            time: row[0] ? (row[0] instanceof Date ? Utilities.formatDate(row[0], "Asia/Taipei", "yyyy/MM/dd HH:mm") : String(row[0])) : "",
+            name: String(row[1] || ""),
+            department: String(row[2] || ""),
+            studentId: String(row[3] || ""),
+            lineId: String(row[4] || ""),
+            email: String(row[5] || ""),
+            roles: String(row[6] || ""),
+            note: String(row[7] || "")
+          });
+        }
+      }
     }
+
+    // 2. 抓取「出席簽到」
+    var attendSheet = getOrCreateSheet(ss, SHEET_ATTENDANCE, [
+      "簽到時間", "學號", "姓名", "聚會次數", "備註"
+    ]);
+    var attendRows = [];
+    if (attendSheet.getLastRow() > 1) {
+      var aData = attendSheet.getRange(2, 1, attendSheet.getLastRow() - 1, 5).getValues();
+      for (var j = 0; j < aData.length; j++) {
+        var aRow = aData[j];
+        if (aRow[1] || aRow[2]) {
+          attendRows.push({
+            id: j + 1,
+            time: aRow[0] ? (aRow[0] instanceof Date ? Utilities.formatDate(aRow[0], "Asia/Taipei", "yyyy/MM/dd HH:mm") : String(aRow[0])) : "",
+            studentId: String(aRow[1] || ""),
+            name: String(aRow[2] || ""),
+            session: String(aRow[3] || "第 1 次聚會"),
+            note: String(aRow[4] || "")
+          });
+        }
+      }
+    }
+
+    // 3. 統計系所分佈
+    var deptStats = {};
+    for (var k = 0; k < recruitRows.length; k++) {
+      var d = recruitRows[k].department || "未填寫";
+      deptStats[d] = (deptStats[d] || 0) + 1;
+    }
+
     return createJsonResponse({
       status: "online",
-      message: "🟢 Google Sheets ＆ Apps Script 後端連線正常！",
+      message: "🟢 試算表資料同步成功！",
       spreadsheetName: ss.getName(),
       spreadsheetUrl: ss.getUrl(),
-      totalRegistered: count
+      totalRegistered: recruitRows.length,
+      totalAttendance: attendRows.length,
+      deptStats: deptStats,
+      registrations: recruitRows,
+      attendance: attendRows
     });
+
   } catch (err) {
     return createJsonResponse({
       status: "error",
-      message: "連線異常: " + err.toString()
+      message: "讀取試算表失敗: " + err.toString()
     });
   }
 }
@@ -190,7 +240,7 @@ function getOrCreateSheet(ss, sheetName, headers) {
 }
 
 /**
- * 封裝 JSON 回應
+ * 封裝 JSON 回應與 CORS
  */
 function createJsonResponse(obj) {
   return ContentService.createTextOutput(JSON.stringify(obj))
