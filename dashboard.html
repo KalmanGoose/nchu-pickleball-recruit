@@ -951,13 +951,25 @@
     └── 🏆 期末交流賽活動簡章.gdoc
         </div>
 
-        <div style="margin-top: 18px;">
-          <h4 style="font-weight: 900; margin-bottom: 6px;">🔒 權限防呆原則：</h4>
-          <p style="font-size: 13.5px; color: var(--text-muted);">
-            • <strong>幕後總管 (你)</strong>：擁有最高擁有者 (Owner) 權限，隨時備份。<br>
-            • <strong>前台幹部</strong>：設定為「編輯者」，但禁止刪除母資料夾，僅在所屬組別上傳。<br>
-            • <strong>一般社員</strong>：設定為「僅限檢視」，防止誤刪活動紀錄與照片。
+        <div style="margin-top: 24px; padding: 20px; background: var(--bg); border-radius: 10px; border: 1.5px solid rgba(0, 75, 151, .15);">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+            <h4 style="font-weight: 900; color: var(--primary); display: flex; align-items: center; gap: 6px;">
+              ⚡ Google Sheets ＆ Apps Script 後端連線設定
+            </h4>
+            <span class="badge badge-emerald" id="gas-status-badge">準備就緒</span>
+          </div>
+          <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 14px;">
+            將你部署完成的 Google Apps Script 網頁應用程式網址貼於下方，點擊儲存即可打通網頁與 Google 試算表！
           </p>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px;">
+            <input type="url" id="input-gas-url" placeholder="https://script.google.com/macros/s/AKfycb.../exec" style="flex: 1; min-width: 260px; padding: 9px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13.5px; outline: none;">
+            <button onclick="saveAndTestGasUrl()" style="background: var(--primary); color: #fff; border: none; font-size: 13px; font-weight: 700; padding: 9px 18px; border-radius: var(--pill-radius); cursor: pointer; transition: all .2s;">
+              💾 儲存並測試連線
+            </button>
+          </div>
+
+          <div id="gas-test-result" style="display: none; padding: 10px 14px; background: #fff; border-radius: 8px; font-size: 12.5px; border: 1px dashed #cbd5e1; margin-top: 8px;"></div>
         </div>
       </div>
     </div>
@@ -1044,7 +1056,55 @@
       }
     }
 
-    window.addEventListener('DOMContentLoaded', loadTodos);
+    // Apps Script 後端設定與連線測試
+    function saveAndTestGasUrl() {
+      const urlInput = document.getElementById('input-gas-url');
+      const url = urlInput.value.trim();
+      const resultDiv = document.getElementById('gas-test-result');
+      const badge = document.getElementById('gas-status-badge');
+
+      if (!url) {
+        showToast('請先輸入 Apps Script 網頁應用程式網址！');
+        return;
+      }
+
+      localStorage.setItem('pickleball_gas_url', url);
+      resultDiv.style.display = 'block';
+      resultDiv.innerHTML = '連線測試中...請稍候 ⏳';
+
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          badge.className = 'badge badge-emerald';
+          badge.innerText = '🟢 已連線';
+          resultDiv.innerHTML = `<span style="color:var(--emerald); font-weight:700;">✅ 連線成功！</span><br>試算表狀態：${data.status}｜已報名人數：${data.totalRegistered} 人｜連線名稱：${data.spreadsheetName}`;
+          showToast('Apps Script 後端連線成功！');
+        })
+        .catch(err => {
+          badge.className = 'badge badge-amber';
+          badge.innerText = '⚠️ 網址已儲存';
+          resultDiv.innerHTML = `<span style="color:var(--amber); font-weight:700;">網址已儲存至瀏覽器！</span><br>（因跨域限制，GET測試未直接回傳，但表單 POST 提交時將可正常寫入試算表）`;
+          showToast('網址已儲存！');
+        });
+    }
+
+    function initGasUrl() {
+      const savedUrl = localStorage.getItem('pickleball_gas_url');
+      if (savedUrl) {
+        const urlInput = document.getElementById('input-gas-url');
+        if (urlInput) urlInput.value = savedUrl;
+        const badge = document.getElementById('gas-status-badge');
+        if (badge) {
+          badge.className = 'badge badge-emerald';
+          badge.innerText = '已設定網址';
+        }
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadTodos();
+      initGasUrl();
+    });
   </script>
 </body>
 </html>

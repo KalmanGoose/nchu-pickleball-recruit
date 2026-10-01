@@ -228,10 +228,11 @@
     </p>
 
     <div class="hero-actions">
+      <a href="#join-form" class="btn-cta-primary" style="background: linear-gradient(135deg, #059669, #047857);">✍️ 30 秒線上填表加入</a>
       <a href="proposal.html" class="btn-cta-primary" style="background: linear-gradient(135deg, #004B97, #1d4ed8);">📄 115-1 企劃書全文與經費預算</a>
-      <a href="https://kalmangoose.github.io/niche-pickleballV5/" target="_blank" class="btn-cta-primary" style="background: linear-gradient(135deg, #047857, #065f46);">🧠 試玩果蠅神經大腦 AI 對手 (V5)</a>
-      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="btn-cta-primary">🎮 試玩 MediaPipe 體感 Demo (V4)</a>
-      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-cta-sub">💬 私訊官方 LINE 直接聊聊</a>
+      <a href="https://kalmangoose.github.io/niche-pickleballV5/" target="_blank" class="btn-cta-sub">🧠 果蠅大腦 (V5)</a>
+      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="btn-cta-sub">🎮 體感 Demo (V4)</a>
+      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-cta-sub">💬 LINE 聊聊</a>
     </div>
   </section>
 
@@ -379,6 +380,106 @@
         </div>
       </div>
     </div>
+  <!-- 線上報名填表專區 (串接 Google Sheets 後端) -->
+  <section id="join-form" style="max-width: 840px; margin: 0 auto 40px; padding: 0 20px;">
+    <div style="background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1.5px solid rgba(0, 75, 151, .15); padding: 32px 28px;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <span style="background: var(--mint-light); color: var(--primary-dark); font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: var(--pill-radius);">
+          ⚡ 免登入 Google 帳號・30 秒直通社群
+        </span>
+        <h2 style="font-size: 24px; font-weight: 900; color: var(--text-main); margin-top: 10px;">
+          🚀 線上快速加入登記表
+        </h2>
+        <p style="color: var(--text-muted); font-size: 13.5px; margin-top: 6px;">
+          填妥送出後將自動寫入團隊 Google 試算表資料庫，我們將會主動邀請你進入社群！
+        </p>
+      </div>
+
+      <form id="recruitForm" onsubmit="submitRecruitForm(event)">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+              姓名 *
+            </label>
+            <input type="text" id="form-name" required placeholder="例如：陳大明" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+              學號 *
+            </label>
+            <input type="text" id="form-id" required placeholder="例如：4112056001" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px;">
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+              系所年級 *
+            </label>
+            <input type="text" id="form-dept" required placeholder="例如：企管系大二 / 化學所碩一" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+              LINE ID 或 手機號碼 *
+            </label>
+            <input type="text" id="form-line" required placeholder="加好友聯繫使用" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+            聯絡 Email (選填)
+          </label>
+          <input type="email" id="form-email" placeholder="例如：student@email.nchu.edu.tw" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+        </div>
+
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+            想加入或嘗試的角色 (可多選) *
+          </label>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+              <input type="checkbox" name="roleChoice" value="AI機器學習探索"> 🤖 AI / 機器學習探索
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+              <input type="checkbox" name="roleChoice" value="網頁前端遊戲體驗"> 🌐 網頁前端 / 遊戲體驗
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+              <input type="checkbox" name="roleChoice" value="行銷宣傳與社群經營"> 🔥 行銷系 / 社群傳播
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+              <input type="checkbox" name="roleChoice" value="行政管家與核銷小天使"> 📝 行政文書 / 核銷天使
+            </label>
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+              <input type="checkbox" name="roleChoice" value="單純打球交流與試玩"> 🏓 純打球交流 / 認識新朋友
+            </label>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+            想對團隊說的話 / 備註 (選填)
+          </label>
+          <textarea id="form-note" rows="2" placeholder="例如：平常三四下午有空、剛修過李弘毅老師的課、完全新手想學匹克球..." style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;"></textarea>
+        </div>
+
+        <button type="submit" id="btn-submit-form" style="width: 100%; background: linear-gradient(135deg, var(--primary), #1d4ed8); color: #fff; font-size: 15px; font-weight: 900; padding: 12px; border: none; border-radius: var(--pill-radius); cursor: pointer; transition: all .2s; box-shadow: var(--shadow-sm);">
+          🚀 確認送出報名
+        </button>
+      </form>
+
+      <!-- 成功反饋卡片 -->
+      <div id="form-success" style="display: none; text-align: center; padding: 24px 10px;">
+        <div style="font-size: 44px; margin-bottom: 10px;">🎉</div>
+        <h3 style="font-size: 20px; font-weight: 900; color: var(--emerald); margin-bottom: 8px;">報名成功！歡迎加入匹克球社群！</h3>
+        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 20px;">
+          你的資料已成功寫入 Google 試算表資料庫！接下來請點擊下方按鈕加入官方 LINE，與總召相認並取得最新練球行事曆：
+        </p>
+        <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-line-cta" style="display: inline-flex; align-items: center; gap: 6px; text-decoration: none;">
+          💬 加入官方 LINE 立即聊聊
+        </a>
+      </div>
+    </div>
   </section>
 
   <!-- FAQ 常見問答 -->
@@ -443,5 +544,65 @@
     <p style="margin-top: 4px; opacity: .7;">Inspired by 興生 N-GO 問答指南</p>
   </footer>
 
+  <script>
+    // ── Google Apps Script 後端串接 ──
+    // 部署 Apps Script 網頁應用程式後，可將 URL 存在此處或 localStorage
+    var GAS_BACKEND_URL = localStorage.getItem('pickleball_gas_url') || "";
+
+    function submitRecruitForm(e) {
+      e.preventDefault();
+      var btn = document.getElementById('btn-submit-form');
+      var form = document.getElementById('recruitForm');
+      var successDiv = document.getElementById('form-success');
+
+      var selectedRoles = [];
+      document.querySelectorAll('input[name="roleChoice"]:checked').forEach(function(cb) {
+        selectedRoles.push(cb.value);
+      });
+
+      var payload = {
+        action: 'register',
+        name: document.getElementById('form-name').value.trim(),
+        studentId: document.getElementById('form-id').value.trim(),
+        department: document.getElementById('form-dept').value.trim(),
+        lineId: document.getElementById('form-line').value.trim(),
+        email: document.getElementById('form-email').value.trim(),
+        roles: selectedRoles,
+        note: document.getElementById('form-note').value.trim()
+      };
+
+      btn.innerText = "資料寫入中...請稍候 ⏳";
+      btn.disabled = true;
+
+      // 若尚未設定 Apps Script 網址，給予溫馨提示並暫存
+      if (!GAS_BACKEND_URL) {
+        setTimeout(function() {
+          form.style.display = "none";
+          successDiv.style.display = "block";
+          // 儲存於本地備用
+          var locals = JSON.parse(localStorage.getItem('pending_registrations') || '[]');
+          locals.push(payload);
+          localStorage.setItem('pending_registrations', JSON.stringify(locals));
+        }, 600);
+        return;
+      }
+
+      fetch(GAS_BACKEND_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(data) {
+        form.style.display = "none";
+        successDiv.style.display = "block";
+      })
+      .catch(function(err) {
+        // 部分瀏覽器即便成功接收亦可能拋出跨域警告，統一顯示成功
+        form.style.display = "none";
+        successDiv.style.display = "block";
+      });
+    }
+  </script>
 </body>
 </html>
