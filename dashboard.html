@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>匹克球學習社群 ＆ 創發競賽｜幹部內部協作工作台 (Dashboard)</title>
+  <title>匹克球學生學習社群｜幹部內部協作工作台 (Dashboard)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -224,7 +224,7 @@
   <header class="site-header">
     <a href="index.html" class="brand">
       <div class="brand-logo">🏓</div>
-      <span>NCHU 匹克球社群 ＆ 創發計畫</span>
+      <span>NCHU 匹克球學習社群</span>
     </a>
     <div class="nav-links">
       <a href="index.html" class="nav-btn home">📢 招募首頁</a>
@@ -243,12 +243,12 @@
       <div class="dash-badge-group">
         <span class="badge badge-primary">🛠️ 幹部專屬內部協作工作台</span>
         <span class="badge badge-mint">中興大學 115-1</span>
-        <span class="badge badge-emerald">雙軌計畫進行中</span>
+        <span class="badge badge-emerald">學生學習社群計畫 (1 萬元)</span>
         <span class="badge badge-amber">純前端靜態運作 (零伺服器依賴)</span>
       </div>
-      <h1 class="dash-title">匹克球學習社群 ＆ 創發競賽 <span>專案管理儀表板</span></h1>
+      <h1 class="dash-title">匹克球學生學習社群 <span>專案管理儀表板</span></h1>
       <p class="dash-subtitle">
-        整合幕後總管 RACI 分工、行政計畫申請、總務經費核銷、影音分鏡腳本、社群行銷與 AI 體感技術清單。一站式掌握全專案 14 份 Markdown 核心文件！
+        整合幕後總管 RACI 分工、行政計畫申請、總務經費核銷、影音分鏡腳本、社群行銷與 AI 體感技術清單。一站式掌握全專案核心文件！
       </p>
 
       <div class="quick-toolbar">
@@ -258,11 +258,7 @@
             <span style="color: var(--primary); font-size: 11px;">(點擊複製)</span>
           </div>
           <div class="chip" onclick="copyText('匹克球 AI 體感互動教學與動作特徵實證研習社群', '學習社群全稱已複製！')">
-            <span>🏷️ 計畫A名稱：<strong>匹克球 AI 體感互動教學...</strong></span>
-            <span style="color: var(--primary); font-size: 11px;">(複製)</span>
-          </div>
-          <div class="chip" onclick="copyText('PickleFit AI：基於 MediaPipe 骨骼辨識之匹克球免穿戴體感遊戲', '創發競賽全稱已複製！')">
-            <span>🚀 計畫B名稱：<strong>PickleFit AI 體感競賽...</strong></span>
+            <span>🏷️ 計畫名稱：<strong>匹克球 AI 體感互動教學與動作特徵實證研習社群</strong></span>
             <span style="color: var(--primary); font-size: 11px;">(複製)</span>
           </div>
         </div>
@@ -274,13 +270,13 @@
 
     <!-- 關鍵里程碑死線看板 -->
     <div class="timeline-grid">
-      <div class="time-card urgent">
+      <div class="time-card important">
         <div class="time-header">
-          <span class="time-date">2026/09/22 (二)</span>
-          <span class="time-tag" style="background: var(--rose-bg); color: var(--rose);">硬死線</span>
+          <span class="time-date">2026/09/25 前</span>
+          <span class="time-tag" style="background: var(--mint-light); color: var(--primary-dark);">名冊確定</span>
         </div>
-        <div class="time-title">🚀 3萬元創發計畫系統送件</div>
-        <div class="time-desc">MediaPipe 體感競賽軌，需 1/2 為興大學生，含 GPU 算力 7,500 元編列。</div>
+        <div class="time-title">👥 成員資格與修課查核</div>
+        <div class="time-desc">確認 5~10 位成員學生證/修課無衝堂，取得指導顧問許銘華助理教授簽章。</div>
       </div>
 
       <div class="time-card urgent">
@@ -318,7 +314,7 @@
       <button class="tab-btn" onclick="switchTab('tab-finance')">💰 總務器材與經費預算</button>
       <button class="tab-btn" onclick="switchTab('tab-media')">🎥 活動影音 (影片分鏡)</button>
       <button class="tab-btn" onclick="switchTab('tab-marketing')">📢 社群行銷 (LINE與文案)</button>
-      <button class="tab-btn" onclick="switchTab('tab-tech')">💻 技術與競賽清單</button>
+      <button class="tab-btn" onclick="switchTab('tab-tech')">💻 技術開發與遊戲清單</button>
       <button class="tab-btn" onclick="switchTab('tab-cloud')">☁️ Google 雲端權限架構</button>
     </div>
 
@@ -451,7 +447,7 @@
           </div>
           <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border-left: 3px solid #ec4899;">
             <div style="font-weight: 900; font-size: 14px; color: #ec4899; margin-bottom: 4px;">📢 社群行銷夥伴 (🔥急缺新血)</div>
-            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">經營官方 IG/LINE、設計校園招募文案、協助大專創發競賽 Pitch 簡報商業包裝。</div>
+            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">經營官方 IG/LINE、設計校園招募文案、協助期末發表會海報與成果 Pitch 簡報商業包裝。</div>
           </div>
           <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border-left: 3px solid var(--emerald);">
             <div style="font-weight: 900; font-size: 14px; color: var(--emerald); margin-bottom: 4px;">💻 AI與前端工程組 (技術打磨)</div>
@@ -566,9 +562,9 @@
         <div class="module-header">
           <div>
             <div class="module-title">💰 總務器材組：經費預算編列與核銷指南</div>
-            <div class="module-desc">嚴格遵守學校統編 52024101，專案 A (1萬) 與 專案 B (3萬) 獨立分開報支</div>
+            <div class="module-desc">嚴格遵守學校統編 52024101，學生學習社群滿額 10,000 元專款專用</div>
           </div>
-          <span class="module-source">來源：專案A預算 / 專案B預算 / 03_器材管理</span>
+          <span class="module-source">來源：專案A_1萬元經費預算編列方案 / 03_器材管理</span>
         </div>
 
         <div class="callout callout-warning">
@@ -580,33 +576,22 @@
           </div>
         </div>
 
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 16px;">
-          <!-- 專案 A 預算 -->
+        <div style="margin-top: 16px;">
+          <!-- 專案 A 預算 (滿額 10,000 元) -->
           <div style="border: 1px solid rgba(0, 75, 151, .12); border-radius: 10px; padding: 18px; background: #fafcff;">
-            <h4 style="font-weight: 900; color: var(--primary); margin-bottom: 8px;">🏓 專案 A：1 萬元學習社群預算</h4>
+            <h4 style="font-weight: 900; color: var(--primary); margin-bottom: 8px;">🏓 115-1 學生學習社群經費預算編列表 (滿額 10,000 元)</h4>
             <div class="table-responsive">
               <table>
-                <tr><th>項目</th><th>說明</th><th>金額</th></tr>
-                <tr><td>消耗性耗材</td><td>40孔戶外標準比賽球 20 顆、拍柄吸汗握把布 10 入、白貼與冰敷包</td><td>$4,000</td></tr>
-                <tr><td>數據儲存耗材</td><td>SanDisk Extreme 128GB 高速 MicroSDXC 記憶卡 (U3/V30) × 3 片</td><td>$1,800</td></tr>
-                <tr><td>成果展示輸出</td><td>期末發表會高解析度直立式海報大圖輸出與展架印刷費</td><td>$1,200</td></tr>
-                <tr><td>研習誤餐費</td><td>6 次專題研習會議便當 (符合補助上限規定 30% 內)</td><td>$3,000</td></tr>
-                <tr style="font-weight: 900; background: var(--mint-light);"><td>總計</td><td>滿額申請</td><td>$10,000</td></tr>
-              </table>
-            </div>
-          </div>
-
-          <!-- 專案 B 預算 -->
-          <div style="border: 1px solid rgba(0, 75, 151, .12); border-radius: 10px; padding: 18px; background: #fafcff;">
-            <h4 style="font-weight: 900; color: var(--rose); margin-bottom: 8px;">🚀 專案 B：3 萬元創發競賽預算</h4>
-            <div class="table-responsive">
-              <table>
-                <tr><th>項目</th><th>說明</th><th>金額</th></tr>
-                <tr><td>雲端 GPU 算力</td><td>GPUtw.ai 台灣雲端 GPU 算力租借 (微調動作評估模型)</td><td>$7,500</td></tr>
-                <tr><td>校內外專家指導</td><td>外聘業界/體育科技專家諮詢指導鐘點費 (2,000元/時 × 4小時)</td><td>$8,000</td></tr>
-                <tr><td>競賽報名與材料</td><td>大專創新創業競賽報名費、高畫質實測採集耗材、展品打樣</td><td>$10,500</td></tr>
-                <tr><td>差旅與調研交通</td><td>前往台北/高雄出賽評選之高鐵/台鐵交通補貼</td><td>$4,000</td></tr>
-                <tr style="font-weight: 900; background: var(--rose-bg);"><td>總計</td><td>滿額申請</td><td>$30,000</td></tr>
+                <thead>
+                  <tr><th>項目類別</th><th>品名規格與用途說明</th><th>單價</th><th>數量</th><th>總計金額</th><th>核銷佐證與法規備註</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td><strong>消耗性器材耗材</strong></td><td>40孔戶外標準比賽球 20 顆、拍柄吸汗握把布 10 入、運動白貼與冰敷包</td><td>-</td><td>1 批</td><td><strong>$4,000</strong></td><td>附發票統編 52024101 與商品明細</td></tr>
+                  <tr><td><strong>數據儲存耗材</strong></td><td>SanDisk Extreme 128GB 高速 MicroSDXC 記憶卡 (U3/V30)</td><td>$600</td><td>3 片</td><td><strong>$1,800</strong></td><td>供高速錄影動作採集數據存檔使用</td></tr>
+                  <tr><td><strong>成果展示輸出</strong></td><td>期末成果發表會高解析度直立式海報大圖輸出與展架印刷費</td><td>$1,200</td><td>1 式</td><td><strong>$1,200</strong></td><td>檢附印刷廠發票與海報照片</td></tr>
+                  <tr><td><strong>專題研習誤餐費</strong></td><td>6 次實體專題研習與練球會議便當 (符合補助上限規定 30% 內)</td><td>$100</td><td>30 個</td><td><strong>$3,000</strong></td><td><strong>必備：檢附當次聚會成員簽到表影本</strong></td></tr>
+                  <tr style="font-weight: 900; background: var(--mint-light); font-size: 14.5px;"><td>合計</td><td colspan="3">學習社群計畫申請總經費</td><td><strong>$10,000 元</strong></td><td>滿額補助申請，規範 100% 合規</td></tr>
+                </tbody>
               </table>
             </div>
           </div>
@@ -703,11 +688,11 @@
           </div>
 
           <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border: 1px solid rgba(0,75,151,.1);">
-            <div style="font-weight: 900; color: var(--rose); margin-bottom: 4px;">💻 雲端 GPU 算力報銷要件：</div>
+            <div style="font-weight: 900; color: var(--emerald); margin-bottom: 4px;">🖨️ 耗材與成果海報核銷要件：</div>
             <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.6;">
-              1. 優先使用國內開立台灣統一發票之平台（如 <strong>GPUtw.ai</strong>）。<br>
-              2. 取得中興統編 52024101 電子發票與明細。<br>
-              3. 平台後台印出「Usage 運算時數帳單明細」佐證，實報實銷。
+              1. <strong>發票抬頭統編</strong>：務必打國立中興大學 / <strong>52024101</strong>。<br>
+              2. <strong>品名不可寫統稱</strong>：需清楚載明「匹克球」、「記憶卡」、「大圖輸出海報與展架」。<br>
+              3. <strong>拍照佐證</strong>：期末海報大圖輸出需檢附印刷成品與展示現場照片。
             </div>
           </div>
         </div>
@@ -839,10 +824,10 @@
       <div class="module-card">
         <div class="module-header">
           <div>
-            <div class="module-title">💻 技術開發組：AI 體感遊戲 Backlog 與競賽標的</div>
-            <div class="module-desc">核心技術棧：Three.js 3D 視差球場 + MediaPipe Pose 33 關鍵點 + GPUtw.ai 動作時序微調</div>
+            <div class="module-title">💻 技術開發組：AI 體感遊戲 Backlog 與學習規格</div>
+            <div class="module-desc">核心技術棧：Three.js 3D 視差球場 + MediaPipe Pose 33 關鍵點動作特徵採集</div>
           </div>
-          <span class="module-source">來源：06_數位產品/03_遊戲化互動網站 / 專案B競賽標的</span>
+          <span class="module-source">來源：06_數位產品/03_遊戲化互動網站</span>
         </div>
 
         <div class="callout callout-info">
@@ -893,7 +878,7 @@
           </table>
         </div>
 
-        <h4 style="margin: 24px 0 8px; font-weight: 900;">🏆 專案 B 推薦出賽大專競賽標的名單</h4>
+        <h4 style="margin: 24px 0 8px; font-weight: 900;">🏆 未來可參考之運動科技與大專競賽標的 (自由選配)</h4>
         <div class="table-responsive">
           <table>
             <thead>
