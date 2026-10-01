@@ -1089,15 +1089,14 @@
     }
 
     function initGasUrl() {
-      const savedUrl = localStorage.getItem('pickleball_gas_url');
-      if (savedUrl) {
-        const urlInput = document.getElementById('input-gas-url');
-        if (urlInput) urlInput.value = savedUrl;
-        const badge = document.getElementById('gas-status-badge');
-        if (badge) {
-          badge.className = 'badge badge-emerald';
-          badge.innerText = '已設定網址';
-        }
+      const defaultUrl = "https://script.google.com/macros/s/AKfycbwHaNrjFtFOm3bXBYOMh5kURG1ZLtiYv5PR-9FLNn3gW2HB_BuxN57HUYfBPFY-JfZz/exec";
+      const savedUrl = localStorage.getItem('pickleball_gas_url') || defaultUrl;
+      const urlInput = document.getElementById('input-gas-url');
+      if (urlInput) urlInput.value = savedUrl;
+      const badge = document.getElementById('gas-status-badge');
+      if (badge && savedUrl) {
+        badge.className = 'badge badge-emerald';
+        badge.innerText = '已設定後端 API';
       }
     }
 

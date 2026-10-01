@@ -546,8 +546,7 @@
 
   <script>
     // ── Google Apps Script 後端串接 ──
-    // 部署 Apps Script 網頁應用程式後，可將 URL 存在此處或 localStorage
-    var GAS_BACKEND_URL = localStorage.getItem('pickleball_gas_url') || "";
+    var GAS_BACKEND_URL = localStorage.getItem('pickleball_gas_url') || "https://script.google.com/macros/s/AKfycbwHaNrjFtFOm3bXBYOMh5kURG1ZLtiYv5PR-9FLNn3gW2HB_BuxN57HUYfBPFY-JfZz/exec";
 
     function submitRecruitForm(e) {
       e.preventDefault();
