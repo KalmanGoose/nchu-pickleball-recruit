@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>PickleFit AI 體感互動專案｜興大 115 學生創發學習夥伴招募</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #004B97;
+      --primary-dark: #003a75;
+      --mint: #ABDAD5;
+      --mint-light: rgba(171, 218, 213, 0.35);
+      --text-main: #0F2745;
+      --text-muted: #5b7290;
+      --bg: #F0F8FF;
+      --card-radius: 14px;
+      --pill-radius: 999px;
+      --shadow-sm: 0 2px 8px rgba(15, 39, 69, .08);
+      --shadow-md: 0 8px 24px rgba(15, 39, 69, .12);
+      --rose: #e11d48;
+      --rose-bg: rgba(225, 29, 72, 0.08);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      max-width: 100vw;
+    }
+
+    /* ── 頂部導覽列 (與興生指南 100% 同款) ── */
+    .site-header {
+      position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 75, 151, .1);
+      padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 15px;
+      color: var(--primary); text-decoration: none;
+    }
+    .brand-logo {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--primary), var(--mint));
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px;
+    }
+    .nav-links { display: flex; gap: 8px; align-items: center; }
+    .nav-btn {
+      text-decoration: none; font-size: 12.5px; font-weight: 700; padding: 7px 14px;
+      border-radius: var(--pill-radius); transition: all .22s; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .nav-btn.line { background: #06C755; color: #fff; }
+    .nav-btn.line:hover { background: #05a847; transform: translateY(-1px); }
+    .nav-btn.ig { background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; }
+    .nav-btn.ig:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .nav-btn.demo { background: var(--primary); color: #fff; box-shadow: var(--shadow-sm); }
+    .nav-btn.demo:hover { background: var(--primary-dark); transform: translateY(-1px); }
+
+    /* ── Hero 區塊 ── */
+    .hero { max-width: 960px; margin: 0 auto; padding: 48px 20px 24px; text-align: center; }
+    .hero-badge {
+      display: inline-block; background: var(--mint-light); color: var(--primary-dark);
+      font-size: 13px; font-weight: 700; padding: 6px 18px; border-radius: var(--pill-radius); margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(24px, 4.2vw, 38px); font-weight: 900; line-height: 1.35; margin-bottom: 14px;
+    }
+    .hero h1 em { font-style: normal; color: var(--primary); }
+    .hero p {
+      color: var(--text-muted); font-size: 15px; max-width: 640px; margin: 0 auto 24px;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 32px; }
+    .btn-cta-primary {
+      background: linear-gradient(135deg, var(--primary), #2b6cb0); color: #fff;
+      text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 28px;
+      border-radius: var(--pill-radius); box-shadow: var(--shadow-md); transition: all .25s;
+    }
+    .btn-cta-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
+    .btn-cta-sub {
+      background: #fff; color: var(--primary); border: 1.5px solid var(--mint);
+      text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 22px;
+      border-radius: var(--pill-radius); box-shadow: var(--shadow-sm); transition: all .22s;
+    }
+    .btn-cta-sub:hover { background: var(--mint-light); transform: translateY(-2px); }
+
+    /* ── 多元系所 ＆ 行銷急缺橫幅 ── */
+    .banner-depts {
+      max-width: 960px; margin: 0 auto 30px; padding: 18px 24px;
+      background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0, 75, 151, .08); text-align: left;
+    }
+    .banner-depts-title { font-weight: 900; font-size: 15px; color: var(--primary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+    .dept-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 14px; }
+    .dept-tag {
+      font-size: 12px; font-weight: 700; color: var(--primary-dark); background: var(--mint-light);
+      padding: 4px 12px; border-radius: var(--pill-radius);
+    }
+    .urgent-box {
+      background: var(--rose-bg); border: 1.5px solid rgba(225, 29, 72, .25);
+      border-radius: 10px; padding: 12px 16px; display: flex; gap: 10px; align-items: flex-start;
+    }
+    .urgent-badge { background: var(--rose); color: #fff; font-size: 11px; font-weight: 900; padding: 2px 8px; border-radius: var(--pill-radius); flex-shrink: 0; margin-top: 2px; }
+    .urgent-text { font-size: 12.5px; color: #881337; line-height: 1.6; }
+
+    /* ── 發起人真心話卡片 (暖心風格) ── */
+    .letter-card {
+      max-width: 960px; margin: 0 auto 36px; padding: 26px;
+      background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
+      border-left: 5px solid var(--primary); text-align: left;
+    }
+    .letter-title { font-size: 17px; font-weight: 900; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .letter-body { font-size: 14px; color: var(--text-main); line-height: 1.85; }
+    .letter-body p { margin-bottom: 10px; }
+    .letter-highlight {
+      background: #fdf6e3; border: 1px solid #f0e0b0; border-radius: 10px; padding: 12px 16px;
+      margin-top: 14px; font-size: 13px; color: #7a5c10;
+    }
+
+    /* ── 3 大核心優勢小卡 ── */
+    .grid-3 { max-width: 960px; margin: 0 auto 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .feat-card {
+      background: #fff; border-radius: var(--card-radius); padding: 22px;
+      box-shadow: var(--shadow-sm); border: 1.5px solid transparent; transition: all .25s; text-align: left;
+    }
+    .feat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--mint); }
+    .feat-icon { font-size: 26px; margin-bottom: 8px; }
+    .feat-title { font-size: 16px; font-weight: 900; color: var(--text-main); margin-bottom: 6px; }
+    .feat-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+
+    /* ── 角色卡片網格 (仿 FAQ 卡片) ── */
+    .section-wrap { max-width: 960px; margin: 0 auto 44px; padding: 0 4px; }
+    .section-header { text-align: center; margin-bottom: 24px; }
+    .section-header h2 { font-size: 22px; font-weight: 900; color: var(--text-main); margin-bottom: 6px; }
+    .section-header p { font-size: 13.5px; color: var(--text-muted); }
+
+    .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+    .role-card {
+      background: #fff; border-radius: var(--card-radius); padding: 22px;
+      box-shadow: var(--shadow-sm); border: 1.5px solid transparent; transition: all .28s cubic-bezier(.2,.7,.3,1.1);
+      display: flex; flex-direction: column; text-align: left; position: relative;
+    }
+    .role-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--mint); }
+    .role-card.urgent { border-color: rgba(225, 29, 72, .3); }
+    .role-tag {
+      align-self: flex-start; font-size: 11px; font-weight: 700; color: var(--primary);
+      background: var(--mint-light); padding: 3px 12px; border-radius: var(--pill-radius); margin-bottom: 12px;
+    }
+    .role-tag.urgent { color: var(--rose); background: var(--rose-bg); }
+    .role-name { font-size: 17px; font-weight: 900; margin-bottom: 8px; color: var(--text-main); }
+    .role-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; flex: 1; }
+    .role-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+    .skill-pill { font-size: 11px; color: var(--text-muted); background: var(--bg); padding: 3px 10px; border-radius: var(--pill-radius); }
+
+    /* ── FAQ 摺疊區 (與興生指南 100% 同款收合) ── */
+    .faq-list { max-width: 960px; margin: 0 auto 50px; display: flex; flex-direction: column; gap: 12px; text-align: left; }
+    .faq-item {
+      background: #fff; border-radius: var(--card-radius); padding: 18px 22px;
+      box-shadow: var(--shadow-sm); border: 1px solid rgba(0, 75, 151, .06);
+    }
+    .faq-item summary {
+      font-size: 15px; font-weight: 800; color: var(--primary-dark); cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center; list-style: none;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "▼"; font-size: 11px; color: var(--text-muted); transition: transform .2s; }
+    .faq-item[open] summary::after { transform: rotate(180deg); color: var(--primary); }
+    .faq-answer { font-size: 13.5px; color: var(--text-main); line-height: 1.8; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e2e8f0; }
+
+    /* ── 底部 CTA 行動橫幅 ── */
+    .footer-cta {
+      max-width: 960px; margin: 0 auto 50px; padding: 40px 24px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      border-radius: 20px; color: #fff; text-align: center; box-shadow: var(--shadow-md);
+    }
+    .footer-cta h3 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
+    .footer-cta p { font-size: 14px; opacity: .88; max-width: 520px; margin: 0 auto 24px; line-height: 1.65; }
+    .cta-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+    .btn-line-cta {
+      background: #06C755; color: #fff; text-decoration: none; font-size: 14px; font-weight: 700;
+      padding: 12px 24px; border-radius: var(--pill-radius); box-shadow: 0 4px 12px rgba(6, 199, 85, .3); transition: all .22s;
+    }
+    .btn-line-cta:hover { filter: brightness(1.08); transform: translateY(-2px); }
+    .btn-ig-cta {
+      background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; text-decoration: none;
+      font-size: 14px; font-weight: 700; padding: 12px 24px; border-radius: var(--pill-radius); transition: all .22s;
+    }
+    .btn-ig-cta:hover { filter: brightness(1.08); transform: translateY(-2px); }
+    .btn-web-cta {
+      background: rgba(255, 255, 255, .15); color: #fff; border: 1.5px solid rgba(255, 255, 255, .4);
+      text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 22px; border-radius: var(--pill-radius); transition: all .22s;
+    }
+    .btn-web-cta:hover { background: rgba(255, 255, 255, .28); transform: translateY(-2px); }
+
+    footer { text-align: center; padding: 24px 20px 48px; color: var(--text-muted); font-size: 12px; }
+  </style>
+</head>
+<body>
+
+  <!-- 頂部導覽列 -->
+  <header class="site-header">
+    <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="brand">
+      <div class="brand-logo">🏓</div>
+      <span>NCHU 匹克球學習社群</span>
+    </a>
+    <div class="nav-links">
+      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="nav-btn demo">🎮 試玩體感 Demo</a>
+      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="nav-btn line">LINE 聊聊</a>
+      <a href="https://www.instagram.com/nchupickleball_lab1.0?igsi=MW5hN3Z5dzF2MDI3Nw%3D%3D" target="_blank" class="nav-btn ig">官方 IG</a>
+    </div>
+  </header>
+
+  <!-- Hero 區塊 -->
+  <section class="hero">
+    <div class="hero-badge">🌲 中興大學 115 學生創發學習計畫｜每組最高補助 3 萬元</div>
+    <h1>不為爭名次，只為好玩與熱忱！<br>用 <em>AI 體感玩匹克球</em>，一起拿學校補助</h1>
+    <p>
+      「現在 AI 工具這麼強，你不需要是神級工程師！」<br>
+      我們已有跑得動的 3D 體感遊戲雛形，這次比賽是為了找有好奇心、想一起探索運動科技的夥伴。
+      哪怕只是剛修過程式、或是純粹行政文書想參與，我們都超級無敵歡迎！
+    </p>
+
+    <div class="hero-actions">
+      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="btn-cta-primary">🎮 點此立即試玩網頁 Demo (免安裝)</a>
+      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-cta-sub">💬 私訊官方 LINE 直接聊聊</a>
+      <a href="https://kalmangoose.github.io/NCHU115_N-GOstudent-demo/" target="_blank" class="btn-cta-sub">💡 參考興生 N-GO 問答指南</a>
+    </div>
+  </section>
+
+  <!-- 多元系所 ＆ 行銷系急缺專區 -->
+  <div class="banner-depts">
+    <div class="banner-depts-title">
+      <span>🎓</span>
+      <span>我們是一支超酷的「跨領域」團隊！</span>
+    </div>
+    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">在 114-2 學期，我們的團隊成員就已經橫跨了興大多個專業領域：</p>
+    <div class="dept-tags">
+      <span class="dept-tag">企業管理學系</span>
+      <span class="dept-tag">化學學系</span>
+      <span class="dept-tag">運動管理與健康研究所</span>
+      <span class="dept-tag">物理學系</span>
+      <span class="dept-tag">土木工程學系</span>
+    </div>
+    <div class="urgent-box">
+      <div class="urgent-badge">現正急缺</div>
+      <div class="urgent-text">
+        <strong>【超級無敵急缺：行銷學系夥伴！】</strong><br>
+        我們已經具備理工的實作力與商管的基礎，但真的極度需要<strong>行銷系</strong>的好朋友加入！協助我們做社群聲量傳播（IG/Threads）、受眾痛點分析與競賽簡報的亮眼行銷包裝。你加入絕對是全場最受寵愛的 MVP！
+      </div>
+    </div>
+  </div>
+
+  <!-- 發起人真心話卡片 -->
+  <div class="letter-card">
+    <div class="letter-title">
+      <span>💬</span>
+      <span>發起人真心話：身為文組笨蛋，我都可以做出來，你絕對沒問題！</span>
+    </div>
+    <div class="letter-body">
+      <p>
+        老實說，我<strong>完全不是資訊背景</strong>，純粹身為文組、只是上了簡單的程式課，當時純粹覺得好玩，靠著好奇心跟 AI 協作，就手刻出現在這個有 <strong>Three.js 3D 場景、MediaPipe 骨骼追蹤、甚至考慮到個資去識別化的興大學號登入機制</strong> 的網頁 Demo！
+      </p>
+      <p>
+        這真的是新手亂兜出來的，但我相信：<strong style="color: var(--primary);">「中興大學任何在校學生的實力與成績，絕對都比我更強！」</strong>
+      </p>
+      <p>
+        我完全不希望招募搞得像科技大廠面試那樣嚴肅。現在 AI 工具（像 ChatGPT、Claude）這麼強大，哪怕你剛學寫程式、底子不深厚，只要有興趣、想試試看機器學習或動態捕捉，都超級大加分！
+      </p>
+      <div class="letter-highlight">
+        💖 <strong>特別呼叫行政與文書小天使</strong>：<br>
+        如果你「完全沒有任何技術背景」，但願意幫忙分擔核銷公文、活動簽到、表格整理與簡報美化，我會<strong>超級無敵感謝你</strong>！這項專案能順利跑完，最不可或缺的就是行政夥伴的默默守護！
+      </div>
+    </div>
+  </div>
+
+  <!-- 3 大核心優勢 -->
+  <div class="grid-3">
+    <div class="feat-card">
+      <div class="feat-icon">🤝</div>
+      <div class="feat-title">不求得獎，志在開心協作</div>
+      <div class="feat-desc">我們不追求瘋狂內卷，志在體驗一個完整的跨域專案，累積真實的團隊合作與科技應用經歷！</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">💰</div>
+      <div class="feat-title">學校買單 3 萬元全額經費</div>
+      <div class="feat-desc">雲端 GPU 算力租借、競賽報名費、外縣市差旅費，還能聘請校外專家與教授指導（含8,000指導鐘點）！</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon">⚡</div>
+      <div class="feat-title">已有跑得動的 MVP（但不等於能用！）</div>
+      <div class="feat-desc">MediaPipe 骨骼與 3D 球路雖然寫好了，但「跑得動完全不等於好用」！還有超多 Bug 等大家一起抓蟲、打磨升級！</div>
+    </div>
+  </div>
+
+  <!-- 4 大角色認領 -->
+  <section class="section-wrap">
+    <div class="section-header">
+      <h2>熱烈歡迎各種背景的夥伴！</h2>
+      <p>挑一個你有興趣的方向聊聊，沒有技術背景也完全沒關係</p>
+    </div>
+
+    <div class="role-grid">
+      <!-- 角色 1 -->
+      <div class="role-card">
+        <div class="role-tag">興趣導向</div>
+        <div class="role-name">AI / 機器學習探索者</div>
+        <div class="role-desc">
+          對機器學習感興趣！哪怕底子不深，<strong>如果有透過 TAICA（臺灣大專院校人工智慧學程聯盟）修過李宏毅老師的課，超級無敵大加分！</strong> 一起用學校的 GPU 算力玩玩看模型與特徵提取！
+        </div>
+        <div class="role-skills">
+          <span class="skill-pill">TAICA / 李宏毅老師課程 ⭐⭐⭐</span>
+          <span class="skill-pill">想試玩 MediaPipe</span>
+          <span class="skill-pill">免費玩 GPU 算力</span>
+        </div>
+      </div>
+
+      <!-- 角色 2 -->
+      <div class="role-card">
+        <div class="role-tag">初學大歡迎</div>
+        <div class="role-name">網頁前端 / 遊戲體驗調優</div>
+        <div class="role-desc">
+          哪怕剛學網頁基礎也沒關係，有 AI 輔助寫 code 超輕鬆！一起幫現有的 3D 球場 Demo 加點新關卡、音效，或是調整按鈕排版，好玩最重要！
+        </div>
+        <div class="role-skills">
+          <span class="skill-pill">剛學網頁前端即可</span>
+          <span class="skill-pill">AI 輔助寫 Code</span>
+          <span class="skill-pill">Three.js 體驗調優</span>
+        </div>
+      </div>
+
+      <!-- 角色 3 (行銷急缺) -->
+      <div class="role-card urgent">
+        <div class="role-tag urgent">🔥 超級無敵急缺！</div>
+        <div class="role-name">行銷系夥伴 / 品牌傳播咖</div>
+        <div class="role-desc">
+          <strong>行銷學系同學大歡迎！</strong> 幫忙發想社群傳播話題（IG/Threads）、規劃受眾痛點、包裝競賽 Pitch Deck 的行銷亮點與商業價值。團隊舞台全部留給你發揮！
+        </div>
+        <div class="role-skills">
+          <span class="skill-pill">行銷學系 ⭐⭐⭐⭐⭐</span>
+          <span class="skill-pill">社群聲量/受眾分析</span>
+          <span class="skill-pill">競賽 Pitch 行銷包裝</span>
+        </div>
+      </div>
+
+      <!-- 角色 4 (行政管家) -->
+      <div class="role-card">
+        <div class="role-tag">零技術門檻</div>
+        <div class="role-name">行政管家 / 核銷小天使</div>
+        <div class="role-desc">
+          <strong>完全不需要碰任何程式碼！</strong> 協助處理教發中心的經費核銷單據、公文發票整理、成員簽到名冊管理。如果你細心負責，這會是團隊最核心的支柱！
+        </div>
+        <div class="role-skills">
+          <span class="skill-pill">文書/行政管理</span>
+          <span class="skill-pill">經費發票核銷</span>
+          <span class="skill-pill">團隊最強後盾</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ 常見問答 -->
+  <div class="faq-list">
+    <div class="section-header" style="margin-bottom: 16px;">
+      <h2>常見問答 (FAQ)</h2>
+      <p>點開卡片看詳細指引</p>
+    </div>
+
+    <details class="faq-item">
+      <summary>Q1：我如果真的完全不會寫程式，也可以加入嗎？</summary>
+      <div class="faq-answer">
+        絕對可以！我們極度需要夥伴協助「行銷推廣、行政文書、公文核銷、簡報製作與試玩回饋」。這在任何專案都是不可或缺的靈魂角色，而且母法強烈鼓勵跨系合作！
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Q2：每週需要花多少時間？會不會影響系上課業？</summary>
+      <div class="faq-answer">
+        我們已經有跑得動的 V4 網頁基礎，不求從零造輪子，採「線上彈性非同步協作為主，偶爾碰面對焦」。排程會完全避開學校期中考週，課業優先！
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Q3：這 3 萬元的經費會如何使用？</summary>
+      <div class="faq-answer">
+        全數用於團隊研發與專案推行！包含：雲端 GPU 算力租借 7,500 元、專家指導費 8,000 元、實體決賽差旅報名費 6,000 元，以及測試硬體與展示耗材 8,500 元，實報實銷。
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>Q4：招募截止時間與送件時程？</summary>
+      <div class="faq-answer">
+        招募即日起至 <strong>9/16 (一) 止</strong>，確認成員名冊後，我們將於 <strong>9/22 (日)</strong> 前完成中興大學教發中心教學計畫申請系統線上送件！
+      </div>
+    </details>
+  </div>
+
+  <!-- 底部 CTA 橫幅 -->
+  <div class="footer-cta">
+    <h3>想一起聊聊、認識新朋友嗎？</h3>
+    <p>
+      不用有任何心理壓力，純粹想認識、想幫忙行政或行銷，都隨時敲我們！<br>
+      ⏰ <strong>招募截止倒數：9/16 止</strong>（額滿將提前截止）
+    </p>
+    <div class="cta-buttons">
+      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-line-cta">💬 加入官方 LINE 聊聊</a>
+      <a href="https://www.instagram.com/nchupickleball_lab1.0?igsi=MW5hN3Z5dzF2MDI3Nw%3D%3D" target="_blank" class="btn-ig-cta">📸 私訊官方 IG</a>
+      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="btn-web-cta">🎮 試玩體感 Demo</a>
+    </div>
+    <div style="font-size: 11px; opacity: .75; margin-top: 16px;">
+      官方 LINE ID：@490hjerg｜IG：nchupickleball_lab1.0
+    </div>
+  </div>
+
+  <footer>
+    <p>國立中興大學 115 年學生創發學習計畫｜NCHU 匹克球學習社群</p>
+    <p style="margin-top: 4px; opacity: .7;">Inspired by 興生 N-GO 問答指南</p>
+  </footer>
+
+</body>
+</html>
