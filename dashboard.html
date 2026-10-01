@@ -2036,6 +2036,32 @@
           populateCheckinStudents(data.registrations || []);
           renderAttendanceTable(data.attendance || []);
 
+          // 同步雲端器材借還
+          if (data.loans && Array.isArray(data.loans)) {
+            localStorage.setItem('pickleball_loans', JSON.stringify(data.loans));
+            renderLoans();
+          }
+
+          // 同步雲端經費收支
+          if (data.expenses && Array.isArray(data.expenses)) {
+            localStorage.setItem('pickleball_expenses', JSON.stringify(data.expenses));
+            renderExpenses();
+          }
+
+          // 同步雲端幹部筆記 (若雲端有更新內容則帶入)
+          if (data.notes && typeof data.notes === 'object') {
+            ROLES.forEach(r => {
+              if (data.notes[r] && data.notes[r].content) {
+                const cur = localStorage.getItem('pickleball_note_' + r);
+                if (!cur || cur.trim() === '') {
+                  localStorage.setItem('pickleball_note_' + r, data.notes[r].content);
+                  const ta = document.getElementById('note-' + r);
+                  if (ta) ta.value = data.notes[r].content;
+                }
+              }
+            });
+          }
+
           showToast('✅ Google 試算表資料已成功同步！');
         })
         .catch(err => {
@@ -2510,8 +2536,38 @@
       const statusEl = document.getElementById('status-note-' + role);
       if (statusEl) {
         const time = new Date().toLocaleTimeString('zh-TW', { hour12: false });
-        statusEl.innerText = `💾 已自動儲存 (${time})`;
+        statusEl.innerText = `💾 已本地存檔 (${time})`;
       }
+
+      // 雲端同步防抖 (2秒後自動 POST 至 Google 試算表)
+      if (window['noteTimer_' + role]) clearTimeout(window['noteTimer_' + role]);
+      window['noteTimer_' + role] = setTimeout(() => {
+        fetch(getGasUrl(), {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({
+            action: 'save_note',
+            role: role,
+            roleName: getRoleChineseName(role),
+            content: value
+          })
+        }).then(() => {
+          if (statusEl) statusEl.innerText = '☁️ 雲端試算表已同步！';
+        }).catch(err => console.log('Cloud note sync err:', err));
+      }, 2000);
+    }
+
+    function getRoleChineseName(role) {
+      const map = {
+        'convener': '社群召集人 (PM)',
+        'admin': '行政文書組',
+        'finance': '總務財務組',
+        'marketing': '社群行銷組',
+        'media': '活動影音組',
+        'tech': 'AI體感技術組'
+      };
+      return map[role] || role;
     }
 
     function loadNotes() {
@@ -2736,6 +2792,20 @@ ${next}
       document.getElementById('loan-sid').value = '';
       document.getElementById('loan-note').value = '';
       showToast(`已登記「${name}」借用 ${item}！`);
+
+      // 雲端背景寫入
+      fetch(getGasUrl(), {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'add_loan',
+          name: name,
+          sid: sid,
+          item: item,
+          note: note
+        })
+      }).catch(e => console.log('Loan sync err:', e));
     }
 
     function toggleLoanStatus(idx) {
@@ -2744,6 +2814,18 @@ ${next}
         loans[idx].returned = !loans[idx].returned;
         saveLoans(loans);
         showToast(loans[idx].returned ? '已標註為歸還！' : '已標註為借出中！');
+
+        if (loans[idx].rowIndex) {
+          fetch(getGasUrl(), {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              action: 'toggle_loan',
+              rowIndex: loans[idx].rowIndex
+            })
+          }).catch(e => console.log('Loan toggle err:', e));
+        }
       }
     }
 
@@ -2847,6 +2929,20 @@ ${next}
       document.getElementById('exp-amount').value = '';
       document.getElementById('exp-inv').value = '';
       showToast(`已登記支出：${name} NT$ ${amount}！`);
+
+      // 雲端背景寫入
+      fetch(getGasUrl(), {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          action: 'add_expense',
+          name: name,
+          amount: amount,
+          inv: inv,
+          hasTax: hasTax
+        })
+      }).catch(e => console.log('Expense sync err:', e));
     }
 
     function deleteExpenseItem(idx) {
