@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>匹克球學習社群 ＆ 創發競賽｜幹部內部協作工作台 (Dashboard)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #004B97;
+      --primary-dark: #003a75;
+      --mint: #ABDAD5;
+      --mint-light: rgba(171, 218, 213, 0.35);
+      --mint-subtle: rgba(171, 218, 213, 0.15);
+      --text-main: #0F2745;
+      --text-muted: #5b7290;
+      --bg: #F0F8FF;
+      --card-radius: 14px;
+      --pill-radius: 999px;
+      --shadow-sm: 0 2px 8px rgba(15, 39, 69, .07);
+      --shadow-md: 0 8px 24px rgba(15, 39, 69, .10);
+      --rose: #e11d48;
+      --rose-bg: rgba(225, 29, 72, 0.08);
+      --emerald: #059669;
+      --emerald-bg: #ecfdf5;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --purple: #7c3aed;
+      --purple-bg: #f5f3ff;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* 頂部導覽列 (與興生指南 100% 同款設計語彙) */
+    .site-header {
+      position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, .96);
+      backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0, 75, 151, .1);
+      padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 15px;
+      color: var(--primary); text-decoration: none;
+    }
+    .brand-logo {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--primary), var(--mint));
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px;
+    }
+    .nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none; font-size: 12.5px; font-weight: 700; padding: 7px 14px;
+      border-radius: var(--pill-radius); transition: all .22s; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .nav-btn.home { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+    .nav-btn.home:hover { background: var(--mint-light); }
+    .nav-btn.proposal { background: #fff; color: var(--text-muted); border: 1px solid #cbd5e1; }
+    .nav-btn.proposal:hover { color: var(--primary); border-color: var(--primary); }
+    .nav-btn.demo { background: var(--primary); color: #fff; }
+    .nav-btn.demo:hover { background: var(--primary-dark); }
+    .nav-btn.line { background: #06C755; color: #fff; }
+    .nav-btn.ig { background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; }
+
+    /* 主容器 */
+    .container { max-width: 1080px; margin: 28px auto 80px; padding: 0 20px; }
+
+    /* 頂部 Header Card */
+    .dash-hero {
+      background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0, 75, 151, .1); padding: 32px; margin-bottom: 24px; position: relative;
+    }
+    .dash-badge-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700;
+      padding: 4px 12px; border-radius: var(--pill-radius);
+    }
+    .badge-primary { background: var(--primary); color: #fff; }
+    .badge-mint { background: var(--mint-light); color: var(--primary-dark); }
+    .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(217, 119, 6, .2); }
+    .badge-emerald { background: var(--emerald-bg); color: var(--emerald); border: 1px solid rgba(5, 150, 105, .2); }
+
+    .dash-title {
+      font-size: clamp(22px, 3.5vw, 30px); font-weight: 900; line-height: 1.35;
+      color: var(--text-main); margin-bottom: 10px;
+    }
+    .dash-title span { color: var(--primary); }
+    .dash-subtitle { color: var(--text-muted); font-size: 14.5px; margin-bottom: 20px; }
+
+    /* 快捷資訊列 (統編、雙軌進度) */
+    .quick-toolbar {
+      display: flex; flex-wrap: wrap; gap: 12px; padding-top: 18px;
+      border-top: 1px dashed rgba(0, 75, 151, .15); align-items: center; justify-content: space-between;
+    }
+    .quick-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+    .chip {
+      background: var(--bg); border: 1px solid rgba(0, 75, 151, .12); padding: 6px 14px;
+      border-radius: var(--pill-radius); font-size: 13px; font-weight: 700; color: var(--text-main);
+      display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all .2s;
+    }
+    .chip:hover { border-color: var(--primary); background: #fff; transform: translateY(-1px); }
+    .copy-toast {
+      position: fixed; bottom: 24px; right: 24px; background: var(--text-main); color: #fff;
+      padding: 10px 20px; border-radius: var(--pill-radius); font-size: 13.5px; font-weight: 700;
+      box-shadow: var(--shadow-md); z-index: 1000; display: none; align-items: center; gap: 8px;
+    }
+
+    /* 死線倒數看板 */
+    .timeline-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px; margin-bottom: 28px;
+    }
+    .time-card {
+      background: #fff; border-radius: var(--card-radius); padding: 18px;
+      border: 1px solid rgba(0, 75, 151, .08); box-shadow: var(--shadow-sm);
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .time-card.urgent { border-left: 4px solid var(--rose); }
+    .time-card.important { border-left: 4px solid var(--amber); }
+    .time-card.normal { border-left: 4px solid var(--primary); }
+    .time-card.success { border-left: 4px solid var(--emerald); }
+    .time-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+    .time-date { font-size: 12px; font-weight: 900; color: var(--text-muted); }
+    .time-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: var(--pill-radius); }
+    .time-title { font-size: 14.5px; font-weight: 900; color: var(--text-main); margin-bottom: 4px; }
+    .time-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+
+    /* 分頁切換選單 (Tabs) */
+    .dash-tabs {
+      display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px;
+      scrollbar-width: thin;
+    }
+    .tab-btn {
+      white-space: nowrap; background: #fff; border: 1.5px solid rgba(0, 75, 151, .12);
+      color: var(--text-muted); font-size: 13.5px; font-weight: 700; padding: 9px 18px;
+      border-radius: var(--pill-radius); cursor: pointer; transition: all .2s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .tab-btn:hover { color: var(--primary); border-color: var(--primary); }
+    .tab-btn.active {
+      background: var(--primary); color: #fff; border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0, 75, 151, .2);
+    }
+
+    /* 各模組主要內容區 */
+    .tab-pane { display: none; }
+    .tab-pane.active { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .module-card {
+      background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0, 75, 151, .08); padding: 28px; margin-bottom: 24px;
+    }
+    .module-header {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(0, 75, 151, .08);
+      flex-wrap: wrap; gap: 10px;
+    }
+    .module-title { font-size: 19px; font-weight: 900; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+    .module-desc { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
+    .module-source { font-size: 11.5px; font-family: monospace; background: var(--bg); padding: 3px 8px; border-radius: 6px; color: var(--primary); }
+
+    /* 表格樣式 */
+    .table-responsive { overflow-x: auto; margin: 16px 0; border-radius: 8px; border: 1px solid rgba(0, 75, 151, .1); }
+    table { width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left; }
+    th { background: #f8fafc; color: var(--text-muted); font-weight: 700; padding: 12px 14px; border-bottom: 1px solid rgba(0, 75, 151, .1); white-space: nowrap; }
+    td { padding: 12px 14px; border-bottom: 1px solid rgba(0, 75, 151, .06); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(171, 218, 213, 0.08); }
+
+    /* 任務檢核勾選清單 (Checklist) */
+    .todo-list { list-style: none; margin: 16px 0; }
+    .todo-item {
+      display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px;
+      background: var(--bg); border-radius: 8px; margin-bottom: 8px; transition: all .2s;
+    }
+    .todo-item:hover { background: #e8f4fc; }
+    .todo-checkbox { margin-top: 5px; width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
+    .todo-text { font-size: 13.5px; font-weight: 500; color: var(--text-main); flex: 1; }
+    .todo-item.done .todo-text { text-decoration: line-through; color: var(--text-muted); }
+
+    /* 區塊提示框 (Alert / Callout) */
+    .callout {
+      padding: 14px 18px; border-radius: 10px; font-size: 13.5px; line-height: 1.6;
+      margin: 16px 0; display: flex; gap: 10px; align-items: flex-start;
+    }
+    .callout-info { background: var(--bg); border-left: 4px solid var(--primary); color: var(--text-main); }
+    .callout-warning { background: var(--amber-bg); border-left: 4px solid var(--amber); color: #92400e; }
+    .callout-danger { background: var(--rose-bg); border-left: 4px solid var(--rose); color: #9f1239; }
+
+    /* 一鍵複製按鈕 */
+    .btn-copy {
+      background: #fff; border: 1px solid rgba(0, 75, 151, .2); color: var(--primary);
+      font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: var(--pill-radius);
+      cursor: pointer; transition: all .2s; display: inline-flex; align-items: center; gap: 4px;
+    }
+    .btn-copy:hover { background: var(--primary); color: #fff; }
+
+    /* 雲端硬碟目錄樹狀圖 */
+    .folder-tree {
+      background: #1e293b; color: #f8fafc; padding: 18px 20px; border-radius: 10px;
+      font-family: monospace; font-size: 12.5px; line-height: 1.6; overflow-x: auto;
+    }
+
+    /* 響應式優化 */
+    @media (max-width: 768px) {
+      .site-header { padding: 10px 16px; }
+      .container { padding: 0 14px; margin-top: 18px; }
+      .dash-hero { padding: 22px 18px; }
+      .module-card { padding: 18px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── 頂部導覽列 ── -->
+  <header class="site-header">
+    <a href="index.html" class="brand">
+      <div class="brand-logo">🏓</div>
+      <span>NCHU 匹克球社群 ＆ 創發計畫</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn home">📢 招募首頁</a>
+      <a href="proposal.html" class="nav-btn proposal">📄 計畫書草案</a>
+      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="nav-btn demo">🎮 體感 Demo</a>
+      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="nav-btn line">💬 官方 LINE</a>
+      <a href="https://www.instagram.com/nchupickleball_lab1.0" target="_blank" class="nav-btn ig">📸 IG</a>
+    </div>
+  </header>
+
+  <!-- ── 主容器 ── -->
+  <main class="container">
+
+    <!-- 頂部概覽卡片 -->
+    <div class="dash-hero">
+      <div class="dash-badge-group">
+        <span class="badge badge-primary">🛠️ 幹部專屬內部協作工作台</span>
+        <span class="badge badge-mint">中興大學 115-1</span>
+        <span class="badge badge-emerald">雙軌計畫進行中</span>
+        <span class="badge badge-amber">純前端靜態運作 (零伺服器依賴)</span>
+      </div>
+      <h1 class="dash-title">匹克球學習社群 ＆ 創發競賽 <span>專案管理儀表板</span></h1>
+      <p class="dash-subtitle">
+        整合幕後總管 RACI 分工、行政計畫申請、總務經費核銷、影音分鏡腳本、社群行銷與 AI 體感技術清單。一站式掌握全專案 14 份 Markdown 核心文件！
+      </p>
+
+      <div class="quick-toolbar">
+        <div class="quick-chips">
+          <div class="chip" onclick="copyText('52003803', '中興大學學校統編 (52003803) 已複製！')">
+            <span>🏫 學校統編：<strong>52003803</strong></span>
+            <span style="color: var(--primary); font-size: 11px;">(點擊複製)</span>
+          </div>
+          <div class="chip" onclick="copyText('匹克球 AI 體感互動教學與動作特徵實證研習社群', '學習社群全稱已複製！')">
+            <span>🏷️ 計畫A名稱：<strong>匹克球 AI 體感互動教學...</strong></span>
+            <span style="color: var(--primary); font-size: 11px;">(複製)</span>
+          </div>
+          <div class="chip" onclick="copyText('PickleFit AI：基於 MediaPipe 骨骼辨識之匹克球免穿戴體感遊戲', '創發競賽全稱已複製！')">
+            <span>🚀 計畫B名稱：<strong>PickleFit AI 體感競賽...</strong></span>
+            <span style="color: var(--primary); font-size: 11px;">(複製)</span>
+          </div>
+        </div>
+        <div>
+          <button class="btn-copy" onclick="window.print()">🖨️ 列印/儲存此儀表</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 關鍵里程碑死線看板 -->
+    <div class="timeline-grid">
+      <div class="time-card urgent">
+        <div class="time-header">
+          <span class="time-date">2026/09/22 (二)</span>
+          <span class="time-tag" style="background: var(--rose-bg); color: var(--rose);">硬死線</span>
+        </div>
+        <div class="time-title">🚀 3萬元創發計畫系統送件</div>
+        <div class="time-desc">MediaPipe 體感競賽軌，需 1/2 為興大學生，含 GPU 算力 7,500 元編列。</div>
+      </div>
+
+      <div class="time-card urgent">
+        <div class="time-header">
+          <span class="time-date">2026/10/02 (五)</span>
+          <span class="time-tag" style="background: var(--rose-bg); color: var(--rose);">硬死線</span>
+        </div>
+        <div class="time-title">🏓 1萬元學習社群送件截止</div>
+        <div class="time-desc">教發中心學習社群系統線上申請，召集人完成用印並確認審核送出。</div>
+      </div>
+
+      <div class="time-card important">
+        <div class="time-header">
+          <span class="time-date">2026/11/30 (一)</span>
+          <span class="time-tag" style="background: var(--amber-bg); color: var(--amber);">財務檢核</span>
+        </div>
+        <div class="time-title">💰 器材採購與經費單據結算</div>
+        <div class="time-desc">確認所有發票具備統編 52003803，完成採購黏存單與核銷初審。</div>
+      </div>
+
+      <div class="time-card normal">
+        <div class="time-header">
+          <span class="time-date">2026/12/25 (五)</span>
+          <span class="time-tag" style="background: var(--mint-light); color: var(--primary-dark);">成果結案</span>
+        </div>
+        <div class="time-title">🎬 成果影片繳交與期末發表會</div>
+        <div class="time-desc">3~10分鐘 1080P 成果影片粗剪完成，出席教發中心實體發表展覽。</div>
+      </div>
+    </div>
+
+    <!-- 分頁導航列 (Tabs) -->
+    <div class="dash-tabs" id="tabNav">
+      <button class="tab-btn active" onclick="switchTab('tab-sop')">👑 總管 SOP 與組織</button>
+      <button class="tab-btn" onclick="switchTab('tab-admin')">📝 行政文書 (申請與紀錄)</button>
+      <button class="tab-btn" onclick="switchTab('tab-finance')">💰 總務器材與經費預算</button>
+      <button class="tab-btn" onclick="switchTab('tab-media')">🎥 活動影音 (影片分鏡)</button>
+      <button class="tab-btn" onclick="switchTab('tab-marketing')">📢 社群行銷 (LINE與文案)</button>
+      <button class="tab-btn" onclick="switchTab('tab-tech')">💻 技術與競賽清單</button>
+      <button class="tab-btn" onclick="switchTab('tab-cloud')">☁️ Google 雲端權限架構</button>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB 1: 總管 SOP 與組織 -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane active" id="tab-sop">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">👑 幕後總管 RACI 權限矩陣與指揮公約</div>
+            <div class="module-desc">核心思維：幕後指揮制定架構與草案，前台幹部專注在 Google Drive 填空與執行</div>
+          </div>
+          <span class="module-source">來源：00_總管理手冊_SOP/README_總管理SOP.md</span>
+        </div>
+
+        <div class="callout callout-info">
+          <div>
+            <strong>💡 協作三大防呆公約：</strong><br>
+            1. <strong>幕後黑盒原則</strong>：總管掌握核心 SOP，釋出給組員時統一放在 Google Drive，組員只需「填空」與「上傳照片」，無思考架構負擔。<br>
+            2. <strong>單據即時拍照原則</strong>：總務採購任何耗材，結帳當天必須立刻拍照上傳雲端「待核銷資料夾」，避免發票遺失或漏開統編。<br>
+            3. <strong>活動當日結清原則</strong>：聚會結束後 24 小時內，影音組將原檔丟入雲端；行政組於 48 小時內完成簽到名單確認。
+          </div>
+        </div>
+
+        <h4 style="margin: 20px 0 8px; font-weight: 900;">📋 核心角色職責 RACI 矩陣表</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>工作事項 / 產出物</th>
+                <th>幕後總管 (你)</th>
+                <th>掛名召集人</th>
+                <th>行政文書組</th>
+                <th>總務器材組</th>
+                <th>活動紀錄組</th>
+                <th>交付工具</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>計畫申請書草案撰寫</strong></td>
+                <td><span class="badge badge-primary">A / R 統籌主筆</span></td>
+                <td>C (諮詢)</td>
+                <td>I (知會)</td>
+                <td>I</td>
+                <td>I</td>
+                <td>本地 Markdown + AI</td>
+              </tr>
+              <tr>
+                <td><strong>系統正式送件與簽章</strong></td>
+                <td>I (知會)</td>
+                <td><span class="badge badge-rose" style="background:var(--rose-bg);color:var(--rose);">A / R 系統送件</span></td>
+                <td>C</td>
+                <td>I</td>
+                <td>I</td>
+                <td>教發中心系統 / 紙本</td>
+              </tr>
+              <tr>
+                <td><strong>修課清單與成員資格審查</strong></td>
+                <td>A (最終確認)</td>
+                <td>C</td>
+                <td><span class="badge badge-emerald">R 執行統計</span></td>
+                <td>I</td>
+                <td>I</td>
+                <td>Google Sheets</td>
+              </tr>
+              <tr>
+                <td><strong>場地預約與器材調度</strong></td>
+                <td>A</td>
+                <td>I</td>
+                <td>I</td>
+                <td><span class="badge badge-emerald">R 預約保管</span></td>
+                <td>I</td>
+                <td>LINE / Google Sheets</td>
+              </tr>
+              <tr>
+                <td><strong>聚會簽到與活動紀錄表填寫</strong></td>
+                <td>A (初審)</td>
+                <td>I</td>
+                <td><span class="badge badge-emerald">R 撰寫送件</span></td>
+                <td>I</td>
+                <td>C (提供照片)</td>
+                <td>Google Docs (標準模板)</td>
+              </tr>
+              <tr>
+                <td><strong>經費採購與發票黏存單</strong></td>
+                <td>A (審查)</td>
+                <td>C</td>
+                <td>I</td>
+                <td><span class="badge badge-emerald">R 採購報帳</span></td>
+                <td>I</td>
+                <td>實體單據 + 記帳試算表</td>
+              </tr>
+              <tr>
+                <td><strong>期末成果影片 (3-10分鐘)</strong></td>
+                <td>A (驗收)</td>
+                <td>I</td>
+                <td>C</td>
+                <td>I</td>
+                <td><span class="badge badge-emerald">R 拍攝剪輯</span></td>
+                <td>CapCut / Premiere / 雲端</td>
+              </tr>
+              <tr>
+                <td><strong>期末成果發表會出席</strong></td>
+                <td>C</td>
+                <td><span class="badge badge-primary">A / R 簡報</span></td>
+                <td>R (出席)</td>
+                <td>R (出席)</td>
+                <td>R (出席)</td>
+                <td>教發中心發表會現場</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB 2: 行政文書組 (申請與紀錄) -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-admin">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">📝 行政文書組核心工具與填報模板</div>
+            <div class="module-desc">負責計畫申請書送件、歷次聚會討論紀錄表填報與成員簽到確認</div>
+          </div>
+          <span class="module-source">來源：01_計畫申請與核銷_教發中心 / 02_聚會紀錄與簽到</span>
+        </div>
+
+        <h4 style="margin: 16px 0 8px; font-weight: 900;">📌 學習社群 6 次預訂聚會排程大綱</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>次數</th>
+                <th>時程週次</th>
+                <th>主題內容</th>
+                <th>預期產出與紀錄</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>第 1 次</strong></td>
+                <td>10月中旬 (第5週)</td>
+                <td>社群啟動會議、匹克球基礎規則講解與持拍擊球手感初測</td>
+                <td>簽到表、活動照片 4~6 張、討論紀錄表</td>
+              </tr>
+              <tr>
+                <td><strong>第 2 次</strong></td>
+                <td>10月下旬 (第7週)</td>
+                <td>非截擊區（Kitchen / NVZ）截擊與第三拍切球（3rd Shot Drop）實作訓練</td>
+                <td>簽到表、新手動作痛點分析記錄表</td>
+              </tr>
+              <tr>
+                <td><strong>第 3 次</strong></td>
+                <td>11月上旬 (第9週)</td>
+                <td>高速影像動作特徵採集（120/240fps）與 MediaPipe 骨骼節點標記實作</td>
+                <td>關節序列數據標註檔、採集側拍照片</td>
+              </tr>
+              <tr>
+                <td><strong>第 4 次</strong></td>
+                <td>11月中旬 (第11週)</td>
+                <td>AI 體感遊戲教學系統實測、跨系新手試玩反饋與動作打分準確度驗證</td>
+                <td>學員回饋問卷、體感遊玩錄影片段</td>
+              </tr>
+              <tr>
+                <td><strong>第 5 次</strong></td>
+                <td>11月下旬 (第13週)</td>
+                <td>雙打戰術演練（Stacking 站位）與模擬對抗賽、期末成果影片素材訪談錄製</td>
+                <td>全員個人訪談短片 (1080P)、對抗賽成績</td>
+              </tr>
+              <tr>
+                <td><strong>第 6 次</strong></td>
+                <td>12月中旬 (第15週)</td>
+                <td>社群成果總結回顧、成果影片審查與期末發表會壁報簡報演練</td>
+                <td>成果影片初剪版、海報完稿檔、結案心得</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <h4 style="font-weight: 900; margin-bottom: 8px;">📋 行政組待辦檢核清單</h4>
+          <ul class="todo-list" id="todo-admin">
+            <li class="todo-item">
+              <input type="checkbox" class="todo-checkbox" onchange="toggleTodo(this)">
+              <span class="todo-text">確認 5~10 位成員學生證影本/學號清單，檢查有無衝堂與跨系比例</span>
+            </li>
+            <li class="todo-item">
+              <input type="checkbox" class="todo-checkbox" onchange="toggleTodo(this)">
+              <span class="todo-text">取得指導老師（許銘華助理教授）與總教練（林冠辰教練）簽章</span>
+            </li>
+            <li class="todo-item">
+              <input type="checkbox" class="todo-checkbox" onchange="toggleTodo(this)">
+              <span class="todo-text">10/02 前至教發中心系統完成申請書線上送件並列印簽核</span>
+            </li>
+            <li class="todo-item">
+              <input type="checkbox" class="todo-checkbox" onchange="toggleTodo(this)">
+              <span class="todo-text">每次聚會印出紙本簽到表，結束後 48 小時內填寫完討論紀錄表上傳 Google Drive</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB 3: 總務器材與經費預算 -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-finance">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">💰 總務器材組：經費預算編列與核銷指南</div>
+            <div class="module-desc">嚴格遵守學校統編 52003803，專案 A (1萬) 與 專案 B (3萬) 獨立分開報支</div>
+          </div>
+          <span class="module-source">來源：專案A預算 / 專案B預算 / 03_器材管理</span>
+        </div>
+
+        <div class="callout callout-warning">
+          <div>
+            <strong>⚠️ 報帳黃金法則（少一個步驟就無法核銷！）：</strong><br>
+            • <strong>統編必填</strong>：所有發票（電子發票證明聯 / 傳統三聯式 / 免用統一發票收據）必須打上 <strong>52003803</strong>。<br>
+            • <strong>買完當天拍照</strong>：總務購買當天立刻拍照上傳雲端硬碟「待核銷單據區」。<br>
+            • <strong>品名不可寫「文具一批」</strong>：必須有明確明細（如：匹克球 20 顆、球拍握把布、高速記憶卡）。
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 16px;">
+          <!-- 專案 A 預算 -->
+          <div style="border: 1px solid rgba(0, 75, 151, .12); border-radius: 10px; padding: 18px; background: #fafcff;">
+            <h4 style="font-weight: 900; color: var(--primary); margin-bottom: 8px;">🏓 專案 A：1 萬元學習社群預算</h4>
+            <div class="table-responsive">
+              <table>
+                <tr><th>項目</th><th>說明</th><th>金額</th></tr>
+                <tr><td>消耗性耗材</td><td>40孔戶外標準比賽球 20 顆、拍柄吸汗握把布 10 入、白貼與冰敷包</td><td>$4,000</td></tr>
+                <tr><td>數據儲存耗材</td><td>SanDisk Extreme 128GB 高速 MicroSDXC 記憶卡 (U3/V30) × 3 片</td><td>$1,800</td></tr>
+                <tr><td>成果展示輸出</td><td>期末發表會高解析度直立式海報大圖輸出與展架印刷費</td><td>$1,200</td></tr>
+                <tr><td>研習誤餐費</td><td>6 次專題研習會議便當 (符合補助上限規定 30% 內)</td><td>$3,000</td></tr>
+                <tr style="font-weight: 900; background: var(--mint-light);"><td>總計</td><td>滿額申請</td><td>$10,000</td></tr>
+              </table>
+            </div>
+          </div>
+
+          <!-- 專案 B 預算 -->
+          <div style="border: 1px solid rgba(0, 75, 151, .12); border-radius: 10px; padding: 18px; background: #fafcff;">
+            <h4 style="font-weight: 900; color: var(--rose); margin-bottom: 8px;">🚀 專案 B：3 萬元創發競賽預算</h4>
+            <div class="table-responsive">
+              <table>
+                <tr><th>項目</th><th>說明</th><th>金額</th></tr>
+                <tr><td>雲端 GPU 算力</td><td>GPUtw.ai 台灣雲端 GPU 算力租借 (微調動作評估模型)</td><td>$7,500</td></tr>
+                <tr><td>校內外專家指導</td><td>外聘業界/體育科技專家諮詢指導鐘點費 (2,000元/時 × 4小時)</td><td>$8,000</td></tr>
+                <tr><td>競賽報名與材料</td><td>大專創新創業競賽報名費、高畫質實測採集耗材、展品打樣</td><td>$10,500</td></tr>
+                <tr><td>差旅與調研交通</td><td>前往台北/高雄出賽評選之高鐵/台鐵交通補貼</td><td>$4,000</td></tr>
+                <tr style="font-weight: 900; background: var(--rose-bg);"><td>總計</td><td>滿額申請</td><td>$30,000</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <h4 style="margin: 24px 0 8px; font-weight: 900;">🏸 現有器材資產庫存盤點 (承接 114-2)</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>編號</th>
+                <th>品名規格</th>
+                <th>數量</th>
+                <th>現況良好度</th>
+                <th>存放位置</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>NET-01 ~ 02</td>
+                <td>迪卡儂 5 米寬多功能匹克球網 (附支架與收納袋)</td>
+                <td>2 組</td>
+                <td><span class="badge badge-emerald">良好</span></td>
+                <td>社團庫房防潮箱</td>
+              </tr>
+              <tr>
+                <td>PAD-01 ~ 06</td>
+                <td>PIKOMI 楊木匹克球新手拍</td>
+                <td>6 支</td>
+                <td><span class="badge badge-mint">正常 (握把微損)</span></td>
+                <td>球袋 A</td>
+              </tr>
+              <tr>
+                <td>PAD-07</td>
+                <td>SLK Valkyrie 玻璃纖維進階拍</td>
+                <td>1 支</td>
+                <td><span class="badge badge-emerald">優良</span></td>
+                <td>球袋 B</td>
+              </tr>
+              <tr>
+                <td>PAD-08</td>
+                <td>PIKOGEN T7000 磨砂碳纖維 16mm 控球拍</td>
+                <td>1 支</td>
+                <td><span class="badge badge-emerald">優良</span></td>
+                <td>球袋 B</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB 4: 活動影音組 (影片分鏡) -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-media">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">🎥 活動紀錄與影音組：期末成果影片指南</div>
+            <div class="module-desc">母法規範：片長 3 至 10 分鐘，格式 1080P，必備主題介紹、歷程紀錄、全員心得</div>
+          </div>
+          <span class="module-source">來源：04_成果影片與宣傳物料/01_期末成果影片腳本分鏡大綱.md</span>
+        </div>
+
+        <h4 style="margin: 16px 0 8px; font-weight: 900;">🎬 建議 4 幕分鏡腳本架構 (總長約 4 分 30 秒)</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>幕次</th>
+                <th>時間</th>
+                <th>畫面內容 (視覺)</th>
+                <th>音樂 / 節奏</th>
+                <th>口白 / 訪談文字重點</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>第 1 幕</strong></td>
+                <td>0:00 - 0:45</td>
+                <td><strong>片頭與主題介紹</strong><br>• 快剪慢動作擊球畫面<br>• 計畫名稱、指導老師字卡</td>
+                <td>明快活潑之無版權 BGM</td>
+                <td>旁白：為什麼我們在興大推動匹克球？從 114-2 的器材初測到這學期模組化推廣...</td>
+              </tr>
+              <tr>
+                <td><strong>第 2 幕</strong></td>
+                <td>0:45 - 2:00</td>
+                <td><strong>社群歷程記錄 (練球精華)</strong><br>• 4~6 次實體聚會剪影<br>• 廚房區步伐實測、Dink 拉鋸<br>• 許銘華老師與林教練指導</td>
+                <td>節奏穩定推進</td>
+                <td>旁白解說：我們如何拆解新手教學痛點？高速攝影動作捕捉與數據分析...</td>
+              </tr>
+              <tr>
+                <td><strong>第 3 幕</strong></td>
+                <td>2:00 - 3:45</td>
+                <td><strong>全體成員心得與反思 (審查必看！)</strong><br>• 每位成員個人訪談特寫 (每人 15~20s)<br>• 標示「系級 / 姓名 / 負責職務」</td>
+                <td>音樂轉弱為襯底</td>
+                <td>依序收錄企管、化學、運健、物理、土木等成員心得：「跨系協作讓我跳脫原本框架...」</td>
+              </tr>
+              <tr>
+                <td><strong>第 4 幕</strong></td>
+                <td>3:45 - 4:30</td>
+                <td><strong>成果總結與未來展望</strong><br>• 期末友誼賽剪影與大合照<br>• 鳴謝：教發中心、體育室</td>
+                <td>高潮漸強收尾</td>
+                <td>感謝教發中心的支持，讓匹克球在興大校園生根發芽！歡迎更多夥伴加入！</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB 5: 社群行銷組 (LINE與文案) -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-marketing">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">📢 社群行銷組：LINE 官方帳號與推廣文案庫</div>
+            <div class="module-desc">負責校園社群曝光、IG 粉專運營、LINE 官方帳號自動關鍵字回覆</div>
+          </div>
+          <span class="module-source">來源：06_數位產品與社群營運 / 專案B招募文案</span>
+        </div>
+
+        <div class="callout callout-info">
+          <div>
+            <strong>🔥 行銷系夥伴專屬發揮舞台：</strong><br>
+            目前團隊已打好所有技術與行政底層，最缺的就是<strong>「能把好東西包裝說出去的人」</strong>！你可以全權主導 IG 視覺調性、設計文案、參與大專競賽 Pitch 簡報設計！
+          </div>
+        </div>
+
+        <h4 style="margin: 20px 0 8px; font-weight: 900;">💬 官方 LINE 圖文選單 6 宮格配置企劃</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>位置</th>
+                <th>按鈕名稱</th>
+                <th>觸發動作 / 連結目標</th>
+                <th>文案重點</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>A 格 (左上)</strong></td><td>🏓 什麼是匹克球？</td><td>回覆介紹圖卡 + 新手影片</td><td>最容易上手的新興球類，網球+桌球+羽球合體！</td></tr>
+              <tr><td><strong>B 格 (中上)</strong></td><td>🎮 玩 3D 體感遊戲</td><td>開啟 V4 Demo 網頁</td><td>免安裝，手機/筆電鏡頭一照立刻體感揮拍打球！</td></tr>
+              <tr><td><strong>C 格 (右上)</strong></td><td>👥 115-1 招募戰友</td><td>開啟本專案招募頁 index.html</td><td>四大角色免門檻招募中，歡迎跨系加入！</td></tr>
+              <tr><td><strong>D 格 (左下)</strong></td><td>📅 練球時程與地點</td><td>回覆 Google 行事曆</td><td>惠蓀堂旁匹克球場 / 體育館練球排程</td></tr>
+              <tr><td><strong>E 格 (中下)</strong></td><td>🏆 競賽與社群成果</td><td>展示 114-2 期末影片與獎狀</td><td>展現跨領域研究與體育科技創發成果</td></tr>
+              <tr><td><strong>F 格 (右下)</strong></td><td>🙋 真人客服小編</td><td>轉由真人幹部一對一聊天</td><td>解答社群加入疑問、借拍諮詢</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div style="margin-top: 20px;">
+          <h4 style="font-weight: 900; margin-bottom: 8px;">📋 社群行銷即用短文案 (點擊複製)</h4>
+          <div style="background: var(--bg); padding: 14px; border-radius: 8px; border: 1px dashed rgba(0,75,151,.2);">
+            <p id="promo-text" style="font-size: 13px; line-height: 1.6; color: var(--text-main);">
+              【中興匹克球 115-1 戰友募集！】🎾 覺得匹克球很夯但沒人陪你打？想跨領域玩 AI 體感卻怕自己沒底子？<br>
+              身為文組的我，跟 AI 協作都手刻出 3D 體感遊戲 MVP 了！你絕對比我更強！<br>
+              🔥 歡迎：AI 探索者（免費玩 GPU 算力）、前端新手、超級急缺的行銷高手、以及行政核銷神隊友！<br>
+              👉 立即線上看專案詳情：https://kalmangoose.github.io/nchu_pikleball-V4/
+            </p>
+            <button class="btn-copy" style="margin-top: 10px;" onclick="copyText(document.getElementById('promo-text').innerText, '社群招募短文已複製！可直接轉發至 LINE 或 IG！')">📋 複製這段短文案</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB 6: 技術開發與競賽清單 -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-tech">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">💻 技術開發組：AI 體感遊戲 Backlog 與競賽標的</div>
+            <div class="module-desc">核心技術棧：Three.js 3D 視差球場 + MediaPipe Pose 33 關鍵點 + GPUtw.ai 動作時序微調</div>
+          </div>
+          <span class="module-source">來源：06_數位產品/03_遊戲化互動網站 / 專案B競賽標的</span>
+        </div>
+
+        <div class="callout callout-info">
+          <div>
+            <strong>💡 MVP 精神：跑得動完全不等於能用！</strong><br>
+            目前 Demo V4 已經實現：興大學號正規化登入、Three.js 3D 球場渲染、MediaPipe 基礎姿態捕捉。<br>
+            接下來重點是：<strong>解決 30fps 殘影動態模糊</strong>、<strong>引入高速攝影採集</strong>、<strong>微調揮拍時序評估模型</strong>。
+          </div>
+        </div>
+
+        <h4 style="margin: 20px 0 8px; font-weight: 900;">🛠️ 遊戲化系統待開發清單 (Product Backlog)</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>優先級</th>
+                <th>功能模組</th>
+                <th>技術方案</th>
+                <th>驗收標準</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="badge badge-rose" style="background:var(--rose-bg);color:var(--rose);">P0 最高</span></td>
+                <td>揮拍動態防殘影算法</td>
+                <td>指數移動平滑 (EMA) + 向量位移預測</td>
+                <td>手腕高速揮動時關節節點不再劇烈抖動</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-primary">P1 重要</span></td>
+                <td>33 點時序特徵採集格式化</td>
+                <td>JSON / CSV 導出 (包含時間戳、3D 座標)</td>
+                <td>能一次採集連續 60 幀動作序列</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-primary">P1 重要</span></td>
+                <td>GPUtw.ai 雲端環境建置</td>
+                <td>PyTorch / ST-GCN 時序圖卷積神經網路</td>
+                <td>推論延遲低於 50ms</td>
+              </tr>
+              <tr>
+                <td><span class="badge badge-mint">P2 次要</span></td>
+                <td>3D 球場材質美化與擊球特效</td>
+                <td>Three.js Shader / 粒子火花特效</td>
+                <td>完美擊球時畫面呈現暴擊震動視覺反饋</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h4 style="margin: 24px 0 8px; font-weight: 900;">🏆 專案 B 推薦出賽大專競賽標的名單</h4>
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th>競賽名稱</th>
+                <th>主辦單位</th>
+                <th>競賽類別</th>
+                <th>參賽切入亮點</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>戰國策全國創新創業競賽</strong></td>
+                <td>中華創業育成協會</td>
+                <td>科技創新組 / 學生自造組</td>
+                <td>AI 運動科技下沉市場、校園免穿戴普及化教學</td>
+              </tr>
+              <tr>
+                <td><strong>大專校院資訊應用創新競賽</strong></td>
+                <td>數位發展部 / 教育部</td>
+                <td>智慧運動休閒創新組</td>
+                <td>MediaPipe 33 節點姿態判定結合 3D 遊戲闖關</td>
+              </tr>
+              <tr>
+                <td><strong>教育部大專校院創客運動與體育科技競賽</strong></td>
+                <td>教育部體育署</td>
+                <td>智慧運動訓練組</td>
+                <td>結合興大林教練 Benchmark 動作力學標準與 ST-GCN 模型</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ────────────────────────────────────────────── -->
+    <!-- TAB 7: Google 雲端權限架構 -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane" id="tab-cloud">
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">☁️ Google 雲端硬碟同步架構與權限規劃</div>
+            <div class="module-desc">雲端是前台幹部的唯一輸入窗口，你只需要定期同步回本地即可</div>
+          </div>
+          <span class="module-source">來源：05_Google雲端同步架構/README_雲端硬碟權限劃分指南.md</span>
+        </div>
+
+        <div class="folder-tree">
+📁 115-1 匹克球學習社群 (NCHU)/
+├── 📌 00_【全體必讀】幹部職責與重要死線.gdoc
+│
+├── 📁 01_行政文書組 (簽到與紀錄)/
+│   ├── 📋 社群成員通訊錄與修課清單.gsheet (全體檢視 / 行政編輯)
+│   ├── 📝 每次聚會討論紀錄表 (填報專區)/
+│   └── 📑 歷次紙本簽到表掃描檔 (PDF/JPG)/
+│
+├── 📁 02_總務器材組 (單據與物資)/
+│   ├── 💰 115-1 經費收支與採購登記表.gsheet (總務編輯 / 總管審核)
+│   ├── 🧾 發票收據拍照上傳區 (買完當天拍照)/
+│   └── 🏓 球拍與器材借還登記表.gsheet
+│
+├── 📁 03_活動影音組 (相片與成果影片)/
+│   ├── 📸 歷次活動高畫質照片原檔 (依日期分類)/
+│   ├── 🎬 成果影片素材 (成員採訪短片 1080P)/
+│   └── 🎞️ 期末成果影片剪輯成品區/
+│
+└── 📁 04_教學與活動企劃/
+    ├── 📖 匹克球新手訓練菜單.gdoc
+    └── 🏆 期末交流賽活動簡章.gdoc
+        </div>
+
+        <div style="margin-top: 18px;">
+          <h4 style="font-weight: 900; margin-bottom: 6px;">🔒 權限防呆原則：</h4>
+          <p style="font-size: 13.5px; color: var(--text-muted);">
+            • <strong>幕後總管 (你)</strong>：擁有最高擁有者 (Owner) 權限，隨時備份。<br>
+            • <strong>前台幹部</strong>：設定為「編輯者」，但禁止刪除母資料夾，僅在所屬組別上傳。<br>
+            • <strong>一般社員</strong>：設定為「僅限檢視」，防止誤刪活動紀錄與照片。
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- 浮動提示 Toast -->
+  <div class="copy-toast" id="toast">
+    <span>✅</span>
+    <span id="toast-msg">已複製到剪貼簿！</span>
+  </div>
+
+  <script>
+    // Tab 切換邏輯
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.remove('active'));
+
+      event.currentTarget.classList.add('active');
+      const targetPane = document.getElementById(tabId);
+      if (targetPane) {
+        targetPane.classList.add('active');
+      }
+    }
+
+    // 複製文字至剪貼簿
+    function copyText(text, successMsg) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(successMsg || '已成功複製！');
+      }).catch(err => {
+        // Fallback for older browsers
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+        showToast(successMsg || '已成功複製！');
+      });
+    }
+
+    // 顯示 Toast 訊息
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toast-msg');
+      toastMsg.innerText = msg;
+      toast.style.display = 'inline-flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2500);
+    }
+
+    // Todo Checklist 狀態保存 (使用 localStorage)
+    function toggleTodo(checkbox) {
+      const item = checkbox.closest('.todo-item');
+      if (checkbox.checked) {
+        item.classList.add('done');
+      } else {
+        item.classList.remove('done');
+      }
+      saveTodos();
+    }
+
+    function saveTodos() {
+      const states = [];
+      document.querySelectorAll('.todo-checkbox').forEach((cb, idx) => {
+        states.push(cb.checked);
+      });
+      localStorage.setItem('pickleball_dashboard_todos', JSON.stringify(states));
+    }
+
+    function loadTodos() {
+      const saved = localStorage.getItem('pickleball_dashboard_todos');
+      if (saved) {
+        try {
+          const states = JSON.parse(saved);
+          document.querySelectorAll('.todo-checkbox').forEach((cb, idx) => {
+            if (states[idx]) {
+              cb.checked = true;
+              cb.closest('.todo-item').classList.add('done');
+            }
+          });
+        } catch (e) {}
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', loadTodos);
+  </script>
+</body>
+</html>
