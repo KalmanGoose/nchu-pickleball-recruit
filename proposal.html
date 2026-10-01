@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>115-1 學生學習社群計畫申請書 (定稿版)｜匹克球 AI 體感互動教學</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #004B97;
+      --primary-dark: #003a75;
+      --mint: #ABDAD5;
+      --mint-light: rgba(171, 218, 213, 0.35);
+      --text-main: #0F2745;
+      --text-muted: #5b7290;
+      --bg: #F0F8FF;
+      --card-radius: 14px;
+      --pill-radius: 999px;
+      --shadow-sm: 0 2px 8px rgba(15, 39, 69, .08);
+      --shadow-md: 0 8px 24px rgba(15, 39, 69, .12);
+      --rose: #e11d48;
+      --rose-bg: rgba(225, 29, 72, 0.08);
+      --emerald: #059669;
+      --emerald-bg: #ecfdf5;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* 頂部導覽列 */
+    .site-header {
+      position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, .95);
+      backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 75, 151, .1);
+      padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 15px;
+      color: var(--primary); text-decoration: none;
+    }
+    .brand-logo {
+      width: 32px; height: 32px; border-radius: 9px;
+      background: linear-gradient(135deg, var(--primary), var(--mint));
+      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px;
+    }
+    .nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .nav-btn {
+      text-decoration: none; font-size: 12.5px; font-weight: 700; padding: 7px 14px;
+      border-radius: var(--pill-radius); transition: all .22s; display: inline-flex; align-items: center; gap: 5px;
+    }
+    .nav-btn.home { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
+    .nav-btn.home:hover { background: var(--mint-light); }
+    .nav-btn.demo { background: var(--primary); color: #fff; }
+    .nav-btn.demo:hover { background: var(--primary-dark); }
+    .nav-btn.print { background: #475569; color: #fff; cursor: pointer; border: none; }
+    .nav-btn.print:hover { background: #334155; }
+
+    /* 主容器 */
+    .container {
+      max-width: 920px; margin: 32px auto 60px; padding: 0 20px;
+    }
+
+    /* 頂部 Header Card */
+    .doc-hero {
+      background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0, 75, 151, .1); padding: 36px 32px; margin-bottom: 28px;
+    }
+    .doc-badge-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
+    .doc-badge {
+      display: inline-block; font-size: 12px; font-weight: 700; padding: 4px 12px;
+      border-radius: var(--pill-radius);
+    }
+    .doc-badge.primary { background: var(--primary); color: #fff; }
+    .doc-badge.mint { background: var(--mint-light); color: var(--primary-dark); }
+    .doc-badge.emerald { background: var(--emerald-bg); color: var(--emerald); border: 1px solid rgba(5, 150, 105, 0.2); }
+    .doc-title {
+      font-size: clamp(22px, 3.6vw, 32px); font-weight: 900; line-height: 1.35;
+      color: var(--text-main); margin-bottom: 16px;
+    }
+    .doc-title span { color: var(--primary); }
+
+    .meta-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px; margin-top: 20px; padding-top: 20px; border-top: 1px dashed rgba(0, 75, 151, .15);
+    }
+    .meta-item { font-size: 13.5px; }
+    .meta-label { color: var(--text-muted); font-size: 12px; display: block; margin-bottom: 2px; }
+    .meta-value { font-weight: 700; color: var(--text-main); }
+    .meta-value.highlight { color: var(--primary); font-size: 15px; }
+
+    /* 內容區塊卡片 */
+    .doc-section {
+      background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
+      border: 1px solid rgba(0, 75, 151, .08); padding: 32px; margin-bottom: 28px;
+    }
+    .section-title {
+      font-size: 19px; font-weight: 900; color: var(--primary);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 20px;
+      padding-bottom: 12px; border-bottom: 2px solid var(--mint-light);
+    }
+
+    /* 亮點提示卡 */
+    .callout {
+      border-radius: 10px; padding: 16px 20px; margin: 18px 0; font-size: 14px;
+    }
+    .callout.info {
+      background: rgba(0, 75, 151, 0.05); border-left: 4px solid var(--primary); color: #0c4a6e;
+    }
+    .callout.success {
+      background: var(--emerald-bg); border-left: 4px solid var(--emerald); color: #065f46;
+    }
+    .callout-title { font-weight: 900; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+
+    /* 表格樣式 */
+    .table-wrap {
+      overflow-x: auto; margin: 16px 0; border-radius: 10px; border: 1px solid rgba(0, 75, 151, .1);
+    }
+    table {
+      width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left;
+    }
+    thead th {
+      background: #f8fafc; color: var(--primary); font-weight: 900; padding: 12px 14px;
+      border-bottom: 2px solid rgba(0, 75, 151, .1); white-space: nowrap;
+    }
+    tbody td {
+      padding: 12px 14px; border-bottom: 1px solid #f1f5f9; vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:nth-child(even) { background: #fafcff; }
+    .badge-sub {
+      display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px;
+      border-radius: 4px; background: var(--mint-light); color: var(--primary-dark);
+    }
+    .badge-food {
+      display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px;
+      border-radius: 4px; background: #fef3c7; color: #92400e;
+    }
+    .total-row {
+      background: #eff6ff !important; font-weight: 900;
+    }
+    .total-row td { color: var(--primary-dark); font-size: 14.5px; border-top: 2px solid var(--primary); }
+
+    /* 成效卡片 Grid */
+    .metric-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 18px 0;
+    }
+    .metric-card {
+      background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;
+    }
+    .metric-num { font-size: 26px; font-weight: 900; color: var(--primary); margin-bottom: 4px; }
+    .metric-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* 底部操作欄 */
+    .bottom-cta {
+      background: linear-gradient(135deg, var(--primary), #2b6cb0); color: #fff;
+      border-radius: var(--card-radius); padding: 32px; text-align: center; margin-top: 36px;
+    }
+    .bottom-cta h3 { font-size: 20px; font-weight: 900; margin-bottom: 10px; }
+    .bottom-cta p { font-size: 14px; opacity: .9; margin-bottom: 20px; }
+    .bottom-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-white {
+      background: #fff; color: var(--primary); text-decoration: none; font-size: 13.5px;
+      font-weight: 700; padding: 10px 22px; border-radius: var(--pill-radius); transition: all .2s;
+    }
+    .btn-white:hover { background: var(--mint-light); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,.8);
+      text-decoration: none; font-size: 13.5px; font-weight: 700; padding: 10px 22px;
+      border-radius: var(--pill-radius); transition: all .2s;
+    }
+    .btn-outline:hover { background: rgba(255,255,255,.15); transform: translateY(-2px); }
+
+    /* 列印專用樣式 */
+    @media print {
+      .site-header, .bottom-cta, .nav-btn.print { display: none !important; }
+      body { background: #fff; color: #000; }
+      .container { max-width: 100%; margin: 0; padding: 0; }
+      .doc-hero, .doc-section { box-shadow: none; border: 1px solid #ccc; break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 頂部導覽列 -->
+  <header class="site-header">
+    <a href="index.html" class="brand">
+      <div class="brand-logo">🏓</div>
+      <span>PickleFit AI 學習社群</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-btn home">← 回到招募首頁</a>
+      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="nav-btn demo">🎮 試玩 3D 體感 Demo</a>
+      <button onclick="window.print()" class="nav-btn print">🖨️ 列印 / 存為 PDF</button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- 頂部主標題卡片 -->
+    <div class="doc-hero">
+      <div class="doc-badge-group">
+        <span class="doc-badge primary">國立中興大學教發中心</span>
+        <span class="doc-badge mint">115-1 學生學習社群計畫</span>
+        <span class="doc-badge emerald">10,000 元滿額定稿版</span>
+      </div>
+      <h1 class="doc-title">匹克球 AI 體感互動教學與動作特徵實證研習社群</h1>
+      <p style="color: var(--text-muted); font-size: 14.5px;">
+        延續 114-2 器材實證基礎，以自主開發之「3D 體感遊戲原型」為核心，導入高速影像採集與國內雲端 GPU 算力微調動作評估模型，打造次世代運動科技教學系統。
+      </p>
+
+      <div class="meta-grid">
+        <div class="meta-item">
+          <span class="meta-label">申請類別</span>
+          <span class="meta-value">多元探索與跨領域學習</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">指導顧問</span>
+          <span class="meta-value">體育室 許銘華 助理教授</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">申請總金額</span>
+          <span class="meta-value highlight">NT$ 10,000 元 (滿額)</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">執行期程</span>
+          <span class="meta-value">核定後 ～ 115/12/25 止</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 一、社群組成動機與背景 -->
+    <section class="doc-section">
+      <h2 class="section-title">📌 一、 社群組成動機與背景（承接成果與痛點突破）</h2>
+      
+      <p>
+        本團隊於 114-2 學期執行《匹克球器材特質與新手運動表現之實證研究》，奠定了新手教學與球拍打感實證基礎；團隊近期更自主研發出<strong>第一代《匹克球 3D 體感遊戲化教學系統》</strong>（使用 Three.js + MediaPipe 33 關節動態捕捉，已具備學號正規化登入、段位評分與排行榜機制）。
+      </p>
+
+      <div class="callout info">
+        <div class="callout-title">🎮 現有 Prototype 成果展示</div>
+        已成功部署線上體驗版本，驗證了免穿戴體感在校園推廣匹克球的趣味性與可行性：<br>
+        👉 線上 Demo：<a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" style="color: var(--primary); font-weight: 700;">https://kalmangoose.github.io/nchu_pikleball-V4/</a>
+      </div>
+
+      <p style="margin-top: 14px;">然而在實際邀請跨系初學者測試時，發現了兩大技術與教學痛點：</p>
+      <ol style="margin: 10px 0 16px 20px; font-size: 14px; line-height: 1.8;">
+        <li><strong>動態模糊（Motion Blur）造成判定失真</strong>：匹克球擊球瞬間時速可達 40～70 km/h，一般視訊鏡頭（30fps）在高速揮拍時手腕與球拍嚴重殘影，導致前端預設骨骼點飄移或遺失。</li>
+        <li><strong>缺乏專屬揮拍動作時序模型</strong>：現有遊戲主要依賴靜態座標規則判定，難以精準區分「廚房區（Non-Volley Zone）截擊」與「第三拍切球（3rd Shot Drop）」等高難度動作的規範度與發力角度。</li>
+      </ol>
+
+      <div class="callout success">
+        <div class="callout-title">🚀 115-1 升級三部曲（本期核心突破）</div>
+        <strong>1. 高精度高速採集</strong>：透過高幀率（120fps/240fps）高速影像寫入儲存與關節標記，凍結擊球瞬間動作，消除殘影，建立標準化動作資料集。<br>
+        <strong>2. 雲端 GPU 算力模型微調</strong>：租用國內合規之「GPUtw.ai 台灣 GPU 雲端伺服器」，訓練與微調匹克球揮拍時序動作評估模型（ST-GCN / 輕量 Transformer），實現高精度動作評分。<br>
+        <strong>3. 遊戲化教學落地驗證</strong>：將訓練收斂之輕量化模型串回 3D 體感遊戲中，讓跨系學員透過沉浸式遊戲闖關快速掌握標準動作。
+      </div>
+    </section>
+
+    <!-- 二、社群預期成效 -->
+    <section class="doc-section">
+      <h2 class="section-title">🎯 二、 社群預期成效（質化與量化指標）</h2>
+      
+      <p style="margin-bottom: 12px;"><strong>【質化成效】</strong></p>
+      <ul style="margin: 0 0 16px 20px; font-size: 14px; line-height: 1.8;">
+        <li>建立一套結合「3D 體感遊戲闖關」與「AI 即時動作打分」的匹克球自主學習模組，打破球拍運動高門檻迷思。</li>
+        <li>促進資訊工程、運動科學與不同專業學系之跨領域共創學習，培養學員運動習慣與數據思維。</li>
+      </ul>
+
+      <p style="margin-bottom: 12px;"><strong>【量化成效】</strong></p>
+      <div class="metric-grid">
+        <div class="metric-card">
+          <div class="metric-num">6 次</div>
+          <div class="metric-desc">正式社群專題研習與實體練球討論（每次均備簽到與紀錄表）</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">1,000+ 組</div>
+          <div class="metric-desc">採集並標註匹克球標準動作時序特徵序列資料集</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">&lt; 50 ms</div>
+          <div class="metric-desc">於 GPUtw.ai 微調之動作評估模型前端即時推論延遲</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-num">1 部</div>
+          <div class="metric-desc">3～10 分鐘 1080P 高畫質成果影片（歷程、遊戲 Demo 與全員心得）</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 三、活動排程規劃 -->
+    <section class="doc-section">
+      <h2 class="section-title">📅 三、 活動排程規劃（預訂 6 次聚會討論）</h2>
+      <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
+        每次聚會時間至少 2 小時，聚會討論完全避開期中考週，確保全員皆能深度參與：
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 8%;">次數</th>
+              <th style="width: 14%;">預定時程</th>
+              <th style="width: 16%;">時間 / 地點</th>
+              <th style="width: 38%;">專題研討與實作主題</th>
+              <th style="width: 24%;">預期產出與紀錄</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>10月中旬</td>
+              <td>18:00~20:00<br><span class="badge-sub">球場/研討室</span></td>
+              <td><strong>期初籌備與體感系統基準初測</strong><br>• 計畫分工、安全規範宣導<br>• 現有 3D 體感遊戲 V4 原型體驗與擊球基線測試</td>
+              <td>簽到表、初測球感與動作紀錄</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>10月下旬</td>
+              <td>18:00~20:00<br><span class="badge-sub">校內球場</span></td>
+              <td><strong>網前技術研析與高速動態影像採集</strong><br>• Non-Volley Zone 規則與 Dink 截擊步伐演練<br>• 高幀率（120fps）高速錄影，採集無模糊揮拍原始數據</td>
+              <td>簽到表、高幀率動作影像資料庫</td>
+            </tr>
+            <tr>
+              <td><strong>3</strong></td>
+              <td>11月上旬</td>
+              <td>18:00~20:00<br><span class="badge-sub">電腦教室</span></td>
+              <td><strong>資料集特徵標註與 GPU 雲端環境建置</strong><br>• 關節座標資料清洗與時序特徵提取<br>• 配置國內 GPUtw.ai 高階 GPU 容器環境，載入資料集</td>
+              <td>簽到表、模型訓練日誌與特徵矩陣</td>
+            </tr>
+            <tr>
+              <td><strong>4</strong></td>
+              <td>11月中旬</td>
+              <td>18:00~20:00<br><span class="badge-sub">球場/研討室</span></td>
+              <td><strong>顧問諮詢與 AI 模型訓練調優</strong><br>• 邀請許銘華老師針對揮拍角度與發力力學進行專業指導<br>• 於 GPU 伺服器執行動作分類評估模型（ST-GCN）收斂測試</td>
+              <td>諮詢紀錄表、指導照片、模型評估指標</td>
+            </tr>
+            <tr>
+              <td><strong>5</strong></td>
+              <td>11月下旬</td>
+              <td>18:00~20:00<br><span class="badge-sub">校內球場</span></td>
+              <td><strong>AI 體感遊戲升級版實機驗證與模擬賽</strong><br>• 模型部署至遊戲前端，進行即時打分與雙打站位對抗實測<br>• 收集學員系統易用性問卷與回饋</td>
+              <td>簽到表、實機試玩影片、學員回饋統計</td>
+            </tr>
+            <tr>
+              <td><strong>6</strong></td>
+              <td>12月上旬</td>
+              <td>18:00~20:00<br><span class="badge-sub">研討室</span></td>
+              <td><strong>成果發表會籌備與影音總結覆盤</strong><br>• 彙整 6 次活動討論紀錄表與簽到名冊<br>• 剪輯 3~10 分鐘 1080P 成果影片、製作發表海報與簡報</td>
+              <td>影片完整粗剪檔、發表海報、期末報告</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 四、經費預算表 -->
+    <section class="doc-section">
+      <h2 class="section-title">💰 四、 經費預算表（滿額 10,000 元編列）</h2>
+      
+      <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 12px;">
+        依據中興大學教發中心母法規範，基本補助額 8,000 元（誤餐費上限 30% / 2,400 元），本團隊成員包含符合學校「提升高教公共性就學協助獎勵辦法」第二條規定之對象，申請額外材料費補助 2,000 元，<strong>總額整整編滿 10,000 元</strong>。所有項目均為 100% 消耗性耗材，合規嚴謹：
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 12%;">經費科目</th>
+              <th style="width: 28%;">系統填報品名 / 規格</th>
+              <th style="width: 10%;">單價</th>
+              <th style="width: 8%;">數量</th>
+              <th style="width: 12%;">總價</th>
+              <th style="width: 30%;">用途說明與母法報銷依據</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="badge-sub">材料費</span></td>
+              <td><strong>雲端高階 GPU 運算資源材料費</strong><br><small style="color: var(--text-muted);">GPUtw.ai 算力</small></td>
+              <td>4,400</td>
+              <td>1 式</td>
+              <td><strong>4,400 元</strong></td>
+              <td>用於採集之高速骨骼特徵時序資料集訓練、即時擊球動作評估模型（ST-GCN）微調之必要雲端算力消耗材料（預估租借約 200~250 小時，憑三聯式統一發票實報實銷）。</td>
+            </tr>
+            <tr>
+              <td><span class="badge-sub">材料費</span></td>
+              <td><strong>高速動態影像寫入儲存耗材</strong><br><small style="color: var(--text-muted);">高速 SD 記憶卡 128G/256G V30</small></td>
+              <td>700</td>
+              <td>2 組</td>
+              <td><strong>1,400 元</strong></td>
+              <td>供實機錄製 120fps/240fps 高幀率擊球動態時，高碼率高速寫入儲存之消耗性材料（避免一般存儲介質掉幀，確保資料完整性）。</td>
+            </tr>
+            <tr>
+              <td><span class="badge-sub">材料費</span></td>
+              <td><strong>40孔標準匹克球消耗材料</strong><br><small style="color: var(--text-muted);">標準比賽用球 1 桶 6~12 顆</small></td>
+              <td>600</td>
+              <td>1 組</td>
+              <td><strong>600 元</strong></td>
+              <td>供實體練球數據採集與高速擊球測試之消耗性用球（符合 40 孔標準規格，維持彈跳與阻力一致性，避免破損變形造成標註偏差）。</td>
+            </tr>
+            <tr>
+              <td><span class="badge-sub">材料費</span></td>
+              <td><strong>運動視覺標記與球場定位耗材</strong><br><small style="color: var(--text-muted);">關節標記貼、場地定位膠帶、握把布</small></td>
+              <td>1,200</td>
+              <td>1 式</td>
+              <td><strong>1,200 元</strong></td>
+              <td>包含黏貼於關節之高反差動態追蹤標記貼紙、劃設 Non-Volley Zone 落點之定位標線膠帶，以及防滑吸汗握把布，均為消耗性耗材。</td>
+            </tr>
+            <tr>
+              <td><span class="badge-food">誤餐費</span></td>
+              <td><strong>社群討論研習誤餐費</strong><br><small style="color: var(--text-muted);">便當餐盒（每人每餐 100 元）</small></td>
+              <td>100</td>
+              <td>24 人次</td>
+              <td><strong>2,400 元</strong></td>
+              <td>每次聚會每人 100 元（6 次聚會 × 每次 4 人），編滿基本補助 8,000 元之 30% 上限（2,400 元），非用餐時段不予支領。</td>
+            </tr>
+            <tr class="total-row">
+              <td colspan="4"><strong>合計申請總經費</strong></td>
+              <td colspan="2"><strong>NT$ 10,000 元整</strong>（基本補助 8,000 ＋ 弱勢助學加成 2,000）</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 底部行動卡片 -->
+    <div class="bottom-cta">
+      <h3>準備好送件了嗎？</h3>
+      <p>請召集人於 115 年 10 月 2 日前登入教發中心教學計畫系統提出申請！</p>
+      <div class="bottom-actions">
+        <a href="https://cdtl.nchu.edu.tw/2019application/" target="_blank" class="btn-white">🚀 前往教發中心系統填報</a>
+        <a href="index.html" class="btn-outline">← 回到招募說明頁</a>
+      </div>
+    </div>
+
+  </main>
+
+  <footer style="text-align: center; padding: 24px 20px; font-size: 12px; color: var(--text-muted);">
+    國立中興大學 115-1 學生學習社群計畫｜PickleFit AI 體感互動專案
+  </footer>
+
+</body>
+</html>
