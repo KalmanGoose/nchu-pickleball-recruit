@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>115-1 學生學習社群計畫申請書 (定稿版)｜匹克球 AI 體感互動教學</title>
+  <title>115-1 學生學習社群計畫申請書 (定稿版)｜匹克球體感遊戲化教學與果蠅大腦仿生對戰</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -24,6 +24,8 @@
       --rose-bg: rgba(225, 29, 72, 0.08);
       --emerald: #059669;
       --emerald-bg: #ecfdf5;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
@@ -116,7 +118,10 @@
     .callout.success {
       background: var(--emerald-bg); border-left: 4px solid var(--emerald); color: #065f46;
     }
-    .callout-title { font-weight: 900; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+    .callout.warning {
+      background: var(--amber-bg); border-left: 4px solid var(--amber); color: #92400e;
+    }
+    .callout-title { font-weight: 900; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; font-size: 15px; }
 
     /* 表格樣式 */
     .table-wrap {
@@ -149,13 +154,28 @@
 
     /* 成效卡片 Grid */
     .metric-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 18px 0;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin: 18px 0;
     }
     .metric-card {
       background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 18px;
     }
     .metric-num { font-size: 26px; font-weight: 900; color: var(--primary); margin-bottom: 4px; }
     .metric-desc { font-size: 13px; color: var(--text-muted); line-height: 1.6; }
+
+    /* 特色亮點卡片 */
+    .feature-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 18px 0;
+    }
+    .feature-card {
+      background: #ffffff; border: 1.5px solid rgba(0, 75, 151, 0.12); border-radius: 12px; padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .feature-tag {
+      display: inline-block; font-size: 11.5px; font-weight: 700; padding: 3px 10px;
+      border-radius: 999px; margin-bottom: 10px;
+    }
+    .feature-card h4 { font-size: 16px; font-weight: 900; color: var(--primary); margin-bottom: 8px; }
+    .feature-card p { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
 
     /* 底部操作欄 */
     .bottom-cta {
@@ -192,12 +212,13 @@
   <header class="site-header">
     <a href="index.html" class="brand">
       <div class="brand-logo">🏓</div>
-      <span>PickleFit AI 學習社群</span>
+      <span>PickleFit 學習社群</span>
     </a>
     <div class="nav-links">
       <a href="index.html" class="nav-btn home">← 回到招募首頁</a>
       <a href="dashboard.html" class="nav-btn demo" style="background: #0f172a; color: #fff;">🛠️ 幹部工作台</a>
-      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="nav-btn demo">🎮 試玩 3D 體感 Demo</a>
+      <a href="https://kalmangoose.github.io/niche-pickleballV5/" target="_blank" class="nav-btn demo" style="background: #047857;">🧠 果蠅仿生 V5</a>
+      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="nav-btn demo">🎮 體感 Demo V4</a>
       <button onclick="window.print()" class="nav-btn print">🖨️ 列印 / 存為 PDF</button>
     </div>
   </header>
@@ -211,15 +232,15 @@
         <span class="doc-badge mint">115-1 學生學習社群計畫</span>
         <span class="doc-badge emerald">8,000 元基本補助定稿版</span>
       </div>
-      <h1 class="doc-title">匹克球 AI 體感互動教學與動作特徵實證研習社群</h1>
+      <h1 class="doc-title">匹克球體感遊戲化教學與果蠅大腦仿生對戰研習社群</h1>
       <p style="color: var(--text-muted); font-size: 14.5px;">
-        延續 114-2 器材實證基礎，以自主開發之「3D 體感遊戲原型」為核心，導入高速影像採集與國內雲端 GPU 算力微調動作評估模型，打造次世代運動科技教學系統。
+        回歸推廣初衷，打破實體揪打人力極限：以免穿戴視訊體感與果蠅大腦仿生對戰系統為核心，讓新手快速理解規則，平常社群沒有揪打時也能隨時自主涉入！
       </p>
 
       <div class="meta-grid">
         <div class="meta-item">
           <span class="meta-label">申請類別</span>
-          <span class="meta-value">多元探索與跨領域學習</span>
+          <span class="meta-value">多元探索與跨領域學習（運動休閒 × 遊戲科技 × 生物仿生）</span>
         </div>
         <div class="meta-item">
           <span class="meta-label">指導顧問</span>
@@ -238,29 +259,51 @@
 
     <!-- 一、社群組成動機與背景 -->
     <section class="doc-section">
-      <h2 class="section-title">📌 一、 社群組成動機與背景（承接成果與痛點突破）</h2>
+      <h2 class="section-title">📌 一、 社群組成動機與背景（走出傳統框架，解決揪打人力瓶頸）</h2>
       
       <p>
-        本團隊於 114-2 學期執行《匹克球器材特質與新手運動表現之實證研究》，奠定了新手教學與球拍打感實證基礎；團隊近期更自主研發出<strong>第一代《匹克球 3D 體感遊戲化教學系統》</strong>（使用 Three.js + MediaPipe 33 關節動態捕捉，已具備學號正規化登入、段位評分與排行榜機制）。
+        本團隊於 114-2 學期執行《匹克球器材特質與新手運動表現之實證研究》，在校園推廣匹克球的過程中，深刻體會到大專院校體育性學習社群面臨的真實運營瓶頸：
       </p>
 
-      <div class="callout info">
-        <div class="callout-title">🎮 現有 Prototype 成果展示</div>
-        已成功部署線上體驗版本，驗證了免穿戴體感在校園推廣匹克球的趣味性與可行性：<br>
-        👉 線上 Demo：<a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" style="color: var(--primary); font-weight: 700;">https://kalmangoose.github.io/nchu_pikleball-V4/</a>
+      <div class="callout warning">
+        <div class="callout-title">⚠️ 痛點一：揪打工作人力嚴重不足的窘境</div>
+        匹克球規則特殊（雙發球制、發球落地兩跳原則 Two-Bounce Rule、廚房區 Non-Volley Zone 禁截擊），新手入門極度仰賴幹部在場上一對一講解示範。然而幹部平時課業繁重，每次籌辦實體「揪打」都必須面臨<strong>搶借場地、扛球袋球拍、現場排班輪替、逐人教學規則</strong>等龐大體力與時間成本。每週能開辦的實體場次有限，導致推廣量能嚴重受限於幹部人力上限。
       </div>
 
-      <p style="margin-top: 14px;">然而在實際邀請跨系初學者測試時，發現了兩大技術與教學痛點：</p>
-      <ol style="margin: 10px 0 16px 20px; font-size: 14px; line-height: 1.8;">
-        <li><strong>動態模糊（Motion Blur）造成判定失真</strong>：匹克球擊球瞬間時速可達 40～70 km/h，一般視訊鏡頭（30fps）在高速揮拍時手腕與球拍嚴重殘影，導致前端預設骨骼點飄移或遺失。</li>
-        <li><strong>缺乏專屬揮拍動作時序模型</strong>：現有遊戲主要依賴靜態座標規則判定，難以精準區分「廚房區（Non-Volley Zone）截擊」與「第三拍切球（3rd Shot Drop）」等高難度動作的規範度與發力角度。</li>
-      </ol>
+      <div class="callout info">
+        <div class="callout-title">📉 痛點二：實體活動空檔期的社群黏著度斷層</div>
+        過去只要幹部平日沒有開揪打，學員就失去涉入這項運動的觸角，對「匹克球學習社群」這個品牌的互動隨之中斷。新手因為平常沒有練習對象與場地，好不容易燃起的運動熱情往往很快冷卻。
+      </div>
+
+      <h3 style="font-size: 16px; font-weight: 900; color: var(--primary); margin: 24px 0 12px;">
+        💡 解法：以遊戲化教學為出路，打造平時也能自主涉入的專屬數位服務
+      </h3>
+      <p style="font-size: 14px; margin-bottom: 16px;">
+        我們認為推廣運動不應再依賴高大上的名詞包裝，而應回歸最樸實的痛點解決：<strong>「做一個方便大家快速理解規則，甚至平常社群沒有揪打時，大家也會想要持續涉入匹克球、想隨時打開來玩的專屬服務」</strong>。我們初步規劃製作一套全新的《匹克球遊戲化教學系統》，並非單純無趣的手機點擊遊戲，而是深度融合兩大創新系統：
+      </p>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <span class="feature-tag" style="background: rgba(0,75,151,0.1); color: var(--primary);">打破場地限制</span>
+          <h4>1. 一般視訊鏡頭「體感系統」</h4>
+          <p>
+            不需購買昂貴的感應穿戴設備，學員只要在宿舍打開電腦或手機鏡頭，就能透過身體肢體揮拍與步伐移動進行遊戲。在寢室小空間內即時練習站位與發力感，打破球場空間與天候限制。
+          </p>
+        </div>
+        <div class="feature-card">
+          <span class="feature-tag" style="background: var(--emerald-bg); color: var(--emerald);">打破陪打人力限制</span>
+          <h4>2. 果蠅大腦「仿生對戰系統」</h4>
+          <p>
+            捨棄耗電肥大且昂貴的雲端 GPU 伺服器，借鑑自然界果蠅大腦的極速光流反應與超輕量神經反射迴路，在前端瀏覽器實現極速回擊的仿生陪打 AI。即便平日幹部不在身邊、找不到球友，新手也能隨時對戰練球、熟悉規則。
+          </p>
+        </div>
+      </div>
 
       <div class="callout success">
-        <div class="callout-title">🚀 115-1 升級三部曲（本期核心突破）</div>
-        <strong>1. 高精度高速採集</strong>：透過高幀率（120fps/240fps）高速影像寫入儲存與關節標記，凍結擊球瞬間動作，消除殘影，建立標準化動作資料集。<br>
-        <strong>2. 雲端 GPU 算力模型微調</strong>：租用國內合規之「GPUtw.ai 台灣 GPU 雲端伺服器」，訓練與微調匹克球揮拍時序動作評估模型（ST-GCN / 輕量 Transformer），實現高精度動作評分。<br>
-        <strong>3. 遊戲化教學落地驗證</strong>：將訓練收斂之輕量化模型串回 3D 體感遊戲中，讓跨系學員透過沉浸式遊戲闖關快速掌握標準動作。
+        <div class="callout-title">🎮 現有 Prototype 原型成果展示</div>
+        團隊現已自主開發出體感與仿生兩大系統雛形，並均已部署線上體驗版本：<br>
+        • <strong>3D 體感遊戲原型 (V4)</strong>：<a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" style="color: var(--primary); font-weight: 700;">https://kalmangoose.github.io/nchu_pikleball-V4/</a><br>
+        • <strong>果蠅大腦仿生對抗系統 (V5)</strong>：<a href="https://kalmangoose.github.io/niche-pickleballV5/" target="_blank" style="color: #047857; font-weight: 700;">https://kalmangoose.github.io/niche-pickleballV5/</a>
       </div>
     </section>
 
@@ -270,36 +313,37 @@
       
       <p style="margin-bottom: 12px;"><strong>【質化成效】</strong></p>
       <ul style="margin: 0 0 16px 20px; font-size: 14px; line-height: 1.8;">
-        <li>建立一套結合「3D 體感遊戲闖關」與「AI 即時動作打分」的匹克球自主學習模組，打破球拍運動高門檻迷思。</li>
-        <li>促進資訊工程、運動科學與不同專業學系之跨領域共創學習，培養學員運動習慣與數據思維。</li>
+        <li><strong>規則極速上手</strong>：將複雜的匹克球計分與廚房區禁區規則轉化為遊戲關卡，讓新手在 5 分鐘體感互動內自然學會規則，大幅降低幹部現場教學人力負擔。</li>
+        <li><strong>品牌持續黏著</strong>：提供 24 小時不打烊的數位互動入口，讓社員即使在平日非揪打時段，也能透過自主練習與排行榜保持對匹克球社群的熱度。</li>
+        <li><strong>跨領域技能共創</strong>：結合運動休閒、遊戲化設計、視訊體感與仿生演算法，激發不同科系學員的實作創新火花。</li>
       </ul>
 
       <p style="margin-bottom: 12px;"><strong>【量化成效】</strong></p>
       <div class="metric-grid">
         <div class="metric-card">
           <div class="metric-num">6 次</div>
-          <div class="metric-desc">正式社群專題研習與實體練球討論（每次均備簽到與紀錄表）</div>
+          <div class="metric-desc">正式社群專題研習與實體練球測試（每次均備簽到與完整紀錄）</div>
         </div>
         <div class="metric-card">
-          <div class="metric-num">1,000+ 組</div>
-          <div class="metric-desc">採集並標註匹克球標準動作時序特徵序列資料集</div>
+          <div class="metric-num">1 套</div>
+          <div class="metric-desc">體感遊戲化教學系統原型（含規則闖關與果蠅仿生陪打對戰模組）</div>
         </div>
         <div class="metric-card">
-          <div class="metric-num">&lt; 50 ms</div>
-          <div class="metric-desc">於 GPUtw.ai 微調之動作評估模型前端即時推論延遲</div>
+          <div class="metric-num">30+ 人次</div>
+          <div class="metric-desc">吸引跨系初學者實機試玩，評估無幹部陪同下的自主學規則成效</div>
         </div>
         <div class="metric-card">
           <div class="metric-num">1 部</div>
-          <div class="metric-desc">3～10 分鐘 1080P 高畫質成果影片（歷程、遊戲 Demo 與全員心得）</div>
+          <div class="metric-desc">3～10 分鐘 1080P 高畫質成果影片（研習歷程、實機試玩與全員心得）</div>
         </div>
       </div>
     </section>
 
     <!-- 三、團隊核心幹部與五大職位分工 -->
     <section class="doc-section">
-      <h2 class="section-title">👥 三、 團隊核心幹部與五大職位分工</h2>
+      <h2 class="section-title">👥 三、 團隊核心幹部與職責分工</h2>
       <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 16px;">
-        為落實社群自治運作與跨領域專長分工，社群設置 5 大核心職位，職責分工清晰，確保計畫從技術研發到行政核銷完美落地：
+        為落實社群自治運作，社群設置 5 大核心職位，職責分工清晰，確保研發、教學與行政事務平穩運行：
       </p>
 
       <div class="table-wrap">
@@ -317,31 +361,31 @@
               <td><strong>1</strong></td>
               <td><strong>社群召集人 (Convener / PM)</strong></td>
               <td>學生代表</td>
-              <td>1. 擔任對外官方窗口，代表社群接洽教發中心、指導顧問（許銘華老師）。<br>2. 全權負責教發中心申請系統線上送件、簽章與公文核對。<br>3. 主持 6 次社群研習聚會，掌控計畫總里程碑進度。<br>4. 代表團隊出席教發中心期末成果發表會與成果簡報展示。</td>
+              <td>1. 擔任官方窗口，統籌接洽教發中心與指導顧問（許銘華老師）。<br>2. 全權負責教發中心申請系統線上送件、簽章與成果報告彙整。<br>3. 主持 6 次社群研習聚會，掌控體感系統開發與測試進度。<br>4. 代表團隊出席教發中心期末成果發表會。</td>
             </tr>
             <tr>
               <td><strong>2</strong></td>
               <td><strong>財務總務與經費核銷 (Finance & Logistics)</strong></td>
               <td>總務幹部</td>
-              <td>1. 統籌管理 8,000 元基本補助經費，嚴格把關「100% 消耗性耗材與合規誤餐」。<br>2. 採購 40孔標準匹克球、高速 SD 儲存耗材、關節標記耗材與器材維護。<br>3. GPUtw.ai 雲端 GPU 算力發票（中興統編 52024101）與 Usage 明細核對，製作經費黏存單。<br>4. 每次實體研習便當訂購與誤餐費發票簽收整理。</td>
+              <td>1. 統籌管理 8,000 元基本補助經費，嚴守「100% 消耗性耗材與合規誤餐費」。<br>2. 採購標準匹克球、場地定位線、體感測試配件等消耗品，核對中興統編 52024101。<br>3. 彙整每次研習便當發票與簽收單，依校方規範編製黏存單核銷。</td>
             </tr>
             <tr>
               <td><strong>3</strong></td>
               <td><strong>技術訓練組長 / 總教練</strong></td>
               <td><span style="color: #047857; font-weight: 900; background: #ecfdf5; padding: 2px 8px; border-radius: 4px;">林冠辰 教練</span></td>
-              <td>1. 主導實體練球技術指導（握拍、發球、Non-Volley Zone 截擊、3rd Shot Drop）。<br>2. 制定匹克球揮拍動作力學標準與動作規範度打分準則（動作 Benchmark）。<br>3. 高速攝影數據採集時擔任「標準動作示範者」與「特徵點 Ground Truth 標註指引」。<br>4. 策劃雙打模擬實戰對抗賽，指導學員戰術跑位與 Stacking 站位。</td>
+              <td>1. 主導實體練球技術指導（握拍、發球、廚房區截擊、雙打戰術跑位）。<br>2. 審定遊戲化教學中的規則準確度（如兩跳原則、廚房區判定標準）。<br>3. 指導仿生對戰系統之擊球球速、角度與回球落點真實性校準。</td>
             </tr>
             <tr>
               <td><strong>4</strong></td>
-              <td><strong>AI 演算法與數據工程組長 (AI & Data Lead)</strong></td>
-              <td>資訊/技術幹部</td>
-              <td>1. 負責高速動態影像資料集之骨骼特徵提取、清洗與格式化（MediaPipe 33 關鍵點時序矩陣）。<br>2. 部署國內 GPUtw.ai 雲端 GPU 容器運算環境，執行動作評估模型（ST-GCN/輕量Transformer）微調。<br>3. 執行模型輕量化（ONNX / TensorFlow.js），確保前端推論延遲低於 50ms。<br>4. 串接現有 3D 體感遊戲（Three.js）前端，實現動作實時反饋與打分顯示。</td>
+              <td><strong>體感與仿生演算法研發組長 (Tech & Game Lead)</strong></td>
+              <td>資訊幹部</td>
+              <td>1. 開發視訊鏡頭肢體動作追蹤與揮拍判定邏輯，確保低延遲順暢運行。<br>2. 實作「果蠅大腦仿生對戰模組」，以超輕量神經反射架構打造靈活流暢的陪打 AI。<br>3. 串接遊戲介面、段位等級與排行榜系統，優化跨平台操作體驗。</td>
             </tr>
             <tr>
               <td><strong>5</strong></td>
-              <td><strong>活動紀錄與成果影音組長 (Media Lead)</strong></td>
-              <td>紀錄/文書幹部</td>
-              <td>1. 負責每次聚會全員簽到表收集、出席防撞課查核，撰寫 6 次教發中心官方活動紀錄表。<br>2. 聚會與練球現場高畫質影像記錄（每次至少 4~6 張高清照片與動態側拍）。<br>3. 期末成果統整：主剪一部 3～10 分鐘 1080P 高畫質成果影片（歷程記錄、遊戲試玩、林教練指導與全員心得）。<br>4. 成果發表會展示海報排版、大圖輸出與結案報告排版。</td>
+              <td><strong>社群運營與影音紀錄組長 (Community & Media Lead)</strong></td>
+              <td>文書幹部</td>
+              <td>1. 負責每次研習簽到表整理、現場拍照側拍與活動紀錄表撰寫。<br>2. 收集跨系學員對體感遊戲的試玩回饋與規則理解滿意度調查。<br>3. 期末成果統整：剪輯 3～10 分鐘 1080P 成果影片、排版發表海報與成果冊。</td>
             </tr>
           </tbody>
         </table>
@@ -350,9 +394,9 @@
 
     <!-- 四、活動排程規劃 -->
     <section class="doc-section">
-      <h2 class="section-title">📅 四、 活動排程規劃（預訂 6 次聚會討論）</h2>
+      <h2 class="section-title">📅 四、 活動排程規劃（預訂 6 次研討聚會）</h2>
       <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 14px;">
-        每次聚會時間至少 2 小時，聚會討論完全避開期中考週，確保全員皆能深度參與：
+        每次聚會時間至少 2 小時，結合「實體球場規則實測」與「體感仿生系統實作」，完全避開期中考週：
       </p>
 
       <div class="table-wrap">
@@ -370,44 +414,44 @@
             <tr>
               <td><strong>1</strong></td>
               <td>10月中旬</td>
-              <td>18:00~20:00<br><span class="badge-sub">球場/研討室</span></td>
-              <td><strong>期初籌備與體感系統基準初測</strong><br>• 計畫分工、安全規範宣導<br>• 現有 3D 體感遊戲 V4 原型體驗與擊球基線測試</td>
-              <td>簽到表、初測球感與動作紀錄</td>
+              <td>18:00~20:00<br><span class="badge-sub">球場 / 討論室</span></td>
+              <td><strong>期初籌備與新手教學痛點覆盤</strong><br>• 計畫職責分工與安全宣導<br>• 覆盤過去揪打教學人力瓶頸，確立體感遊戲化系統的核心功能規格</td>
+              <td>簽到表、新手常見規則盲點整理表</td>
             </tr>
             <tr>
               <td><strong>2</strong></td>
               <td>10月下旬</td>
               <td>18:00~20:00<br><span class="badge-sub">校內球場</span></td>
-              <td><strong>網前技術研析與高速動態影像採集</strong><br>• Non-Volley Zone 規則與 Dink 截擊步伐演練<br>• 高幀率（120fps）高速錄影，採集無模糊揮拍原始數據</td>
-              <td>簽到表、高幀率動作影像資料庫</td>
+              <td><strong>實體規則解析與揮拍物理數據採集</strong><br>• 林冠辰教練示範廚房區（Non-Volley Zone）截擊與雙打發球跑位<br>• 實地採集揮拍揮速、球體彈跳高度，作為體感判定基準參數</td>
+              <td>簽到表、匹克球運動物理參數手冊</td>
             </tr>
             <tr>
               <td><strong>3</strong></td>
               <td>11月上旬</td>
-              <td>18:00~20:00<br><span class="badge-sub">電腦教室</span></td>
-              <td><strong>資料集特徵標註與 GPU 雲端環境建置</strong><br>• 關節座標資料清洗與時序特徵提取<br>• 配置國內 GPUtw.ai 高階 GPU 容器環境，載入資料集</td>
-              <td>簽到表、模型訓練日誌與特徵矩陣</td>
+              <td>18:00~20:00<br><span class="badge-sub">電腦教室 / 研討室</span></td>
+              <td><strong>果蠅大腦仿生對戰模型與規則關卡建置</strong><br>• 借鑑果蠅神經反射迴路，建置前端極輕量化光流反應陪打 AI<br>• 設計「發球雙跳闖關」、「廚房區踩線警告」等新手規則互動關卡</td>
+              <td>簽到表、仿生對戰演算法與關卡雛形</td>
             </tr>
             <tr>
               <td><strong>4</strong></td>
               <td>11月中旬</td>
-              <td>18:00~20:00<br><span class="badge-sub">球場/研討室</span></td>
-              <td><strong>顧問諮詢與 AI 模型訓練調優</strong><br>• 邀請許銘華老師針對揮拍角度與發力力學進行專業指導<br>• 於 GPU 伺服器執行動作分類評估模型（ST-GCN）收斂測試</td>
-              <td>諮詢紀錄表、指導照片、模型評估指標</td>
+              <td>18:00~20:00<br><span class="badge-sub">研討室 / 球場</span></td>
+              <td><strong>顧問諮詢與體感交互實測調優</strong><br>• 邀請許銘華老師針對體感揮拍判定與人機回饋體驗給予專業指導<br>• 測試一般視訊鏡頭在不同光線與角度下的動作捕捉穩定度</td>
+              <td>顧問諮詢紀錄表、指導照片、系統調優報告</td>
             </tr>
             <tr>
               <td><strong>5</strong></td>
               <td>11月下旬</td>
-              <td>18:00~20:00<br><span class="badge-sub">校內球場</span></td>
-              <td><strong>AI 體感遊戲升級版實機驗證與模擬賽</strong><br>• 模型部署至遊戲前端，進行即時打分與雙打站位對抗實測<br>• 收集學員系統易用性問卷與回饋</td>
-              <td>簽到表、實機試玩影片、學員回饋統計</td>
+              <td>18:00~20:00<br><span class="badge-sub">校內球場 / 空地</span></td>
+              <td><strong>遊戲化教學實機公測與社群新手對抗賽</strong><br>• 邀請跨系初學者實機試玩，評估「不需幹部教學」下的規則自學效果<br>• 舉辦實體與遊戲虛實結合趣味對抗賽，收集使用者體驗問卷</td>
+              <td>簽到表、學員試玩側拍、問卷滿意度統計</td>
             </tr>
             <tr>
               <td><strong>6</strong></td>
               <td>12月上旬</td>
               <td>18:00~20:00<br><span class="badge-sub">研討室</span></td>
-              <td><strong>成果發表會籌備與影音總結覆盤</strong><br>• 彙整 6 次活動討論紀錄表與簽到名冊<br>• 剪輯 3~10 分鐘 1080P 成果影片、製作發表海報與簡報</td>
-              <td>影片完整粗剪檔、發表海報、期末報告</td>
+              <td><strong>成果發表會籌備與影音總結覆盤</strong><br>• 彙整 6 次研討紀錄表、簽到名冊與問卷成效數據<br>• 剪輯 3～10 分鐘 1080P 成果影片、製作發表海報與簡報投影片</td>
+              <td>完整成果影片剪輯檔、發表海報、期末結案報告</td>
             </tr>
           </tbody>
         </table>
@@ -437,35 +481,35 @@
           <tbody>
             <tr>
               <td><span class="badge-sub">材料費</span></td>
-              <td><strong>雲端高階 GPU 運算資源材料費</strong><br><small style="color: var(--text-muted);">GPUtw.ai 算力</small></td>
-              <td>3,000</td>
-              <td>1 式</td>
-              <td><strong>3,000 元</strong></td>
-              <td>用於採集之高速骨骼特徵時序資料集訓練、即時擊球動作評估模型（ST-GCN）微調之必要雲端算力消耗材料（預估租借約 180 小時，憑三聯式統一發票實報實銷）。</td>
-            </tr>
-            <tr>
-              <td><span class="badge-sub">材料費</span></td>
-              <td><strong>高速動態影像寫入儲存耗材</strong><br><small style="color: var(--text-muted);">高速 SD 記憶卡 128G/256G V30</small></td>
-              <td>1,000</td>
+              <td><strong>果蠅仿生演算法與體感交互測試耗材</strong><br><small style="color: var(--text-muted);">高速存儲卡、感測連接配件組</small></td>
+              <td>1,500</td>
               <td>1 組</td>
-              <td><strong>1,000 元</strong></td>
-              <td>供實機錄製 120fps/240fps 高幀率擊球動態時，高碼率高速寫入儲存之消耗性材料（避免一般存儲介質掉幀，確保資料完整性）。</td>
+              <td><strong>1,500 元</strong></td>
+              <td>用於體感視訊影像即時採集、果蠅仿生反應演算法參數校正與模型測試數據寫入之消耗性材料（避免掉幀延遲，確保演算法調校準確）。</td>
             </tr>
             <tr>
               <td><span class="badge-sub">材料費</span></td>
-              <td><strong>40孔標準匹克球消耗材料</strong><br><small style="color: var(--text-muted);">標準比賽用球 1 桶 6~12 顆</small></td>
+              <td><strong>40孔標準比賽匹克球消耗材料</strong><br><small style="color: var(--text-muted);">標準比賽用球 2 桶（約 12 顆）</small></td>
               <td>600</td>
-              <td>1 組</td>
-              <td><strong>600 元</strong></td>
-              <td>供實體練球數據採集與高速擊球測試之消耗性用球（符合 40 孔標準規格，維持彈跳與阻力一致性，避免破損變形造成標註偏差）。</td>
+              <td>2 桶</td>
+              <td><strong>1,200 元</strong></td>
+              <td>供實體練球、採集真實物理彈跳數據與擊球測試之消耗性用球（符合 40 孔國際標準規格，劇烈打擊後易磨損碎裂，屬消耗品）。</td>
             </tr>
             <tr>
               <td><span class="badge-sub">材料費</span></td>
-              <td><strong>運動視覺標記與球場定位耗材</strong><br><small style="color: var(--text-muted);">關節標記貼、場地定位膠帶、握把布</small></td>
-              <td>1,000</td>
+              <td><strong>運動視覺標記與廚房區定位標線耗材</strong><br><small style="color: var(--text-muted);">無殘膠定位線、反差標記貼、握把布</small></td>
+              <td>1,500</td>
               <td>1 式</td>
-              <td><strong>1,000 元</strong></td>
-              <td>包含黏貼於關節之高反差動態追蹤標記貼紙、劃設 Non-Volley Zone 落點之定位標線膠帶，以及防滑吸汗握把布，均為消耗性耗材。</td>
+              <td><strong>1,500 元</strong></td>
+              <td>包含實體球場劃設 Non-Volley Zone 禁區落點標線、鏡頭動態追蹤反差標記，以及學員實測吸汗防滑握把布，均為不可重複使用消耗品。</td>
+            </tr>
+            <tr>
+              <td><span class="badge-sub">材料費</span></td>
+              <td><strong>規則闖關與教學測試圖卡印製耗材</strong><br><small style="color: var(--text-muted);">新手規則指南、實測紀錄耗材</small></td>
+              <td>1,400</td>
+              <td>1 式</td>
+              <td><strong>1,400 元</strong></td>
+              <td>用於製作新手快速理解規則之闖關互動圖卡、系統實測問卷與回饋評量表等研習必備消耗紙本耗材。</td>
             </tr>
             <tr>
               <td><span class="badge-food">誤餐費</span></td>
@@ -473,11 +517,11 @@
               <td>100</td>
               <td>24 人次</td>
               <td><strong>2,400 元</strong></td>
-              <td>每次聚會每人 100 元（6 次聚會 × 每次 4 人），編滿基本補助 8,000 元之 30% 上限（2,400 元），非用餐時段不予支領。</td>
+              <td>每次研習每人 100 元（6 次研習 × 每次 4 人），編滿基本補助 8,000 元之 30% 上限（2,400 元），非用餐時段不予支領。</td>
             </tr>
             <tr class="total-row">
               <td colspan="4"><strong>合計申請總經費</strong></td>
-              <td colspan="2"><strong>NT$ 8,000 元整</strong>（基本補助額度 8,000 元整整編滿）</td>
+              <td colspan="2"><strong>NT$ 8,000 元整</strong>（基本補助額度 8,000 元整整編滿，100% 消耗性耗材與合規便當）</td>
             </tr>
           </tbody>
         </table>
@@ -497,7 +541,7 @@
   </main>
 
   <footer style="text-align: center; padding: 24px 20px; font-size: 12px; color: var(--text-muted);">
-    國立中興大學 115-1 學生學習社群計畫｜PickleFit AI 體感互動專案
+    國立中興大學 115-1 學生學習社群計畫｜PickleFit 體感遊戲化教學專案
   </footer>
 
 </body>
