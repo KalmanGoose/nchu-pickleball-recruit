@@ -421,7 +421,297 @@
       .dash-hero { padding: 22px 18px; }
       .module-card { padding: 18px 16px; }
     }
-  </style>
+  
+    /* ── 首頁專區分流導航 (Portal Hub) ── */
+    .portal-hero-banner {
+      background: linear-gradient(135deg, rgba(0, 75, 151, 0.08), rgba(171, 218, 213, 0.2));
+      border: 1px solid rgba(0, 75, 151, 0.15);
+      border-radius: var(--card-radius);
+      padding: 24px 28px;
+      margin-bottom: 24px;
+    }
+    .portal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 28px;
+    }
+    .portal-card {
+      background: #ffffff;
+      border: 1.5px solid rgba(0, 75, 151, 0.12);
+      border-radius: var(--card-radius);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+    }
+    .portal-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--primary);
+    }
+    .portal-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .portal-icon {
+      font-size: 32px;
+      line-height: 1;
+    }
+    .portal-title {
+      font-size: 18px;
+      font-weight: 900;
+      color: var(--text-main);
+      margin-bottom: 10px;
+    }
+    .portal-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+      flex: 1;
+    }
+    .portal-card-footer {
+      border-top: 1px dashed rgba(0, 75, 151, 0.12);
+      padding-top: 14px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .portal-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--primary);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* ── 現場活動抽屜 (Drawer) ── */
+    .drawer-backdrop {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 39, 69, 0.45);
+      backdrop-filter: blur(4px);
+      z-index: 9998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.25s ease;
+    }
+    .drawer-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .drawer-panel {
+      position: fixed;
+      top: 0; right: 0;
+      width: min(920px, 94vw);
+      height: 100vh;
+      background: #ffffff;
+      box-shadow: -8px 0 32px rgba(15, 39, 69, 0.2);
+      z-index: 9999;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .drawer-panel.active {
+      transform: translateX(0);
+    }
+    .drawer-header {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: #ffffff;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+    .drawer-title {
+      font-size: 16px;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .drawer-close-btn {
+      background: transparent;
+      border: none;
+      color: #ffffff;
+      font-size: 26px;
+      cursor: pointer;
+      line-height: 1;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .drawer-close-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    .drawer-nav {
+      background: #f8fafc;
+      border-bottom: 1px solid rgba(0, 75, 151, 0.1);
+      padding: 10px 20px;
+      display: flex;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .drawer-tab-btn {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: var(--pill-radius);
+      padding: 7px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .drawer-tab-btn.active {
+      background: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+    .drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px;
+      background: var(--bg);
+    }
+    .drawer-pane {
+      display: none;
+    }
+    .drawer-pane.active {
+      display: block;
+      animation: fadeIn .25s ease;
+    }
+
+    /* ── 財務動態記帳與簽名板 ── */
+    .budget-meter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+    .budget-meter-card {
+      background: #fafcff;
+      border: 1px solid rgba(0, 75, 151, 0.12);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .meter-label {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+    }
+    .meter-val {
+      font-size: 26px;
+      font-weight: 900;
+      color: var(--primary);
+      margin: 4px 0;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--emerald);
+      border-radius: 999px;
+      transition: width 0.3s ease;
+    }
+    .progress-bar-fill.warning {
+      background: var(--amber);
+    }
+    .progress-bar-fill.danger {
+      background: var(--rose);
+    }
+
+    .expense-form-box {
+      background: #ffffff;
+      border: 1.5px solid rgba(0, 75, 151, 0.12);
+      border-radius: 12px;
+      padding: 22px;
+      margin: 20px 0;
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-family: inherit;
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 75, 151, 0.1);
+    }
+
+    /* 簽名畫布 */
+    .sig-canvas-wrap {
+      border: 2px dashed #004B97;
+      border-radius: 10px;
+      background: #fafafa;
+      position: relative;
+      touch-action: none;
+      margin: 12px 0;
+    }
+    #signature-pad-canvas {
+      width: 100%;
+      height: 190px;
+      display: block;
+      cursor: crosshair;
+    }
+    .sig-meta-bar {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .btn-back-home {
+      background: #ffffff;
+      color: var(--primary);
+      border: 1px solid rgba(0, 75, 151, 0.2);
+      padding: 6px 14px;
+      border-radius: var(--pill-radius);
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+    .btn-back-home:hover {
+      background: var(--bg);
+      border-color: var(--primary);
+    }
+
+</style>
 </head>
 <body>
 
@@ -469,6 +759,7 @@
       <a href="index.html" class="nav-btn home">📢 招募首頁</a>
       <a href="proposal.html" class="nav-btn proposal">📄 計畫書草案</a>
       <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="nav-btn demo">🎮 體感 Demo</a>
+      <button class="nav-btn" onclick="toggleDrawer(true)" style="background: linear-gradient(135deg, #059669, #10b981); color: #fff; border:none; cursor:pointer; font-weight:700;">🧰 現場活動抽屜</button>
       <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="nav-btn line">💬 官方 LINE</a>
       <a href="https://www.instagram.com/nchupickleball_lab1.0" target="_blank" class="nav-btn ig">📸 IG</a>
       <button id="btn-logout" class="nav-btn" style="display:none; background:#fff; color:#b91c1c; border:1px solid #f87171; cursor:pointer;" onclick="logoutOfficer()">🚪 幹部登出</button>
@@ -508,15 +799,7 @@
       </div>
     </div>
 
-    <!-- ── 後端 Google Sheets 即時同步狀態列 ── -->
-    <div class="sync-banner">
-      <div class="sync-info">
-        <span class="sync-status-dot loading" id="sync-status-dot"></span>
-        <div>
-          <div style="font-weight: 800; font-size: 13.5px;" id="sync-status-title">Google Sheets 資料連線中... ⏳</div>
-          <div class="sync-time" id="sync-time-label">最後同步：--</div>
-        </div>
-      </div>
+    
       <div class="sync-actions">
         <div class="sync-stat-chip">👥 報名名冊：<strong id="stat-reg-count">--</strong> 人</div>
         <div class="sync-stat-chip">🏓 出席簽到：<strong id="stat-att-count">--</strong> 人次</div>
@@ -570,192 +853,119 @@
 
     <!-- 分頁導航列 (Tabs) -->
     <div class="dash-tabs" id="tabNav">
-      <button class="tab-btn active" onclick="switchTab('tab-roster', this)">👥 即時報名名冊 (<span id="tab-roster-count">0</span>)</button>
-      <button class="tab-btn" onclick="switchTab('tab-checkin', this)">🏓 現場簽到打卡 (<span id="tab-checkin-count">0</span>)</button>
-      <button class="tab-btn" onclick="switchTab('tab-notes', this)">📓 幹部工作筆記與工具箱</button>
-      <button class="tab-btn" onclick="switchTab('tab-sop', this)">👑 總管 SOP 與組織</button>
-      <button class="tab-btn" onclick="switchTab('tab-admin', this)">📝 行政文書 (申請與紀錄)</button>
-      <button class="tab-btn" onclick="switchTab('tab-finance', this)">💰 總務器材與經費預算</button>
-      <button class="tab-btn" onclick="switchTab('tab-media', this)">🎥 活動影音 (影片分鏡)</button>
-      <button class="tab-btn" onclick="switchTab('tab-marketing', this)">📢 社群行銷 (LINE與文案)</button>
-      <button class="tab-btn" onclick="switchTab('tab-tech', this)">💻 技術開發與遊戲清單</button>
-      <button class="tab-btn" onclick="switchTab('tab-cloud', this)">☁️ Google 雲端權限架構</button>
+      <button class="tab-btn active" onclick="switchTab('tab-home', this)">🏠 專區首頁 (分流導航)</button>
+      <button class="tab-btn" onclick="switchTab('tab-finance', this)">💰 總務財務 (記帳/單據/簽名)</button>
+      <button class="tab-btn" onclick="switchTab('tab-sop', this)">👑 召集人總管 (開會/職掌/SOP)</button>
+      <button class="tab-btn" onclick="switchTab('tab-admin', this)">📝 行政文書 (申請/紀錄/諮詢)</button>
+      <button class="tab-btn" onclick="switchTab('tab-tech', this)">💻 教學研發 (教材/體感/影片)</button>
+      <button class="tab-btn" onclick="switchTab('tab-notes', this)">📓 幹部內部筆記本</button>
+      <button class="tab-btn" onclick="toggleDrawer(true)" style="background: linear-gradient(135deg, #059669, #10b981); color: #fff; border-color: #059669; font-weight:700;">🧰 現場活動抽屜 (名冊/簽到)</button>
     </div>
 
     <!-- ────────────────────────────────────────────── -->
     <!-- TAB: 即時報名名冊與審核 -->
     <!-- ────────────────────────────────────────────── -->
-    <div class="tab-pane active" id="tab-roster">
-      <div class="module-card">
-        <div class="module-header">
+        <!-- ────────────────────────────────────────────── -->
+    <!-- TAB: 專區首頁 (分門別類核心導覽) -->
+    <!-- ────────────────────────────────────────────── -->
+    <div class="tab-pane active" id="tab-home">
+      <!-- 專區首頁導覽橫幅 -->
+      <div class="portal-hero-banner">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
           <div>
-            <div class="module-title">👥 即時報名名冊與資格審核 (Google Sheets 直連)</div>
-            <div class="module-desc">每次開啟工作台均自動向後端獲取最新名冊，支援即時關鍵字過濾、LINE ID 一鍵複製與名冊匯出。</div>
+            <div style="font-size: 20px; font-weight: 900; color: var(--primary);">🏓 學習社群核心協作專區 (分門別類導航)</div>
+            <div style="font-size: 13.5px; color: var(--text-muted); margin-top: 4px;">
+              依幹部職掌分流工作台，點擊卡片快速直達；現場報名名冊與現場打卡請點擊右上角「<strong>🧰 現場活動抽屜</strong>」。
+            </div>
           </div>
-          <span class="module-source">工作表：報名名冊</span>
-        </div>
-
-        <!-- 系所分佈統計列 -->
-        <div style="margin-bottom: 16px;">
-          <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">📊 系所成員分佈統計：</div>
-          <div class="dept-badges" id="dept-badges-container">
-            <span class="dept-badge">載入中...</span>
-          </div>
-        </div>
-
-        <!-- 工具列：搜尋與操作按鈕 -->
-        <div class="roster-toolbar">
-          <div class="search-box">
-            <input type="text" id="roster-search-input" class="search-input" placeholder="🔍 搜尋學員姓名、學號、系所或專長..." oninput="filterRoster()">
-          </div>
-          <div class="roster-btns">
-            <button class="btn-action" onclick="copyAllLineIds()">
-              📋 一鍵複製全體 LINE ID
-            </button>
-            <button class="btn-action" onclick="exportRosterCsv()">
-              📥 匯出名冊 (CSV)
-            </button>
-            <a href="#" target="_blank" id="roster-sheet-link" class="btn-action" style="display:none; text-decoration:none;">
-              📊 開啟 Google 試算表 ↗
-            </a>
-          </div>
-        </div>
-
-        <!-- 名冊表格 -->
-        <div class="table-responsive">
-          <table id="roster-table">
-            <thead>
-              <tr>
-                <th style="width: 45px;">#</th>
-                <th>登記時間</th>
-                <th>姓名</th>
-                <th>系所年級</th>
-                <th>學號</th>
-                <th>LINE ID</th>
-                <th>聯絡 Email</th>
-                <th>感興趣角色</th>
-                <th>備註 / 自我介紹</th>
-              </tr>
-            </thead>
-            <tbody id="roster-tbody">
-              <tr>
-                <td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">
-                  連線試算表資料中... ⏳
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div id="roster-summary-footer" style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--text-muted); flex-wrap: wrap; gap: 8px;">
-          <span id="roster-count-text">目前顯示 0 位學員</span>
-          <span>💡 提示：點擊個別學員的 LINE ID 亦可直接複製！</span>
+          <button class="btn-action primary" onclick="toggleDrawer(true)" style="padding: 10px 18px; font-size: 13.5px;">
+            🧰 開啟現場活動抽屜 (名冊/簽到)
+          </button>
         </div>
       </div>
-    </div>
 
-    <!-- ────────────────────────────────────────────── -->
-    <!-- TAB: 聚會現場簽到打卡 -->
-    <!-- ────────────────────────────────────────────── -->
-    <div class="tab-pane" id="tab-checkin">
-      <div class="module-card">
-        <div class="module-header">
+      <!-- 四大核心專區卡片 -->
+      <div class="portal-grid">
+        <!-- 卡片 1: 總務財務與單據核銷 -->
+        <div class="portal-card" onclick="switchTab('tab-finance')">
           <div>
-            <div class="module-title">🏓 聚會現場打卡簽到工具 (即時寫入試算表)</div>
-            <div class="module-desc">幹部於實體聚會現場點名時使用。選取學員後送出，即可直接同步寫入 Google 試算表「出席簽到」表。</div>
+            <div class="portal-card-header">
+              <span class="portal-icon">💰</span>
+              <span class="badge badge-amber">8,000 元合規上限</span>
+            </div>
+            <h3 class="portal-title">總務財務與單據核銷專區</h3>
+            <p class="portal-desc">
+              • 8,000 元預算動態記帳與剩餘額度即時試算（材料費上限 $5,600 / 誤餐費上限 $2,400）<br>
+              • 單據拍照上傳預覽 ＋ 統編 52024101 防呆檢核<br>
+              • 線上電子手寫簽名板（便當簽收、出席簽核、圖檔下載）
+            </p>
           </div>
-          <span class="module-source">工作表：出席簽到</span>
+          <div class="portal-card-footer">
+            <span class="portal-link">進入財務工作台 →</span>
+          </div>
         </div>
 
-        <div class="checkin-container">
-          <!-- 左側：打卡輸入卡片 -->
-          <div class="checkin-form-box">
-            <h4 style="font-size: 15px; font-weight: 900; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 6px;">
-              📝 新增現場簽到
-            </h4>
-
-            <div class="form-group">
-              <label class="form-label">快速選取學員 (自動帶入)</label>
-              <select id="checkin-select-student" class="form-control" onchange="onCheckinStudentSelect(this)">
-                <option value="">-- 請選擇已報名學員 --</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">學號 <span style="color:var(--rose);">*</span></label>
-              <input type="text" id="checkin-studentid" class="form-control" placeholder="例：7112064123">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">學員姓名 <span style="color:var(--rose);">*</span></label>
-              <input type="text" id="checkin-name" class="form-control" placeholder="例：王小明">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">聚會次數 / 活動場次</label>
-              <select id="checkin-session" class="form-control">
-                <option value="第 1 次聚會 (需求與現況盤點)">第 1 次聚會 (需求與現況盤點)</option>
-                <option value="第 2 次聚會 (動作觀察與規則轉譯)">第 2 次聚會 (動作觀察與規則轉譯)</option>
-                <option value="第 3 次聚會 (六題教材與技術共學)">第 3 次聚會 (六題教材與技術共學)</option>
-                <option value="第 4 次聚會 (鏡頭輸入與內部驗證)">第 4 次聚會 (鏡頭輸入與內部驗證)</option>
-                <option value="第 5 次聚會 (體驗演練與流程整備)">第 5 次聚會 (體驗演練與流程整備)</option>
-                <option value="第 6 次聚會 (第一場新手體驗與檢討)">第 6 次聚會 (第一場新手體驗與檢討)</option>
-                <option value="第 7 次聚會 (第二場新手體驗與成效總結)">第 7 次聚會 (第二場新手體驗與成效總結)</option>
-                <option value="自主共學 / 臨時討論">自主共學 / 臨時討論</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">備註狀況</label>
-              <input type="text" id="checkin-note" class="form-control" placeholder="例：準時、借用公拍 1 支、提早熱身">
-            </div>
-
-            <button type="button" id="btn-submit-checkin" class="login-btn" onclick="submitCheckin()" style="margin-top: 10px;">
-              ✅ 完成簽到並寫入試算表
-            </button>
-
-            <div id="checkin-status-msg" style="display: none; margin-top: 10px; font-size: 12.5px; padding: 8px 12px; border-radius: 8px;"></div>
-          </div>
-
-          <!-- 右側：歷次出席簽到紀錄 -->
+        <!-- 卡片 2: 召集人總管與開會進度 -->
+        <div class="portal-card" onclick="switchTab('tab-sop')">
           <div>
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
-              <h4 style="font-size: 15px; font-weight: 900; color: var(--text-main);">📋 歷次出席簽到紀錄 (<span id="checkin-log-count">0</span> 次)</h4>
-              <button class="btn-action" onclick="exportAttendanceCsv()">
-                📥 匯出簽到記錄 (CSV)
-              </button>
+            <div class="portal-card-header">
+              <span class="portal-icon">👑</span>
+              <span class="badge badge-primary">召集人與全體幹部</span>
             </div>
+            <h3 class="portal-title">召集人總管與開會進度專區</h3>
+            <p class="portal-desc">
+              • 7 次聚會開會排程、核心目標與檢查點總覽<br>
+              • 6 位正式成員具體職掌與個人可檢查產出（林冠丞、王雨欣、陳皇秀、許沐鈞、吳佳叡、龔依吟）<br>
+              • 幕後總管 RACI 權限矩陣與防呆公約
+            </p>
+          </div>
+          <div class="portal-card-footer">
+            <span class="portal-link">進入總管工作台 →</span>
+          </div>
+        </div>
 
-            <div class="table-responsive" style="max-height: 480px; overflow-y: auto;">
-              <table id="checkin-table">
-                <thead>
-                  <tr>
-                    <th style="width: 45px;">#</th>
-                    <th>簽到時間</th>
-                    <th>學號</th>
-                    <th>姓名</th>
-                    <th>活動場次</th>
-                    <th>備註</th>
-                  </tr>
-                </thead>
-                <tbody id="checkin-tbody">
-                  <tr>
-                    <td colspan="6" style="text-align: center; padding: 36px; color: var(--text-muted);">
-                      尚未有簽到資料
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+        <!-- 卡片 3: 行政文書與送件檢核 -->
+        <div class="portal-card" onclick="switchTab('tab-admin')">
+          <div>
+            <div class="portal-card-header">
+              <span class="portal-icon">📝</span>
+              <span class="badge badge-mint">退件補正與行政紀錄</span>
             </div>
+            <h3 class="portal-title">行政文書與送件檢核專區</h3>
+            <p class="portal-desc">
+              • 115-1 計畫申請書送件防呆檢核清單<br>
+              • 7 次共學討論紀錄表與簽到單標準模板<br>
+              • 體育室許銘華老師學習諮詢提綱
+            </p>
+          </div>
+          <div class="portal-card-footer">
+            <span class="portal-link">進入行政工作台 →</span>
+          </div>
+        </div>
+
+        <!-- 卡片 4: 教學研發與影音發表 -->
+        <div class="portal-card" onclick="switchTab('tab-tech')">
+          <div>
+            <div class="portal-card-header">
+              <span class="portal-icon">💻</span>
+              <span class="badge badge-emerald">MediaPipe × 網頁教材</span>
+            </div>
+            <h3 class="portal-title">教學研發與影音發表專區</h3>
+            <p class="portal-desc">
+              • 六題匹克球新手規則情境互動教材規格<br>
+              • MediaPipe 純前端人體姿態推論表現驗證<br>
+              • 3~10 分鐘 1080P 成果影片 4 幕分鏡腳本大綱
+            </p>
+          </div>
+          <div class="portal-card-footer">
+            <span class="portal-link">進入研發工作台 →</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- ────────────────────────────────────────────── -->
-    <!-- TAB: 幹部專屬工作筆記與實用工具箱 -->
-    <!-- ────────────────────────────────────────────── -->
     <div class="tab-pane" id="tab-notes">
+      <div style="margin-bottom: 16px;"><button class="btn-back-home" onclick="switchTab('tab-home')">← 返回專區首頁</button></div>
       <div class="module-card">
         <div class="module-header">
           <div>
@@ -1246,7 +1456,79 @@
     <!-- ────────────────────────────────────────────── -->
     <!-- TAB 1: 總管 SOP 與組織 -->
     <!-- ────────────────────────────────────────────── -->
-    <div class="tab-pane" id="tab-sop">
+        <div class="tab-pane" id="tab-sop">
+      <div style="margin-bottom: 16px;">
+        <button class="btn-back-home" onclick="switchTab('tab-home')">← 返回專區首頁</button>
+      </div>
+
+      <!-- 📅 7 次聚會開會排程與總管核心檢查點 -->
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">📅 7 次聚會開會排程與總管核心檢查點</div>
+            <div class="module-desc">總召總管必備：掌控 7 週 7 次正式聚會的開會目標、成果產出與出席率（母法規定每次達 2/3 以上出席）</div>
+          </div>
+          <span class="module-source">召集人進度表</span>
+        </div>
+
+        <div class="table-responsive">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 13%;">週次與日期</th>
+                <th style="width: 18%;">聚會主題</th>
+                <th style="width: 42%;">開會核心任務與共學操作</th>
+                <th style="width: 27%;">總管必備檢查點</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>第 1 週</strong><br><small style="color:var(--text-muted);">10/12–10/18</small></td>
+                <td><strong>聚會 1：需求與現況盤點</strong><br><span class="badge badge-mint">2小時</span></td>
+                <td>確認 6 位成員名冊與行政兼任分工；龔依吟盤點場地條件，吳佳叡核對預算表；實測 V4/V5，確立可沿用功能、六題規格與鏡頭範圍。</td>
+                <td>已有與待做功能清單、六題教材規格初稿、簽到紀錄。</td>
+              </tr>
+              <tr>
+                <td><strong>第 2 週</strong><br><small style="color:var(--text-muted);">10/19–10/25</small></td>
+                <td><strong>聚會 2：動作觀察與規則轉譯</strong><br><span class="badge badge-mint">2小時</span></td>
+                <td>林冠丞、王雨欣示範標記動作特徵；許沐鈞、陳皇秀討論計算邏輯；龔依吟記錄場地拍攝條件；準備第一輪學習諮詢資料。</td>
+                <td>動作特徵表、題目初稿、第一輪諮詢提綱、簽到紀錄。</td>
+              </tr>
+              <tr>
+                <td><strong>第 3 週</strong><br><small style="color:var(--text-muted);">10/26–11/01</small></td>
+                <td><strong>聚會 3：六題教材及技術共學</strong><br><span class="badge badge-mint">2小時</span></td>
+                <td>結對完成按鈕式教材；許沐鈞示範姿態節點與 MediaPipe 流程；陳皇秀整理測試需求；吳佳叡核對預算與預定採購項目。</td>
+                <td>六題可操作初版網頁、程式共學筆記、採購核對表、簽到紀錄。</td>
+              </tr>
+              <tr>
+                <td><strong>第 4 週</strong><br><small style="color:var(--text-muted);">11/02–11/08</small></td>
+                <td><strong>聚會 4：鏡頭輸入與內部驗證</strong><br><span class="badge badge-mint">2小時</span></td>
+                <td>整合節點、時間窗與事件；林冠丞、王雨欣標註示範；許沐鈞、陳皇秀測試不同裝置；龔依吟檢查站位距離光線；凍結主要功能。</td>
+                <td>固定參數版、事件統計、裝置及失敗處理清單、簽到紀錄。</td>
+              </tr>
+              <tr>
+                <td><strong>第 5 週</strong><br><small style="color:var(--text-muted);">11/09–11/15</small></td>
+                <td><strong>聚會 5：體驗演練與流程整備</strong><br><span class="badge badge-mint">2小時</span></td>
+                <td>全員試跑前後測、招募文案與報名表單實測；內部體驗分站演練、動線整備；吳佳叡核對支出與核銷單據；整理第二輪學習諮詢問題。</td>
+                <td>招募與前後測表單、場地動線配置、經費核對、第二輪諮詢提綱、簽到紀錄。</td>
+              </tr>
+              <tr>
+                <td><strong>第 6 週</strong><br><small style="color:var(--text-muted);">11/16–11/22</small></td>
+                <td><strong>聚會 6：第一場新手體驗與檢討</strong><br><span class="badge badge-rose" style="background:var(--rose-bg);color:var(--rose);">3小時 (2h體驗+1h檢討)</span></td>
+                <td>三小時活動進行約 15 人次實測、前後測與回饋；團隊分站操作並記錄問題；體驗結束後立即進行一小時操作與教學檢討。</td>
+                <td>第一場前後測及回饋資料、實際人數人次、即時檢討筆記、聚會紀錄。</td>
+              </tr>
+              <tr>
+                <td><strong>第 7 週</strong><br><small style="color:var(--text-muted);">11/23–11/29</small></td>
+                <td><strong>聚會 7：第二場新手體驗與成效總結</strong><br><span class="badge badge-rose" style="background:var(--rose-bg);color:var(--rose);">3小時 (2h體驗+1h檢討)</span></td>
+                <td>三小時活動再測約 15 人次；體驗結束後進行一小時檢討，核對資料缺漏、技術失敗與規則理解問題，凍結成果版本。</td>
+                <td>累計 30 人次目標（至少 20 位獨立新手）、匿名資料表、問題修正紀錄、聚會紀錄。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <div class="module-card">
         <div class="module-header">
           <div>
@@ -1394,6 +1676,7 @@
     <!-- TAB 2: 行政文書組 (申請與紀錄) -->
     <!-- ────────────────────────────────────────────── -->
     <div class="tab-pane" id="tab-admin">
+      <div style="margin-bottom: 16px;"><button class="btn-back-home" onclick="switchTab('tab-home')">← 返回專區首頁</button></div>
       <div class="module-card">
         <div class="module-header">
           <div>
@@ -1488,7 +1771,197 @@
     <!-- ────────────────────────────────────────────── -->
     <!-- TAB 3: 總務器材與經費預算 -->
     <!-- ────────────────────────────────────────────── -->
-    <div class="tab-pane" id="tab-finance">
+        <div class="tab-pane" id="tab-finance">
+      <div style="margin-bottom: 16px;">
+        <button class="btn-back-home" onclick="switchTab('tab-home')">← 返回專區首頁</button>
+      </div>
+      
+      <!-- 總務財務模組卡片 -->
+      <div class="module-card">
+        <div class="module-header">
+          <div>
+            <div class="module-title">💰 總務財務專區：8,000 元即時記帳、單據檢核與手寫簽名</div>
+            <div class="module-desc">嚴格遵守學校統編 52024101，基本補助 8,000 元專款專用（材料費 5,600 元，誤餐費上限 2,400 元）</div>
+          </div>
+          <span class="module-source">財務負責人：吳佳叡</span>
+        </div>
+
+        <!-- 8,000 元動態預算進度儀表 -->
+        <h4 style="font-weight: 900; margin-bottom: 8px;">📊 8,000 元預算動態額度試算 (即時計算)</h4>
+        <div class="budget-meter-grid">
+          <div class="budget-meter-card">
+            <div class="meter-label">📦 材料費消耗 (上限 $5,600)</div>
+            <div class="meter-val" id="meter-mat-spent">$0</div>
+            <div style="font-size: 12px; color: var(--text-muted);">剩餘額度：<strong id="meter-mat-remain" style="color:var(--emerald);">$5,600</strong></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="meter-mat-bar" style="width: 0%;"></div></div>
+          </div>
+
+          <div class="budget-meter-card">
+            <div class="meter-label">🍱 誤餐費支出 (上限 $2,400 / 30%)</div>
+            <div class="meter-val" id="meter-food-spent">$0</div>
+            <div style="font-size: 12px; color: var(--text-muted);">剩餘額度：<strong id="meter-food-remain" style="color:var(--emerald);">$2,400</strong></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="meter-food-bar" style="width: 0%;"></div></div>
+          </div>
+
+          <div class="budget-meter-card" style="background: #f0f7ff; border-color: rgba(0,75,151,0.25);">
+            <div class="meter-label">💰 專案申請總額 (上限 $8,000)</div>
+            <div class="meter-val" id="meter-total-spent" style="color:var(--primary);">$0</div>
+            <div style="font-size: 12px; color: var(--text-muted);">可用總餘額：<strong id="meter-total-remain" style="color:var(--primary);">$8,000</strong></div>
+            <div class="progress-bar-bg"><div class="progress-bar-fill" id="meter-total-bar" style="width: 0%;"></div></div>
+          </div>
+        </div>
+
+        <!-- 新增費用支出登記表單 -->
+        <div class="expense-form-box">
+          <div style="font-weight: 900; font-size: 15px; color: var(--primary); margin-bottom: 12px; display:flex; justify-content:space-between; align-items:center;">
+            <span>🧾 新增實支單據登記 (支援拍照上傳與統編核對)</span>
+            <span style="font-size:12px; font-weight:normal; color:var(--text-muted);">資料自動儲存於本機瀏覽器</span>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>經費科目 *</label>
+              <select class="form-select" id="exp-cat">
+                <option value="材料費">材料費 (上限 $5,600)</option>
+                <option value="誤餐費">誤餐費 (上限 $2,400)</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>品名規格 *</label>
+              <input type="text" class="form-input" id="exp-name" placeholder="如：40孔匹克球、便當餐盒">
+            </div>
+            <div class="form-group">
+              <label>支出金額 (NT$) *</label>
+              <input type="number" class="form-input" id="exp-amount" placeholder="金額 (數字)">
+            </div>
+          </div>
+
+          <div class="form-grid-3">
+            <div class="form-group">
+              <label>發票 / 收據號碼</label>
+              <input type="text" class="form-input" id="exp-inv" placeholder="如：AB-12345678">
+            </div>
+            <div class="form-group">
+              <label>單據拍照 / 圖片上傳</label>
+              <input type="file" accept="image/*" capture="environment" class="form-input" id="exp-file" onchange="previewExpensePhoto(this)">
+            </div>
+            <div class="form-group" style="display:flex; align-items:center; padding-top:22px;">
+              <label style="display:flex; align-items:center; gap:8px; cursor:pointer; margin:0; font-size:13px; color:var(--text-main);">
+                <input type="checkbox" id="exp-taxid-check" checked style="accent-color:var(--primary); width:16px; height:16px;">
+                <span>已確認發票打統編 <strong>52024101</strong></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 圖片縮圖預覽 -->
+          <div id="exp-photo-preview-box" style="display:none; margin: 10px 0; align-items:center; gap:12px; background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0;">
+            <img id="exp-photo-preview" src="" style="max-height:80px; max-width:140px; border-radius:6px; object-fit:cover; border:1px solid #cbd5e1;">
+            <span style="font-size:12.5px; color:var(--text-muted);">單據照片已載入！</span>
+            <button type="button" class="btn-action" style="padding:4px 8px; font-size:12px; color:var(--rose); border-color:#fca5a5;" onclick="clearExpensePhoto()">移除照片</button>
+          </div>
+
+          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:14px;">
+            <button class="btn-action primary" onclick="addExpenseRecord()" style="padding:10px 22px; font-size:13.5px;">
+              💾 儲存並登記此筆支出
+            </button>
+          </div>
+        </div>
+
+        <!-- 已登記費用明細清單 -->
+        <div style="margin-top: 24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 10px;">
+            <h4 style="font-weight: 900; color: var(--text-main);">📋 已登記支出單據清單 (<span id="exp-count-label">0</span> 筆)</h4>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-action" onclick="exportExpenseCsv()">📥 匯出費用清單 (CSV)</button>
+              <button class="btn-action" style="color:var(--rose); border-color:#fca5a5;" onclick="clearAllExpenses()">清空所有支出</button>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>登記日期</th>
+                  <th>科目</th>
+                  <th>品名規格</th>
+                  <th>金額</th>
+                  <th>發票號碼</th>
+                  <th>統編檢核</th>
+                  <th>單據照片</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="expense-tbody">
+                <tr><td colspan="9" style="text-align:center; color:var(--text-muted); padding:24px;">尚無支出紀錄，請透過上方表單登記單據。</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 線上電子手寫簽名板 (Canvas Signature Pad) -->
+        <div style="margin-top: 32px; border-top: 2px dashed rgba(0,75,151,0.15); padding-top: 24px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:12px;">
+            <div>
+              <h4 style="font-weight: 900; color: var(--primary); font-size:16px;">✍️ 線上電子手寫簽名板 (便當簽收 / 出席簽核)</h4>
+              <div style="font-size: 12.5px; color: var(--text-muted); margin-top:2px;">
+                支援手機/平板觸控手寫簽名，簽署後可保存於本機並下載透明 PNG 圖檔供報帳使用。
+              </div>
+            </div>
+            <span class="badge badge-emerald">免印紙本・即簽即存</span>
+          </div>
+
+          <div class="sig-meta-bar">
+            <input type="text" id="sig-signer-name" class="form-input" style="flex:1; min-width:160px;" placeholder="簽署人姓名 (如：陳皇秀、林冠丞)">
+            <select id="sig-purpose-select" class="form-select" style="flex:1; min-width:180px;">
+              <option value="聚會便當簽收 (誤餐費)">🍱 聚會便當簽收 (誤餐費報帳)</option>
+              <option value="實體聚會出席簽章">🏓 實體聚會出席簽章</option>
+              <option value="公用器材借還確認">🏸 公用器材借還確認</option>
+              <option value="其他行政確認">📝 其他行政業務確認</option>
+            </select>
+          </div>
+
+          <!-- Canvas 畫布 -->
+          <div class="sig-canvas-wrap">
+            <canvas id="signature-pad-canvas"></canvas>
+            <div style="position:absolute; right:12px; bottom:8px; font-size:11px; color:#94a3b8; pointer-events:none;">
+              請在此區域內用滑鼠或手指簽名
+            </div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:8px;">
+            <div style="display:flex; gap:8px;">
+              <button class="btn-action" onclick="clearSignatureCanvas()">🧹 清除重寫</button>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-action primary" onclick="saveSignatureRecord()">💾 確認並儲存此簽名</button>
+            </div>
+          </div>
+
+          <!-- 簽名歷史紀錄列表 -->
+          <div style="margin-top: 18px;">
+            <div style="font-weight:700; font-size:13px; margin-bottom:8px; color:var(--text-muted);">📋 已儲存之簽署紀錄：</div>
+            <div class="table-responsive" style="max-height: 220px; margin:0;">
+              <table>
+                <thead>
+                  <tr>
+                    <th>時間</th>
+                    <th>簽署人</th>
+                    <th>用途項目</th>
+                    <th>簽名圖檔預覽</th>
+                    <th>操作</th>
+                  </tr>
+                </thead>
+                <tbody id="signature-tbody">
+                  <tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:16px;">尚無手寫簽署紀錄</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: 36px; border-top: 2px dashed rgba(0,75,151,0.15); padding-top: 24px;">
+
       <div class="module-card">
         <div class="module-header">
           <div>
@@ -1753,6 +2226,7 @@
     <!-- TAB 6: 技術開發與競賽清單 -->
     <!-- ────────────────────────────────────────────── -->
     <div class="tab-pane" id="tab-tech">
+      <div style="margin-bottom: 16px;"><button class="btn-back-home" onclick="switchTab('tab-home')">← 返回專區首頁</button></div>
       <div class="module-card">
         <div class="module-header">
           <div>
@@ -3071,6 +3545,580 @@ ${next}
       loadExpenses();
       loadStickies();
     });
-  </script>
+  
+
+    // ══════════════════════════════════════════════════
+    // 🧰 現場活動抽屜 (Drawer) 開關與切換邏輯
+    // ══════════════════════════════════════════════════
+    function toggleDrawer(show) {
+      const backdrop = document.getElementById('drawer-backdrop');
+      const panel = document.getElementById('drawer-panel');
+      if (!backdrop || !panel) return;
+      
+      const shouldOpen = (show !== undefined) ? show : !panel.classList.contains('active');
+      if (shouldOpen) {
+        backdrop.classList.add('active');
+        panel.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      } else {
+        backdrop.classList.remove('active');
+        panel.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    }
+
+    function switchDrawerTab(paneId, btn) {
+      document.querySelectorAll('.drawer-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.drawer-pane').forEach(p => p.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      const target = document.getElementById(paneId);
+      if (target) target.classList.add('active');
+    }
+
+    // ══════════════════════════════════════════════════
+    // 💰 總務財務：8,000 元即時記帳、單據照片與試算邏輯
+    // ══════════════════════════════════════════════════
+    const EXPENSE_STORAGE_KEY = 'picklefit_expenses_115_1';
+    let currentExpensePhotoBase64 = '';
+
+    function getExpenses() {
+      try {
+        return JSON.parse(localStorage.getItem(EXPENSE_STORAGE_KEY)) || [];
+      } catch(e) {
+        return [];
+      }
+    }
+
+    function saveExpenses(list) {
+      localStorage.setItem(EXPENSE_STORAGE_KEY, JSON.stringify(list));
+      renderExpenseTable();
+      updateBudgetMeters();
+    }
+
+    function previewExpensePhoto(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          currentExpensePhotoBase64 = e.target.result;
+          const box = document.getElementById('exp-photo-preview-box');
+          const img = document.getElementById('exp-photo-preview');
+          if (box && img) {
+            img.src = currentExpensePhotoBase64;
+            box.style.display = 'flex';
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function clearExpensePhoto() {
+      currentExpensePhotoBase64 = '';
+      const box = document.getElementById('exp-photo-preview-box');
+      const fileInp = document.getElementById('exp-file');
+      if (box) box.style.display = 'none';
+      if (fileInp) fileInp.value = '';
+    }
+
+    function addExpenseRecord() {
+      const cat = document.getElementById('exp-cat').value;
+      const name = document.getElementById('exp-name').value.trim();
+      const amount = parseFloat(document.getElementById('exp-amount').value);
+      const inv = document.getElementById('exp-inv').value.trim() || '未載發票號';
+      const hasTaxId = document.getElementById('exp-taxid-check').checked;
+
+      if (!name) {
+        alert('請輸入支出品名規格！');
+        document.getElementById('exp-name').focus();
+        return;
+      }
+      if (isNaN(amount) || amount <= 0) {
+        alert('請輸入有效的支出金額！');
+        document.getElementById('exp-amount').focus();
+        return;
+      }
+
+      const list = getExpenses();
+      const newRecord = {
+        id: 'exp_' + Date.now(),
+        date: new Date().toLocaleDateString('zh-TW'),
+        cat: cat,
+        name: name,
+        amount: Math.round(amount),
+        inv: inv,
+        hasTaxId: hasTaxId,
+        photo: currentExpensePhotoBase64
+      };
+
+      list.unshift(newRecord);
+      saveExpenses(list);
+
+      // 清空表單
+      document.getElementById('exp-name').value = '';
+      document.getElementById('exp-amount').value = '';
+      document.getElementById('exp-inv').value = '';
+      clearExpensePhoto();
+      showToast('✅ 成功登記支出：' + name + ' ($' + amount + ')');
+    }
+
+    function deleteExpense(id) {
+      if (confirm('確定要刪除這筆支出紀錄嗎？')) {
+        let list = getExpenses();
+        list = list.filter(item => item.id !== id);
+        saveExpenses(list);
+        showToast('已刪除支出紀錄');
+      }
+    }
+
+    function clearAllExpenses() {
+      if (confirm('確定要清空所有已登記的支出紀錄嗎？此動作無法復原！')) {
+        localStorage.removeItem(EXPENSE_STORAGE_KEY);
+        renderExpenseTable();
+        updateBudgetMeters();
+        showToast('已清空支出紀錄');
+      }
+    }
+
+    function updateBudgetMeters() {
+      const list = getExpenses();
+      let matSpent = 0;
+      let foodSpent = 0;
+
+      list.forEach(item => {
+        if (item.cat === '材料費') matSpent += item.amount;
+        else if (item.cat === '誤餐費') foodSpent += item.amount;
+      });
+
+      const totalSpent = matSpent + foodSpent;
+      const matLimit = 5600;
+      const foodLimit = 2400;
+      const totalLimit = 8000;
+
+      // 更新數值顯示
+      const elMatSpent = document.getElementById('meter-mat-spent');
+      const elMatRemain = document.getElementById('meter-mat-remain');
+      const elMatBar = document.getElementById('meter-mat-bar');
+      if (elMatSpent) elMatSpent.innerText = '$' + matSpent.toLocaleString();
+      if (elMatRemain) {
+        const remain = matLimit - matSpent;
+        elMatRemain.innerText = (remain >= 0 ? '$' : '-$') + Math.abs(remain).toLocaleString();
+        elMatRemain.style.color = remain >= 0 ? 'var(--emerald)' : 'var(--rose)';
+      }
+      if (elMatBar) {
+        const pct = Math.min(100, Math.round((matSpent / matLimit) * 100));
+        elMatBar.style.width = pct + '%';
+        elMatBar.className = 'progress-bar-fill' + (pct > 100 ? ' danger' : (pct > 85 ? ' warning' : ''));
+      }
+
+      const elFoodSpent = document.getElementById('meter-food-spent');
+      const elFoodRemain = document.getElementById('meter-food-remain');
+      const elFoodBar = document.getElementById('meter-food-bar');
+      if (elFoodSpent) elFoodSpent.innerText = '$' + foodSpent.toLocaleString();
+      if (elFoodRemain) {
+        const remain = foodLimit - foodSpent;
+        elFoodRemain.innerText = (remain >= 0 ? '$' : '-$') + Math.abs(remain).toLocaleString();
+        elFoodRemain.style.color = remain >= 0 ? 'var(--emerald)' : 'var(--rose)';
+      }
+      if (elFoodBar) {
+        const pct = Math.min(100, Math.round((foodSpent / foodLimit) * 100));
+        elFoodBar.style.width = pct + '%';
+        elFoodBar.className = 'progress-bar-fill' + (pct > 100 ? ' danger' : (pct > 85 ? ' warning' : ''));
+      }
+
+      const elTotalSpent = document.getElementById('meter-total-spent');
+      const elTotalRemain = document.getElementById('meter-total-remain');
+      const elTotalBar = document.getElementById('meter-total-bar');
+      if (elTotalSpent) elTotalSpent.innerText = '$' + totalSpent.toLocaleString();
+      if (elTotalRemain) {
+        const remain = totalLimit - totalSpent;
+        elTotalRemain.innerText = (remain >= 0 ? '$' : '-$') + Math.abs(remain).toLocaleString();
+        elTotalRemain.style.color = remain >= 0 ? 'var(--primary)' : 'var(--rose)';
+      }
+      if (elTotalBar) {
+        const pct = Math.min(100, Math.round((totalSpent / totalLimit) * 100));
+        elTotalBar.style.width = pct + '%';
+        elTotalBar.className = 'progress-bar-fill' + (pct > 100 ? ' danger' : (pct > 85 ? ' warning' : ''));
+      }
+    }
+
+    function renderExpenseTable() {
+      const list = getExpenses();
+      const tbody = document.getElementById('expense-tbody');
+      const countLabel = document.getElementById('exp-count-label');
+      if (countLabel) countLabel.innerText = list.length;
+      if (!tbody) return;
+
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; color:var(--text-muted); padding:24px;">尚無支出紀錄，請透過上方表單登記單據。</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = list.map((item, idx) => `
+        <tr>
+          <td><strong>${idx + 1}</strong></td>
+          <td>${item.date}</td>
+          <td><span class="badge ${item.cat === '材料費' ? 'badge-mint' : 'badge-amber'}">${item.cat}</span></td>
+          <td><strong>${item.name}</strong></td>
+          <td style="font-weight:900; color:var(--primary);">$${item.amount.toLocaleString()}</td>
+          <td><code>${item.inv}</code></td>
+          <td>${item.hasTaxId ? '<span style="color:var(--emerald); font-weight:700;">✅ 52024101</span>' : '<span style="color:var(--rose);">⚠️ 缺統編</span>'}</td>
+          <td>
+            ${item.photo ? `<a href="${item.photo}" target="_blank"><img src="${item.photo}" style="height:36px; width:48px; object-fit:cover; border-radius:4px; border:1px solid #cbd5e1;" title="點擊檢視大圖"></a>` : '<span style="color:var(--text-muted); font-size:12px;">無照片</span>'}
+          </td>
+          <td>
+            <button class="btn-action" style="padding:3px 8px; font-size:11.5px; color:var(--rose); border-color:#fca5a5;" onclick="deleteExpense('${item.id}')">刪除</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function exportExpenseCsv() {
+      const list = getExpenses();
+      if (list.length === 0) {
+        alert('目前尚無支出資料可匯出！');
+        return;
+      }
+      let csv = '\uFEFF項次,登記日期,經費科目,品名規格,金額,發票號碼,統編檢核\n';
+      list.forEach((item, idx) => {
+        csv += `${idx + 1},"${item.date}","${item.cat}","${item.name}",${item.amount},"${item.inv}","${item.hasTaxId ? '有統編 52024101' : '無統編'}"\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `匹克球學習社群_8000元實支清單_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    // ══════════════════════════════════════════════════
+    // ✍️ 線上電子手寫簽名板 (Canvas Signature Pad)
+    // ══════════════════════════════════════════════════
+    const SIG_STORAGE_KEY = 'picklefit_signatures_115_1';
+    let sigCanvas, sigCtx;
+    let isDrawing = false;
+    let hasDrawn = false;
+
+    function initSignaturePad() {
+      sigCanvas = document.getElementById('signature-pad-canvas');
+      if (!sigCanvas) return;
+      sigCtx = sigCanvas.getContext('2d');
+
+      // 設定解析度縮放
+      const rect = sigCanvas.getBoundingClientRect();
+      sigCanvas.width = rect.width * 2;
+      sigCanvas.height = rect.height * 2;
+      sigCtx.scale(2, 2);
+
+      sigCtx.strokeStyle = '#0F2745';
+      sigCtx.lineWidth = 2.5;
+      sigCtx.lineCap = 'round';
+      sigCtx.lineJoin = 'round';
+
+      function getPos(e) {
+        const r = sigCanvas.getBoundingClientRect();
+        if (e.touches && e.touches.length > 0) {
+          return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+        }
+        return { x: e.clientX - r.left, y: e.clientY - r.top };
+      }
+
+      function startDraw(e) {
+        e.preventDefault();
+        isDrawing = true;
+        hasDrawn = true;
+        const pos = getPos(e);
+        sigCtx.beginPath();
+        sigCtx.moveTo(pos.x, pos.y);
+      }
+
+      function drawMove(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const pos = getPos(e);
+        sigCtx.lineTo(pos.x, pos.y);
+        sigCtx.stroke();
+      }
+
+      function endDraw(e) {
+        if (!isDrawing) return;
+        e.preventDefault();
+        isDrawing = false;
+      }
+
+      // 滑鼠事件
+      sigCanvas.addEventListener('mousedown', startDraw);
+      sigCanvas.addEventListener('mousemove', drawMove);
+      window.addEventListener('mouseup', endDraw);
+
+      // 觸控事件 (手機/平板)
+      sigCanvas.addEventListener('touchstart', startDraw, { passive: false });
+      sigCanvas.addEventListener('touchmove', drawMove, { passive: false });
+      sigCanvas.addEventListener('touchend', endDraw, { passive: false });
+
+      renderSignatureHistory();
+    }
+
+    function clearSignatureCanvas() {
+      if (!sigCanvas || !sigCtx) return;
+      sigCtx.clearRect(0, 0, sigCanvas.width, sigCanvas.height);
+      hasDrawn = false;
+    }
+
+    function getSignatures() {
+      try {
+        return JSON.parse(localStorage.getItem(SIG_STORAGE_KEY)) || [];
+      } catch(e) {
+        return [];
+      }
+    }
+
+    function saveSignatureRecord() {
+      if (!hasDrawn) {
+        alert('請先在畫布上手寫簽名！');
+        return;
+      }
+      const name = document.getElementById('sig-signer-name').value.trim();
+      const purpose = document.getElementById('sig-purpose-select').value;
+      if (!name) {
+        alert('請輸入簽署人姓名！');
+        document.getElementById('sig-signer-name').focus();
+        return;
+      }
+
+      const dataUrl = sigCanvas.toDataURL('image/png');
+      const list = getSignatures();
+      list.unshift({
+        id: 'sig_' + Date.now(),
+        date: new Date().toLocaleString('zh-TW', { hour12: false }),
+        name: name,
+        purpose: purpose,
+        image: dataUrl
+      });
+
+      localStorage.setItem(SIG_STORAGE_KEY, JSON.stringify(list));
+      clearSignatureCanvas();
+      document.getElementById('sig-signer-name').value = '';
+      renderSignatureHistory();
+      showToast('✅ 成功儲存「' + name + '」的電子簽名！');
+    }
+
+    function deleteSignature(id) {
+      if (confirm('確定要刪除這筆簽名紀錄嗎？')) {
+        let list = getSignatures();
+        list = list.filter(s => s.id !== id);
+        localStorage.setItem(SIG_STORAGE_KEY, JSON.stringify(list));
+        renderSignatureHistory();
+        showToast('已刪除簽名紀錄');
+      }
+    }
+
+    function downloadSignature(dataUrl, name) {
+      const a = document.createElement('a');
+      a.href = dataUrl;
+      a.download = `簽名檔_${name}_${Date.now()}.png`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function renderSignatureHistory() {
+      const list = getSignatures();
+      const tbody = document.getElementById('signature-tbody');
+      if (!tbody) return;
+
+      if (list.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; color:var(--text-muted); padding:16px;">尚無手寫簽署紀錄</td></tr>';
+        return;
+      }
+
+      tbody.innerHTML = list.map((item, idx) => `
+        <tr>
+          <td style="font-size:12px; color:var(--text-muted);">${item.date}</td>
+          <td><strong>${item.name}</strong></td>
+          <td><span class="badge badge-mint">${item.purpose}</span></td>
+          <td>
+            <img src="${item.image}" style="height:36px; max-width:90px; border:1px solid #cbd5e1; border-radius:4px; background:#fff;">
+          </td>
+          <td>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-action" style="padding:3px 8px; font-size:11.5px;" onclick="downloadSignature('${item.image}', '${item.name}')">📥 下載</button>
+              <button class="btn-action" style="padding:3px 8px; font-size:11.5px; color:var(--rose); border-color:#fca5a5;" onclick="deleteSignature('${item.id}')">刪除</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    // 初始化財務與簽名功能
+    window.addEventListener('DOMContentLoaded', () => {
+      renderExpenseTable();
+      updateBudgetMeters();
+      initSignaturePad();
+    });
+
+</script>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- 🧰 現場活動抽屜 (名冊與簽到 Slide-over Drawer) -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="drawer-backdrop" id="drawer-backdrop" onclick="toggleDrawer(false)"></div>
+  <div class="drawer-panel" id="drawer-panel">
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span>🧰 現場活動抽屜 (學員名冊與現場簽到)</span>
+      </div>
+      <button class="drawer-close-btn" onclick="toggleDrawer(false)" title="關閉抽屜">✕</button>
+    </div>
+
+    <!-- 抽屜頂部同步狀態列 -->
+    <div style="background: #f1f5f9; border-bottom: 1px solid #cbd5e1; padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12.5px;">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="sync-status-dot loading" id="sync-status-dot"></span>
+        <span id="sync-status-title" style="font-weight: 700; color: var(--text-main);">連線中...</span>
+        <span id="sync-time-label" style="color: var(--text-muted);">(最後同步: --)</span>
+      </div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <button class="btn-action" id="btn-sync-refresh" onclick="syncFullData()" style="padding: 4px 10px; font-size: 12px;">
+          <span id="sync-spin-icon">🔄</span> 立即同步
+        </button>
+        <a href="#" id="link-sheet-direct" target="_blank" class="btn-sheet-link" style="display: none; padding: 4px 10px; font-size: 12px;">
+          📊 試算表 ↗
+        </a>
+      </div>
+    </div>
+
+    <!-- 抽屜內部分頁切換 -->
+    <div class="drawer-nav">
+      <button class="drawer-tab-btn active" id="drawer-btn-roster" onclick="switchDrawerTab('drawer-pane-roster', this)">
+        👥 即時報名名冊 (<span id="stat-reg-count">--</span> 人)
+      </button>
+      <button class="drawer-tab-btn" id="drawer-btn-checkin" onclick="switchDrawerTab('drawer-pane-checkin', this)">
+        🏓 聚會現場簽到 (<span id="stat-att-count">--</span> 人次)
+      </button>
+    </div>
+
+    <!-- 抽屜主內容區 -->
+    <div class="drawer-body">
+      <!-- 抽屜分頁 1: 即時報名名冊 -->
+      <div class="drawer-pane active" id="drawer-pane-roster">
+        <div class="module-card" style="margin-bottom: 0;">
+          <div class="module-header">
+            <div>
+              <div class="module-title">👥 即時報名名冊與審核</div>
+              <div class="module-desc">支援關鍵字搜尋、LINE ID 一鍵複製與名冊 CSV 匯出。</div>
+            </div>
+            <span class="module-source">工作表：報名名冊</span>
+          </div>
+
+          <!-- 系所分佈統計列 -->
+          <div style="margin-bottom: 14px;">
+            <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">📊 系所成員分佈統計：</div>
+            <div class="dept-badges" id="dept-badges-container">
+              <span class="dept-badge">載入中...</span>
+            </div>
+          </div>
+
+          <!-- 工具列 -->
+          <div class="roster-toolbar">
+            <div class="search-box">
+              <input type="text" id="roster-search-input" class="search-input" placeholder="🔍 搜尋學員姓名、學號、系所或專長..." oninput="filterRoster()">
+            </div>
+            <div class="roster-btns">
+              <button class="btn-action" onclick="copyAllLineIds()">📋 複製全體 LINE ID</button>
+              <button class="btn-action" onclick="exportRosterCsv()">📥 匯出 CSV</button>
+              <a href="#" target="_blank" id="roster-sheet-link" class="btn-action" style="display:none; text-decoration:none;">📊 試算表 ↗</a>
+            </div>
+          </div>
+
+          <!-- 表格 -->
+          <div class="table-responsive">
+            <table id="roster-table">
+              <thead>
+                <tr>
+                  <th style="width: 45px;">#</th>
+                  <th>登記時間</th>
+                  <th>姓名</th>
+                  <th>系所年級</th>
+                  <th>學號</th>
+                  <th>LINE ID</th>
+                  <th>聯絡 Email</th>
+                  <th>感興趣角色</th>
+                  <th>備註</th>
+                </tr>
+              </thead>
+              <tbody id="roster-tbody">
+                <tr><td colspan="9" style="text-align: center; padding: 40px; color: var(--text-muted);">連線試算表資料中... ⏳</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div id="roster-summary-footer" style="margin-top: 14px; display: flex; justify-content: space-between; align-items: center; font-size: 12.5px; color: var(--text-muted);">
+            <span id="roster-count-text">目前顯示 0 位學員</span>
+            <span id="tab-roster-count" style="display:none;">0</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 抽屜分頁 2: 聚會現場簽到打卡 -->
+      <div class="drawer-pane" id="drawer-pane-checkin">
+        <div class="module-card" style="margin-bottom: 0;">
+          <div class="module-header">
+            <div>
+              <div class="module-title">🏓 聚會現場打卡簽到工具</div>
+              <div class="module-desc">幹部現場點名時使用，選取學員後直接寫入試算表「出席簽到」。</div>
+            </div>
+            <span class="module-source">工作表：出席簽到</span>
+          </div>
+
+          <div class="checkin-container">
+            <div class="checkin-panel">
+              <div class="checkin-panel-title">
+                <span>點名打卡面板</span>
+                <span style="font-size: 11.5px; color: var(--text-muted);" id="tab-checkin-count">0</span>
+              </div>
+              <div style="margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
+                <select id="checkin-status-filter" class="search-input" style="width: auto; padding: 6px 10px; font-size: 12px;" onchange="filterCheckinList()">
+                  <option value="all">顯示全員</option>
+                  <option value="checked">已簽到</option>
+                  <option value="unchecked">未簽到</option>
+                </select>
+                <input type="text" id="checkin-search-input" class="search-input" style="flex: 1; padding: 6px 10px; font-size: 12px;" placeholder="搜尋學員姓名..." oninput="filterCheckinList()">
+              </div>
+              <div class="checkin-grid" id="checkin-grid">
+                <div style="text-align: center; padding: 30px; color: var(--text-muted); font-size: 13px;">載入簽到名單中... ⏳</div>
+              </div>
+            </div>
+
+            <!-- 手動補簽 -->
+            <div class="checkin-panel">
+              <div class="checkin-panel-title">現場臨時人員手動補簽</div>
+              <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 12px;">未事先報名之體驗同學，由幹部手動登記：</div>
+              <div style="display: flex; flex-direction: column; gap: 10px;">
+                <input type="text" id="checkin-manual-name" class="search-input" placeholder="姓名 (必填)">
+                <input type="text" id="checkin-manual-dept" class="search-input" placeholder="系所 / 年級 / 學號">
+                <input type="text" id="checkin-manual-time" class="search-input" placeholder="簽到時間 (預設當前時間)">
+                <input type="text" id="checkin-manual-remark" class="search-input" placeholder="備註 (如：現場臨時試玩、攜伴)">
+                <button class="btn-action primary" style="width: 100%; justify-content: center; padding: 10px;" onclick="doManualCheckin()">
+                  ✍️ 送出臨時簽到記錄
+                </button>
+              </div>
+              <div style="margin-top: 18px; border-top: 1px dashed #e2e8f0; padding-top: 14px;">
+                <div style="font-weight: 700; font-size: 13px; margin-bottom: 8px;">📋 今日已簽到歷史：</div>
+                <div class="table-responsive" style="max-height: 200px; margin: 0;">
+                  <table>
+                    <thead><tr><th>時間</th><th>姓名</th><th>系所</th><th>狀態</th></tr></thead>
+                    <tbody id="checkin-history-tbody"><tr><td colspan="4" style="text-align:center;color:var(--text-muted);">尚無簽到紀錄</td></tr></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
