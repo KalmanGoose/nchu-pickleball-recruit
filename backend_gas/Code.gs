@@ -77,17 +77,7 @@ function doPost(e) {
     var timestamp = new Date();
     var formattedDate = Utilities.formatDate(timestamp, "Asia/Taipei", "yyyy/MM/dd HH:mm:ss");
 
-    // ── 資安權限檢查：除一般大眾報名 (register) 外，其餘幹部管理操作皆須比對金鑰 ──
-    if (action !== "register") {
-      var reqToken = String(data.token || (e.parameter ? e.parameter.token : "") || "").trim();
-      if (reqToken !== ADMIN_AUTH_TOKEN) {
-        return createJsonResponse({
-          success: false,
-          status: "unauthorized",
-          message: "【權限鎖定】未授權操作：幹部管理功能需要授權金鑰憑證！"
-        });
-      }
-    }
+    // ── 寫入操作全面暢通：允許報名、簽名、打卡、借還、記帳正常寫入試算表 ──
 
     // 1. 線上報名 (開放公開寫入，但不洩漏試算表 URL 與其他成員個資)
     if (action === "register") {
@@ -296,16 +286,9 @@ function doPost(e) {
  */
 function doGet(e) {
   try {
-    // ── 資安權限檢查：驗證幹部身分金鑰憑證，阻絕匿名存取全體學員個資 ──
+    // 幹部身分鑑權 (若相符則回傳完整名冊與試算表URL；若無則遮罩私密個資，但簽名與各項運營統計全面暢通)
     var reqToken = (e && e.parameter && e.parameter.token) ? String(e.parameter.token).trim() : "";
-    if (reqToken !== ADMIN_AUTH_TOKEN) {
-      return createJsonResponse({
-        success: false,
-        status: "locked",
-        message: "【權限鎖定】未授權存取：此 Google Sheets 後端受幹部金鑰保護，拒絕匿名存取以保護全體學員個資與簽名檔。",
-        data: null
-      });
-    }
+    var isAuthorized = (reqToken === ADMIN_AUTH_TOKEN);
 
     var sheetId = (e && e.parameter) ? e.parameter.sheetId : null;
     var ss = getTargetSpreadsheet(sheetId);
@@ -320,16 +303,17 @@ function doGet(e) {
       for (var i = 0; i < rData.length; i++) {
         var row = rData[i];
         if (row[1] || row[3]) {
+          var rawSid = String(row[3] || "");
           recruitRows.push({
             id: i + 1,
             time: row[0] ? (row[0] instanceof Date ? Utilities.formatDate(row[0], "Asia/Taipei", "yyyy/MM/dd HH:mm") : String(row[0])) : "",
             name: String(row[1] || ""),
             department: String(row[2] || ""),
-            studentId: String(row[3] || ""),
-            lineId: String(row[4] || ""),
-            email: String(row[5] || ""),
+            studentId: isAuthorized ? rawSid : (rawSid.length > 4 ? rawSid.substring(0, 4) + "****" : rawSid),
+            lineId: isAuthorized ? String(row[4] || "") : "🔒 幹部登入後可見",
+            email: isAuthorized ? String(row[5] || "") : "🔒 幹部登入後可見",
             roles: String(row[6] || ""),
-            note: String(row[7] || "")
+            note: isAuthorized ? String(row[7] || "") : ""
           });
         }
       }
@@ -457,9 +441,10 @@ function doGet(e) {
 
     return createJsonResponse({
       status: "online",
-      message: "🟢 試算表完整資料同步成功！",
+      authorized: isAuthorized,
+      message: isAuthorized ? "🟢 試算表完整資料同步成功！" : "🟢 試算表即時串流連線中（學員私密個資已保護遮罩）",
       spreadsheetName: ss.getName(),
-      spreadsheetUrl: ss.getUrl(),
+      spreadsheetUrl: isAuthorized ? ss.getUrl() : "",
       totalRegistered: recruitRows.length,
       totalAttendance: attendRows.length,
       totalLoans: loanRows.length,
