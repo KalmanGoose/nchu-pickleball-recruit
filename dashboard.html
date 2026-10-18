@@ -2860,33 +2860,10 @@
             });
           }
 
-          // ── 同步雲端歷次共學幹部手寫簽到名冊 (跨裝置即時串流同步) ──
-          if (data.meetingSignatures && typeof data.meetingSignatures === 'object') {
-            let hasNewSig = false;
-            Object.keys(data.meetingSignatures).forEach(sessName => {
-              const cfg = SESSION_CONFIGS.find(c => c.name === sessName || c.key === sessName);
-              if (cfg) {
-                if (!meetingDataStore[cfg.key]) meetingDataStore[cfg.key] = { members: {} };
-                const sigs = data.meetingSignatures[sessName];
-                Object.keys(sigs).forEach(mId => {
-                  const curRec = meetingDataStore[cfg.key].members[mId] || {};
-                  if (sigs[mId].signature && sigs[mId].signature !== curRec.signature) {
-                    hasNewSig = true;
-                  }
-                  meetingDataStore[cfg.key].members[mId] = {
-                    status: sigs[mId].status,
-                    signature: sigs[mId].signature,
-                    signedAt: sigs[mId].signedAt
-                  };
-                });
-              }
-            });
-            saveMeetingDataStore();
-            if (typeof renderMeetingCards === 'function') renderMeetingCards();
-            if (typeof renderQuorumBar === 'function') renderQuorumBar();
-            if (hasNewSig) {
-              showToast('⚡ 偵測到雲端簽到更新，已即時同步呈現！');
-            }
+          // ── 歷次共學幹部手寫簽到名冊 (跨裝置即時串流雙通道合併) ──
+          const hasNew = mergeCloudSignatures(data);
+          if (hasNew) {
+            showToast('⚡ 偵測到雲端簽到更新，已即時同步呈現！');
           }
 
           showToast('✅ Google 試算表資料已成功同步！');
@@ -2914,6 +2891,78 @@
             }
           }
         });
+    }
+
+    // ══════════════════════════════════════════════════
+    // ⚡ 歷次共學幹部簽名雲端雙向合併核心 (相容現有線上版 + 新版)
+    // ══════════════════════════════════════════════════
+    function mergeCloudSignatures(data) {
+      if (!data) return false;
+      let changed = false;
+
+      // 通道 1: 從 notes['meeting_sigs_session_X'] 解析 (相容線上已部署版本，即刻生效！)
+      if (data.notes && typeof data.notes === 'object') {
+        SESSION_CONFIGS.forEach(sess => {
+          const noteKey = 'meeting_sigs_' + sess.key;
+          if (data.notes[noteKey] && data.notes[noteKey].content) {
+            try {
+              const cloudMembers = JSON.parse(data.notes[noteKey].content);
+              if (cloudMembers && typeof cloudMembers === 'object') {
+                if (!meetingDataStore[sess.key]) meetingDataStore[sess.key] = { members: {} };
+                Object.keys(cloudMembers).forEach(mId => {
+                  const mData = cloudMembers[mId];
+                  const curRec = meetingDataStore[sess.key].members[mId] || {};
+                  if (mData.signature && mData.signature !== curRec.signature) {
+                    changed = true;
+                  }
+                  if (mData.status && mData.status !== curRec.status) {
+                    changed = true;
+                  }
+                  meetingDataStore[sess.key].members[mId] = {
+                    status: mData.status,
+                    signature: mData.signature || "",
+                    signedAt: mData.signedAt || ""
+                  };
+                });
+              }
+            } catch (err) {
+              console.log("Error parsing note signatures:", err);
+            }
+          }
+        });
+      }
+
+      // 通道 2: 從 meetingSignatures 專屬工作表合併 (新版 GAS 部署後無縫支援)
+      if (data.meetingSignatures && typeof data.meetingSignatures === 'object') {
+        Object.keys(data.meetingSignatures).forEach(sessName => {
+          const cfg = SESSION_CONFIGS.find(c => c.name === sessName || c.key === sessName);
+          if (cfg) {
+            if (!meetingDataStore[cfg.key]) meetingDataStore[cfg.key] = { members: {} };
+            const sigs = data.meetingSignatures[sessName];
+            Object.keys(sigs).forEach(mId => {
+              const curRec = meetingDataStore[cfg.key].members[mId] || {};
+              if (sigs[mId].signature && sigs[mId].signature !== curRec.signature) {
+                changed = true;
+              }
+              if (sigs[mId].status && sigs[mId].status !== curRec.status) {
+                changed = true;
+              }
+              meetingDataStore[cfg.key].members[mId] = {
+                status: sigs[mId].status,
+                signature: sigs[mId].signature,
+                signedAt: sigs[mId].signedAt
+              };
+            });
+          }
+        });
+      }
+
+      if (changed) {
+        saveMeetingDataStore();
+        if (typeof renderMeetingCards === 'function') renderMeetingCards();
+        if (typeof renderQuorumBar === 'function') renderQuorumBar();
+      }
+      return changed;
     }
 
     // ══════════════════════════════════════════════════
@@ -2949,36 +2998,10 @@
             if (el2) el2.innerText = data.totalAttendance || 0;
           }
 
-          // 靜默即時比對歷次共學簽名
-          if (data.meetingSignatures && typeof data.meetingSignatures === 'object') {
-            let changed = false;
-            Object.keys(data.meetingSignatures).forEach(sessName => {
-              const cfg = SESSION_CONFIGS.find(c => c.name === sessName || c.key === sessName);
-              if (cfg) {
-                if (!meetingDataStore[cfg.key]) meetingDataStore[cfg.key] = { members: {} };
-                const sigs = data.meetingSignatures[sessName];
-                Object.keys(sigs).forEach(mId => {
-                  const curRec = meetingDataStore[cfg.key].members[mId] || {};
-                  if (sigs[mId].signature && sigs[mId].signature !== curRec.signature) {
-                    changed = true;
-                  }
-                  if (sigs[mId].status && sigs[mId].status !== curRec.status) {
-                    changed = true;
-                  }
-                  meetingDataStore[cfg.key].members[mId] = {
-                    status: sigs[mId].status,
-                    signature: sigs[mId].signature,
-                    signedAt: sigs[mId].signedAt
-                  };
-                });
-              }
-            });
-            if (changed) {
-              saveMeetingDataStore();
-              if (typeof renderMeetingCards === 'function') renderMeetingCards();
-              if (typeof renderQuorumBar === 'function') renderQuorumBar();
-              showToast('⚡ [即時串流] 已接收到其他裝置最新親筆簽名！');
-            }
+          // 靜默即時比對與合併歷次共學簽名
+          const changed = mergeCloudSignatures(data);
+          if (changed) {
+            showToast('⚡ [即時串流] 已接收到其他裝置最新親筆簽名！');
           }
         }
       } catch (e) {
@@ -5103,7 +5126,16 @@ ${next}
       renderQuorumBar();
       showToast(rec.status === "請假" ? `已將成員標記為「請假」` : `已取消請假狀態`);
 
-      // 即時背景同步至 Google 試算表
+      // 雲端雙向即時同步
+      postToBackend({
+        action: "save_note",
+        role: "meeting_sigs_" + curSess.key,
+        roleName: curSess.name + " 幹部親筆簽到名冊",
+        content: JSON.stringify(meetingDataStore[curSess.key].members)
+      }).then(() => {
+        setTimeout(silentLiveSync, 800);
+      }).catch(e => console.log("Background sync:", e));
+
       postToBackend({
         action: "save_meeting_signature",
         session: curSess.name,
@@ -5113,9 +5145,7 @@ ${next}
         status: rec.status,
         signature: "",
         note: rec.signedAt || ""
-      }).then(() => {
-        setTimeout(silentLiveSync, 1000);
-      }).catch(e => console.log("Background sync:", e));
+      }).catch(e => {});
     }
 
     // 清除成員簽名
@@ -5133,6 +5163,15 @@ ${next}
         showToast('已清除簽名紀錄');
 
         postToBackend({
+          action: "save_note",
+          role: "meeting_sigs_" + curSess.key,
+          roleName: curSess.name + " 幹部親筆簽到名冊",
+          content: JSON.stringify(meetingDataStore[curSess.key].members)
+        }).then(() => {
+          setTimeout(silentLiveSync, 800);
+        }).catch(e => console.log("Background sync:", e));
+
+        postToBackend({
           action: "save_meeting_signature",
           session: curSess.name,
           memberId: memberId,
@@ -5141,9 +5180,7 @@ ${next}
           status: "未簽到",
           signature: "",
           note: ""
-        }).then(() => {
-          setTimeout(silentLiveSync, 1000);
-        }).catch(e => console.log("Background sync:", e));
+        }).catch(e => {});
       }
     }
 
@@ -5328,7 +5365,20 @@ ${next}
       renderQuorumBar();
       showToast(`✅ 成功儲存「${member.name}」於${curSess.name}的親筆簽名與日期！`);
 
-      // 即時背景非同步寫入 Google 試算表
+      // 雲端雙向即時同步：通道 A (相容現有線上 GAS 筆記通道，即刻跨裝置生效)
+      postToBackend({
+        action: "save_note",
+        role: "meeting_sigs_" + curSess.key,
+        roleName: curSess.name + " 幹部親筆簽到名冊",
+        content: JSON.stringify(meetingDataStore[curSess.key].members)
+      }).then(() => {
+        console.log(`[Google Sheets] 成功透過雲端通道即時寫入 ${member.name} 簽名`);
+        setTimeout(silentLiveSync, 800);
+      }).catch(err => {
+        console.log("[Google Sheets] 背景寫入暫緩 (本機已安全保存)", err);
+      });
+
+      // 通道 B (新版 GAS 專屬獨立簽名工作表)
       postToBackend({
         action: "save_meeting_signature",
         session: curSess.name,
@@ -5338,12 +5388,7 @@ ${next}
         status: "出席",
         signature: dataUrl,
         note: timeStr
-      }).then(() => {
-        console.log(`[Google Sheets] 成功背景寫入 ${member.name} 簽名`);
-        setTimeout(silentLiveSync, 1000);
-      }).catch(err => {
-        console.log("[Google Sheets] 背景寫入暫緩 (本機已安全保存)", err);
-      });
+      }).catch(err => {});
     }
 
     // ── 官方簽到表列印與另存為 PDF ──
