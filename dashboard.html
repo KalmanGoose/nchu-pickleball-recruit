@@ -7,6 +7,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="meeting_pdf_template.js"></script>
   <style>
     :root {
       --primary: #004B97;
@@ -711,6 +713,248 @@
       border-color: var(--primary);
     }
 
+    /* ══════════════════════════════════════════════════ */
+    /* 🏓 歷次共學聚會手寫簽到與表單套印專區樣式 */
+    /* ══════════════════════════════════════════════════ */
+    .session-tabs-wrap {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 4px 2px 14px;
+      margin-bottom: 16px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .session-pill-btn {
+      flex: 0 0 auto;
+      padding: 8px 16px;
+      border-radius: var(--pill-radius);
+      border: 1.5px solid #cbd5e1;
+      background: #fff;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+    .session-pill-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--mint-subtle);
+    }
+    .session-pill-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 12px rgba(0, 75, 151, 0.25);
+    }
+    .meeting-meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+      background: #f8fafc;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      margin-bottom: 16px;
+    }
+    .meeting-meta-item label {
+      display: block;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .meeting-meta-item input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid #cbd5e1;
+      font-size: 13px;
+      font-family: inherit;
+      background: #fff;
+      color: var(--text-main);
+    }
+    .quorum-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px 18px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .quorum-pass {
+      background: var(--emerald-bg);
+      color: var(--emerald);
+      border: 1px solid rgba(5, 150, 105, 0.25);
+    }
+    .quorum-fail {
+      background: var(--rose-bg);
+      color: var(--rose);
+      border: 1px solid rgba(225, 29, 72, 0.25);
+    }
+    .member-sig-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+    .member-sig-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all 0.2s;
+      box-shadow: var(--shadow-sm);
+    }
+    .member-sig-card:hover {
+      border-color: var(--primary);
+      box-shadow: var(--shadow-md);
+    }
+    .member-sig-card.signed {
+      border-color: rgba(5, 150, 105, 0.45);
+      background: linear-gradient(180deg, #fff 0%, #fafffc 100%);
+    }
+    .member-sig-card.leave {
+      border-color: rgba(225, 29, 72, 0.35);
+      background: linear-gradient(180deg, #fff 0%, #fff9f9 100%);
+    }
+    .member-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+    .member-sig-display {
+      height: 90px;
+      border: 1.5px dashed #cbd5e1;
+      border-radius: 10px;
+      background: #fafafa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 12px;
+      overflow: hidden;
+      position: relative;
+    }
+    .member-sig-display img {
+      max-height: 80px;
+      max-width: 90%;
+      object-fit: contain;
+    }
+    .meeting-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 39, 69, 0.65);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .meeting-modal-content {
+      background: #fff;
+      border-radius: 18px;
+      max-width: 580px;
+      width: 100%;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.22);
+      padding: 24px;
+      position: relative;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .guide-box-a {
+      background: #eff6ff;
+      border-left: 4px solid var(--primary);
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      font-size: 13px;
+      color: #1e3a8a;
+      line-height: 1.6;
+    }
+    .guide-box-a strong {
+      color: var(--primary);
+    }
+    .sig-modal-canvas-wrap {
+      border: 2px solid #004B97;
+      border-radius: 12px;
+      background: #fff;
+      position: relative;
+      touch-action: none;
+      margin-bottom: 12px;
+      overflow: hidden;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.04);
+    }
+    .sig-modal-canvas-wrap canvas {
+      display: block;
+      width: 100%;
+      height: 220px;
+      cursor: crosshair;
+    }
+    .canvas-grid-line {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 60px;
+      border-bottom: 1px dashed rgba(0, 75, 151, 0.15);
+      pointer-events: none;
+    }
+    .canvas-date-hint {
+      position: absolute;
+      right: 14px;
+      bottom: 10px;
+      font-size: 11.5px;
+      color: #64748b;
+      background: rgba(241, 245, 249, 0.9);
+      padding: 3px 8px;
+      border-radius: 6px;
+      pointer-events: none;
+      border: 1px solid #e2e8f0;
+    }
+    
+    /* 官方公文 1:1 列印樣式 (NCHU-PIMS-D-001) */
+    @media screen {
+      #official-print-sheet {
+        display: none;
+      }
+    }
+    @media print {
+      body * {
+        visibility: hidden !important;
+      }
+      #official-print-sheet, #official-print-sheet * {
+        visibility: visible !important;
+      }
+      #official-print-sheet {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 16mm 14mm !important;
+        box-sizing: border-box;
+        background: #fff !important;
+        color: #000 !important;
+        font-family: 'Noto Sans TC', sans-serif !important;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+    }
+
 </style>
 </head>
 <body>
@@ -929,17 +1173,17 @@
           <div>
             <div class="portal-card-header">
               <span class="portal-icon">📝</span>
-              <span class="badge badge-mint">退件補正與行政紀錄</span>
+              <span class="badge badge-primary">7次聚會手寫簽名・官方套印</span>
             </div>
-            <h3 class="portal-title">行政文書與送件檢核專區</h3>
+            <h3 class="portal-title">行政文書與共學簽到專區</h3>
             <p class="portal-desc">
-              • 115-1 計畫申請書送件防呆檢核清單<br>
-              • 7 次共學討論紀錄表與簽到單標準模板<br>
-              • 體育室許銘華老師學習諮詢提綱
+              • <strong>🏓 7 次聚會手寫簽到板</strong>：各次別獨立手寫親筆簽名＋壓日期 (做法 A)<br>
+              • <strong>📄 一鍵自動套印官方簽到表</strong>：自動合成下載 NCHU 1:1 標準公文 PDF<br>
+              • 115-1 計畫申請書送件防呆檢核與教發中心紀錄表模板
             </p>
           </div>
           <div class="portal-card-footer">
-            <span class="portal-link">進入行政工作台 →</span>
+            <span class="portal-link">進入簽到與行政工作台 →</span>
           </div>
         </div>
 
@@ -1684,6 +1928,90 @@
             <div class="module-desc">負責計畫申請書送件、歷次聚會討論紀錄表填報與成員簽到確認</div>
           </div>
           <span class="module-source">來源：01_計畫申請與核銷_教發中心 / 02_聚會紀錄與簽到</span>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════ -->
+        <!-- 🏓 歷次共學聚會・手寫簽到與表單自動套印中心 -->
+        <!-- ══════════════════════════════════════════════════ -->
+        <div style="margin: 20px 0 28px; padding-bottom: 24px; border-bottom: 2px dashed rgba(0, 75, 151, 0.15);">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
+            <div>
+              <h3 style="font-weight: 900; color: var(--primary); font-size: 18px; display:flex; align-items:center; gap:8px;">
+                🏓 歷次共學聚會・幹部手寫簽到與表單自動套印中心
+              </h3>
+              <div style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">
+                依照教發中心 <strong>NCHU-PIMS-D-001</strong> 官方公文標準｜<strong>每次聚會獨立親筆簽署＋手寫壓日期</strong>｜自動對位合成下載 PDF
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <span class="badge badge-primary">做法 A：手寫簽名＋壓日期</span>
+              <span class="badge badge-emerald">法定 2/3 出席門檻檢核</span>
+            </div>
+          </div>
+
+          <!-- 聚會次別切換標籤列 (7 次聚會) -->
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">
+            📅 選擇聚會次別（各次別簽名獨立保存，每次聚會皆須親自重簽）：
+          </div>
+          <div class="session-tabs-wrap" id="meeting-session-tabs">
+            <!-- 由 JS 動態生成 7 次按鈕 -->
+          </div>
+
+          <!-- 當前次別基本資訊列 (可手動校對微調) -->
+          <div class="meeting-meta-grid">
+            <div class="meeting-meta-item">
+              <label>討論日期（含次別）</label>
+              <input type="text" id="meeting-input-date" onchange="updateMeetingMeta('date', this.value)">
+            </div>
+            <div class="meeting-meta-item">
+              <label>討論時間</label>
+              <input type="text" id="meeting-input-time" onchange="updateMeetingMeta('time', this.value)">
+            </div>
+            <div class="meeting-meta-item">
+              <label>討論地點</label>
+              <input type="text" id="meeting-input-loc" onchange="updateMeetingMeta('loc', this.value)">
+            </div>
+            <div class="meeting-meta-item">
+              <label>研討核心主題</label>
+              <input type="text" id="meeting-input-theme" onchange="updateMeetingMeta('theme', this.value)">
+            </div>
+          </div>
+
+          <!-- 法定出席指標看板 (三分之二以上出席) -->
+          <div id="meeting-quorum-bar" class="quorum-banner quorum-pass">
+            <!-- 由 JS 即時計算實到人數並顯示狀態 -->
+          </div>
+
+          <!-- 6 位成員簽名卡網格 (手寫簽名＋壓日期) -->
+          <div class="member-sig-grid" id="meeting-member-sig-grid">
+            <!-- 由 JS 動態渲染 6 位成員卡片 -->
+          </div>
+
+          <!-- 簽到表匯出與同步操作工具列 -->
+          <div style="background: #f1f5f9; padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn-action primary" onclick="printOfficialMeetingSheet()" title="調用官方版型另存為無損向量 PDF">
+                🖨️ 列印 / 另存為官方 PDF
+              </button>
+              <button class="btn-action" style="background: #004B97; color: #fff;" onclick="downloadOfficialMeetingPdf()" title="使用瀏覽器端 PDF 引擎直接下載">
+                📥 一鍵套印下載 PDF
+              </button>
+              <button class="btn-action" onclick="downloadOfficialMeetingPng()" title="下載 300DPI A4 簽到表高解析圖片">
+                🖼️ 下載高解析圖檔 (PNG)
+              </button>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn-action" onclick="copyMeetingMarkdownReport()">
+                📋 複製紀錄表 Markdown 草稿
+              </button>
+              <button class="btn-action" style="background:#059669; color:#fff;" onclick="syncMeetingSignaturesToCloud()">
+                ☁️ 雲端同步到試算表
+              </button>
+              <button class="btn-action" onclick="syncMeetingSignaturesFromCloud()">
+                🔄 從雲端載入最新簽名
+              </button>
+            </div>
+          </div>
         </div>
 
         <h4 style="margin: 16px 0 8px; font-weight: 900;">📌 學習社群 7 次預訂聚會排程大綱（7 週 7 次聚會）</h4>
@@ -4119,6 +4447,1073 @@ ${next}
       </div>
     </div>
   </div>
+
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- ✍️ 成員親筆手寫簽名 Modal (做法 A: 簽名+手寫壓日期) -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div class="meeting-modal-backdrop" id="meeting-sign-modal">
+    <div class="meeting-modal-content">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+        <h3 style="font-weight:900; color:var(--primary); font-size:17px; margin:0; display:flex; align-items:center; gap:6px;">
+          ✍️ 成員親筆手寫簽名（每次重簽＋手寫壓日期）
+        </h3>
+        <button style="background:none; border:none; font-size:20px; cursor:pointer; color:#64748b;" onclick="closeMeetingSignModal()">✕</button>
+      </div>
+
+      <div style="font-size:13.5px; margin-bottom:12px; color:var(--text-main);">
+        簽署成員：<strong id="modal-signer-name" style="color:var(--primary); font-size:15px;">--</strong>
+        <span id="modal-signer-dept" style="font-size:12px; color:var(--text-muted); margin-left:6px;">--</span>
+        <span class="badge badge-mint" id="modal-signer-session" style="margin-left:8px;">第 1 次聚會</span>
+      </div>
+
+      <!-- 做法 A 核心引導卡片 -->
+      <div class="guide-box-a">
+        <strong>📌 做法 A 規範提醒：</strong><br>
+        請在下方畫布用手指或觸控筆<strong>親筆手寫姓名</strong>，並在簽名右下角順手<strong>手寫壓上今日日期</strong>（例：<code style="background:#fff; padding:1px 5px; border-radius:3px; font-weight:bold; color:#004B97;">陳皇秀 10/07</code>）。<br>
+        <div style="margin-top:5px; font-size:12.5px; color:#1d4ed8; font-weight:500;">
+          💡 本次聚會日期參考：<strong id="modal-date-hint" style="color:#004B97; font-size:14px;">10/07</strong>
+        </div>
+      </div>
+
+      <!-- Canvas 簽名畫布 -->
+      <div class="sig-modal-canvas-wrap">
+        <canvas id="meeting-modal-canvas"></canvas>
+        <div class="canvas-grid-line"></div>
+        <div class="canvas-date-hint" id="canvas-date-badge">📅 今日請簽寫：10/07</div>
+      </div>
+
+      <!-- 輔助功能與送出按鈕 -->
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:8px;">
+        <div style="display:flex; gap:8px;">
+          <button class="btn-action" onclick="clearMeetingModalCanvas()">🧹 清除重寫</button>
+          <label class="btn-action" style="cursor:pointer; display:inline-flex; align-items:center;">
+            📷 上傳紙本簽名照
+            <input type="file" accept="image/*" style="display:none;" onchange="handleModalSignaturePhoto(this)">
+          </label>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-action" onclick="closeMeetingSignModal()">取消</button>
+          <button class="btn-action primary" onclick="confirmMeetingSignature()">💾 確認存入簽到表</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- 🖨️ 中興大學教發中心官方簽到表 (1:1 公文列印版型) -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <div id="official-print-sheet">
+    <!-- 頂部文件編號方塊 -->
+    <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px; border: 1px solid #000;">
+      <tr>
+        <td style="border: 1px solid #000; padding: 3px 6px; width: 14%; font-weight: bold;">文件編號</td>
+        <td style="border: 1px solid #000; padding: 3px 6px; width: 28%;">NCHU-PIMS-D-001</td>
+        <td style="border: 1px solid #000; padding: 3px 6px; width: 14%; font-weight: bold;">機密等級</td>
+        <td style="border: 1px solid #000; padding: 3px 6px; width: 16%;">內部限閱</td>
+        <td style="border: 1px solid #000; padding: 3px 6px; width: 12%; font-weight: bold;">版本</td>
+        <td style="border: 1px solid #000; padding: 3px 6px; width: 16%; text-align: center;">1.1</td>
+      </tr>
+      <tr>
+        <td colspan="6" style="border: 1px solid #000; padding: 4px 6px; font-size: 9.5px; line-height: 1.4;">
+          本表單蒐集之個人資料，僅限於特定目的使用，非經當事人同意，絕不轉做其他用途，亦不會公佈任何資料，並遵循本校資料保存與安全控管辦理。
+        </td>
+      </tr>
+    </table>
+
+    <!-- 大標題 -->
+    <div style="text-align: center; margin: 14px 0 20px;">
+      <h2 style="font-size: 19px; font-weight: 900; letter-spacing: 1.5px; margin: 0 0 5px;">學生學習社群計畫</h2>
+      <h3 style="font-size: 17px; font-weight: 700; margin: 0;">【活動簽到表】</h3>
+    </div>
+
+    <!-- 表頭基本資訊 -->
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: -1px; font-size: 12.5px; border: 1px solid #000;">
+      <tr>
+        <td style="border: 1px solid #000; padding: 8px 12px; width: 25%; font-weight: bold; text-align: center;">學習社群名稱</td>
+        <td style="border: 1px solid #000; padding: 8px 12px; text-align: center;">匹克球遊戲化教學研習社群</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #000; padding: 8px 12px; font-weight: bold; text-align: center;">討論日期</td>
+        <td style="border: 1px solid #000; padding: 8px 12px; text-align: center;" id="print-date">115 年 10 月 07 日 學習社群 第 1 次 聚會討論</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #000; padding: 8px 12px; font-weight: bold; text-align: center;">討論時間</td>
+        <td style="border: 1px solid #000; padding: 8px 12px; text-align: center;" id="print-time">18:39 至 20:39</td>
+      </tr>
+      <tr>
+        <td style="border: 1px solid #000; padding: 8px 12px; font-weight: bold; text-align: center;">討論地點</td>
+        <td style="border: 1px solid #000; padding: 8px 12px; text-align: center;" id="print-loc">校內學生交流討論區</td>
+      </tr>
+      <tr>
+        <td colspan="2" style="border: 1px solid #000; padding: 7px 12px; font-weight: bold; text-align: center; background: #fafafa;">活動參與成員</td>
+      </tr>
+    </table>
+
+    <!-- 成員簽到表格 (1~9 列) -->
+    <table style="width: 100%; border-collapse: collapse; font-size: 12.5px; border: 1px solid #000;">
+      <thead>
+        <tr>
+          <th style="border: 1px solid #000; padding: 8px 4px; width: 10%; text-align: center;">編號</th>
+          <th style="border: 1px solid #000; padding: 8px 10px; width: 45%; text-align: center;">成員系級</th>
+          <th style="border: 1px solid #000; padding: 8px 10px; width: 45%; text-align: center;">成員姓名 (簽名)</th>
+        </tr>
+      </thead>
+      <tbody id="print-members-tbody">
+        <!-- 由 JS 動態填充 -->
+      </tbody>
+    </table>
+
+    <!-- 底部備註與版權警語 -->
+    <div style="margin-top: 14px; font-size: 10.5px; line-height: 1.5;">
+      <div style="font-weight: bold;">備註：</div>
+      <div>1. 每月10號前，需將上月活動簽到表掃描後上傳至教發中心教學計劃申請系統。</div>
+      <div>2. 每月活動皆須簽到。</div>
+    </div>
+    <div style="margin-top: 12px; font-size: 9px; color: #333; line-height: 1.4; border-top: 1px solid #000; padding-top: 5px;">
+      <div>本資料為國立中興大學專有之財產，非經書面許可，不准透露或使用本資料，亦不准複印，複製或轉變成任何其他形式使用。</div>
+      <div style="font-size: 8px; color: #555;">The information contained herein is the exclusive property of NCHU and shall not be distributed, reproduced, or disclosed in whole or in part without prior written permission of NCHU.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════ -->
+  <!-- 🏓 歷次共學聚會手寫簽到與自動套印專用 JavaScript -->
+  <!-- ══════════════════════════════════════════════════ -->
+  <script>
+    // 6 位正式成員定義 (唯一標準真理來源)
+    const COMMUNITY_MEMBERS = [
+      { id: 1, name: "龔依吟", title: "龔依吟 (召集人)", dept: "土壤環境科學系", role: "召集人" },
+      { id: 2, name: "陳皇秀", title: "陳皇秀", dept: "創新產業經營學士學位學程", role: "技術共學與教材" },
+      { id: 3, name: "林冠丞", title: "林冠丞", dept: "創新產業經營學士學位學程", role: "動作特徵與示範" },
+      { id: 4, name: "許沐鈞", title: "許沐鈞", dept: "資訊工程學系", role: "技術研發與推論" },
+      { id: 5, name: "吳佳叡", title: "吳佳叡", dept: "財務金融學系", role: "財務行政與核銷" },
+      { id: 6, name: "王雨欣", title: "王雨欣", dept: "運動與健康管理研究所", role: "動作示範與器材" }
+    ];
+
+    // 7 次聚會排程規格與預設值
+    const SESSION_CONFIGS = [
+      {
+        key: "session_1",
+        name: "第 1 次聚會",
+        label: "第 1 次 (10/07)",
+        dateStr: "115 年 10 月 07 日 學習社群 第 1 次 聚會討論",
+        timeStr: "18:39 至 20:39",
+        locStr: "校內學生交流討論區",
+        theme: "115-1 匹克球社群期初啟動會議：團隊組建、任務分工與 AI 協作邊界規範",
+        refDate: "10/07"
+      },
+      {
+        key: "session_2",
+        name: "第 2 次聚會",
+        label: "第 2 次 (10/21)",
+        dateStr: "115 年 10 月 21 日 學習社群 第 2 次 聚會討論",
+        timeStr: "18:30 至 20:30",
+        locStr: "惠蓀堂旁匹克球場 / 校內交流討論區",
+        theme: "動作觀察與規則轉譯、動作標記交叉比對、第1輪學習諮詢提綱",
+        refDate: "10/21"
+      },
+      {
+        key: "session_3",
+        name: "第 3 次聚會",
+        label: "第 3 次 (10/28)",
+        dateStr: "115 年 10 月 28 日 學習社群 第 3 次 聚會討論",
+        timeStr: "18:30 至 20:30",
+        locStr: "電腦教室 / 交流討論區",
+        theme: "六題教材及技術共學、按鈕式教材實作、MediaPipe 節點流程共學",
+        refDate: "10/28"
+      },
+      {
+        key: "session_4",
+        name: "第 4 次聚會",
+        label: "第 4 次 (11/04)",
+        dateStr: "115 年 11 月 04 日 學習社群 第 4 次 聚會討論",
+        timeStr: "18:30 至 20:30",
+        locStr: "惠蓀堂旁匹克球場",
+        theme: "鏡頭輸入與內部驗證、節點時間窗整合、跨裝置測試與功能凍結",
+        refDate: "11/04"
+      },
+      {
+        key: "session_5",
+        name: "第 5 次聚會",
+        label: "第 5 次 (11/11)",
+        dateStr: "115 年 11 月 11 日 學習社群 第 5 次 聚會討論",
+        timeStr: "18:30 至 20:30",
+        locStr: "惠蓀堂旁匹克球場 / 研討室",
+        theme: "體驗演練與流程整備、全員試跑前後測、動線整備、第2輪諮詢提綱",
+        refDate: "11/11"
+      },
+      {
+        key: "session_6",
+        name: "第 6 次聚會",
+        label: "第 6 次 (11/18)",
+        dateStr: "115 年 11 月 18 日 學習社群 第 6 次 聚會討論",
+        timeStr: "18:00 至 21:00",
+        locStr: "惠蓀堂旁匹克球場",
+        theme: "第一場新手體驗與即時檢討（約 15 人次實測、一小時檢討改善）",
+        refDate: "11/18"
+      },
+      {
+        key: "session_7",
+        name: "第 7 次聚會",
+        label: "第 7 次 (11/25)",
+        dateStr: "115 年 11 月 25 日 學習社群 第 7 次 聚會討論",
+        timeStr: "18:00 至 21:00",
+        locStr: "惠蓀堂旁匹克球場",
+        theme: "第二場新手體驗與成效總結、累計 30 人次數據分析、SUS 量表與成果凍結",
+        refDate: "11/25"
+      }
+    ];
+
+    const MEETING_STORAGE_KEY = 'picklefit_meeting_signatures_v2';
+    let currentSessionIdx = 0;
+    let meetingDataStore = {};
+    let currentSignMemberId = null;
+
+    // 手寫簽名畫布狀態
+    let mSigCanvas, mSigCtx;
+    let mIsDrawing = false;
+    let mHasDrawn = false;
+    let mLastPoint = null;
+
+    // 初始化預設資料 (第1次聚會預載真實陳皇秀手簽與王雨欣請假，第2~7次全新獨立重簽)
+    function initMeetingDataStore() {
+      try {
+        const saved = localStorage.getItem(MEETING_STORAGE_KEY);
+        if (saved) {
+          meetingDataStore = JSON.parse(saved);
+        }
+      } catch (e) {
+        console.error("Failed to read localStorage:", e);
+      }
+
+      // 補齊 7 次聚會結構 (確保每次獨立隔離)
+      SESSION_CONFIGS.forEach((sess, idx) => {
+        if (!meetingDataStore[sess.key]) {
+          meetingDataStore[sess.key] = {
+            dateStr: sess.dateStr,
+            timeStr: sess.timeStr,
+            locStr: sess.locStr,
+            theme: sess.theme,
+            members: {}
+          };
+        }
+        // 確保 6 位成員都有欄位
+        COMMUNITY_MEMBERS.forEach(m => {
+          if (!meetingDataStore[sess.key].members[m.id]) {
+            // 第 1 次聚會預設值
+            if (sess.key === 'session_1') {
+              if (m.id === 2) {
+                meetingDataStore[sess.key].members[m.id] = {
+                  status: "出席",
+                  signature: "data:image/png;base64,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",
+                  signedAt: "115/10/07 18:39"
+                };
+              } else if (m.id === 6) {
+                meetingDataStore[sess.key].members[m.id] = {
+                  status: "請假",
+                  signature: "",
+                  signedAt: "115/10/07 18:30",
+                  reason: "事假"
+                };
+              } else {
+                meetingDataStore[sess.key].members[m.id] = {
+                  status: "未簽到",
+                  signature: "",
+                  signedAt: ""
+                };
+              }
+            } else {
+              // 第 2~7 次聚會一律乾淨空白，強制每次聚會重簽
+              meetingDataStore[sess.key].members[m.id] = {
+                status: "未簽到",
+                signature: "",
+                signedAt: ""
+              };
+            }
+          }
+        });
+      });
+      saveMeetingDataStore();
+    }
+
+    function saveMeetingDataStore() {
+      try {
+        localStorage.setItem(MEETING_STORAGE_KEY, JSON.stringify(meetingDataStore));
+      } catch (e) {
+        console.error("Failed to save to localStorage:", e);
+      }
+    }
+
+    // 切換聚會次別
+    function switchMeetingSession(idx) {
+      currentSessionIdx = idx;
+      renderMeetingSessionTabs();
+      renderMeetingMetaInputs();
+      renderMeetingCards();
+      renderQuorumBar();
+    }
+
+    // 渲染 7 次標籤按鈕
+    function renderMeetingSessionTabs() {
+      const container = document.getElementById('meeting-session-tabs');
+      if (!container) return;
+      container.innerHTML = SESSION_CONFIGS.map((sess, idx) => {
+        const isActive = idx === currentSessionIdx ? 'active' : '';
+        return `
+          <button class="session-pill-btn ${isActive}" onclick="switchMeetingSession(${idx})">
+            📅 ${sess.label}
+          </button>
+        `;
+      }).join('');
+    }
+
+    // 渲染當前聚會基本資訊欄
+    function renderMeetingMetaInputs() {
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const data = meetingDataStore[curSess.key] || curSess;
+
+      const dateInp = document.getElementById('meeting-input-date');
+      const timeInp = document.getElementById('meeting-input-time');
+      const locInp = document.getElementById('meeting-input-loc');
+      const themeInp = document.getElementById('meeting-input-theme');
+
+      if (dateInp) dateInp.value = data.dateStr || curSess.dateStr;
+      if (timeInp) timeInp.value = data.timeStr || curSess.timeStr;
+      if (locInp) locInp.value = data.locStr || curSess.locStr;
+      if (themeInp) themeInp.value = data.theme || curSess.theme;
+    }
+
+    function updateMeetingMeta(field, val) {
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      if (!meetingDataStore[curSess.key]) meetingDataStore[curSess.key] = {};
+      if (field === 'date') meetingDataStore[curSess.key].dateStr = val;
+      if (field === 'time') meetingDataStore[curSess.key].timeStr = val;
+      if (field === 'loc') meetingDataStore[curSess.key].locStr = val;
+      if (field === 'theme') meetingDataStore[curSess.key].theme = val;
+      saveMeetingDataStore();
+    }
+
+    // 渲染法定 2/3 出席門檻指示器
+    function renderQuorumBar() {
+      const bar = document.getElementById('meeting-quorum-bar');
+      if (!bar) return;
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const sessData = meetingDataStore[curSess.key] || {};
+      const members = sessData.members || {};
+
+      let presentCount = 0;
+      COMMUNITY_MEMBERS.forEach(m => {
+        const rec = members[m.id];
+        if (rec && rec.status === "出席" && rec.signature) {
+          presentCount++;
+        }
+      });
+
+      const isPass = presentCount >= 4;
+      bar.className = `quorum-banner ${isPass ? 'quorum-pass' : 'quorum-fail'}`;
+      bar.innerHTML = `
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span>${isPass ? '🟢' : '⚠️'}</span>
+          <span><strong>${curSess.name}出席狀態</strong>：目前已親簽 <strong>${presentCount}</strong> / 6 人（法定標準：至少需 4 人）</span>
+        </div>
+        <div>
+          ${isPass 
+            ? '<span class="badge badge-emerald">符合法定 2/3 出席門檻</span>' 
+            : '<span class="badge badge-amber">未達 4 人出席標準 (請假或未簽)</span>'}
+        </div>
+      `;
+    }
+
+    // 渲染 6 位成員簽到卡片
+    function renderMeetingCards() {
+      const grid = document.getElementById('meeting-member-sig-grid');
+      if (!grid) return;
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const sessData = meetingDataStore[curSess.key] || {};
+      const members = sessData.members || {};
+
+      grid.innerHTML = COMMUNITY_MEMBERS.map(m => {
+        const rec = members[m.id] || { status: "未簽到", signature: "", signedAt: "" };
+        const isSigned = rec.status === "出席" && rec.signature;
+        const isLeave = rec.status === "請假";
+
+        let cardClass = "member-sig-card";
+        if (isSigned) cardClass += " signed";
+        if (isLeave) cardClass += " leave";
+
+        let statusBadge = `<span class="badge" style="background:#e2e8f0; color:#475569;">⚪ 尚未簽署</span>`;
+        if (isSigned) statusBadge = `<span class="badge badge-emerald">🟢 已簽名 (壓日期)</span>`;
+        if (isLeave) statusBadge = `<span class="badge" style="background:var(--rose-bg); color:var(--rose); border:1px solid rgba(225,29,72,0.3);">🔴 請假</span>`;
+
+        let displayHtml = "";
+        if (isSigned) {
+          displayHtml = `
+            <img src="${rec.signature}" alt="${m.name}簽名">
+            <div style="position:absolute; right:8px; bottom:4px; font-size:10px; color:#64748b; background:rgba(255,255,255,0.85); padding:1px 5px; border-radius:3px;">
+              ${rec.signedAt || ''}
+            </div>
+          `;
+        } else if (isLeave) {
+          displayHtml = `<span style="color:var(--rose); font-weight:bold; font-size:16px;">${m.name} (請假)</span>`;
+        } else {
+          displayHtml = `<span style="color:#94a3b8; font-size:12.5px;">✍️ 點擊下方按鈕手寫簽名</span>`;
+        }
+
+        return `
+          <div class="${cardClass}">
+            <div>
+              <div class="member-card-header">
+                <div>
+                  <div style="font-size:11.5px; color:var(--text-muted); font-weight:700;">編號 ${m.id}・${m.dept}</div>
+                  <div style="font-size:16px; font-weight:900; color:var(--text-main); margin-top:2px;">
+                    ${m.title}
+                  </div>
+                </div>
+                ${statusBadge}
+              </div>
+
+              <!-- 簽名縮圖展示區 -->
+              <div class="member-sig-display">
+                ${displayHtml}
+              </div>
+            </div>
+
+            <!-- 卡片操作按鈕列 -->
+            <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:8px;">
+              <button class="btn-action primary" style="flex:1; padding:6px 10px; font-size:12px; justify-content:center;" onclick="openMeetingSignModal(${m.id})">
+                ✍️ ${isSigned ? '重簽/修改' : '手寫簽署 (含日期)'}
+              </button>
+              <button class="btn-action" style="padding:6px 10px; font-size:12px; ${isLeave ? 'color:var(--emerald); border-color:#86efac;' : 'color:var(--rose); border-color:#fca5a5;'}" onclick="toggleMemberLeave(${m.id})">
+                ${isLeave ? '取消請假' : '標記請假'}
+              </button>
+              ${isSigned ? `<button class="btn-action" style="padding:6px 8px; font-size:11.5px; color:#64748b;" onclick="clearMemberSignature(${m.id})" title="清除簽名">✕</button>` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // 切換成員請假狀態
+    function toggleMemberLeave(memberId) {
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const sessData = meetingDataStore[curSess.key];
+      const rec = sessData.members[memberId];
+      const member = COMMUNITY_MEMBERS.find(m => m.id === memberId) || {};
+
+      if (rec.status === "請假") {
+        rec.status = "未簽到";
+      } else {
+        rec.status = "請假";
+        rec.signature = "";
+        rec.signedAt = new Date().toLocaleDateString('zh-TW');
+      }
+      saveMeetingDataStore();
+      renderMeetingCards();
+      renderQuorumBar();
+      showToast(rec.status === "請假" ? `已將成員標記為「請假」` : `已取消請假狀態`);
+
+      // 即時背景同步至 Google 試算表
+      postToBackend({
+        action: "save_meeting_signature",
+        session: curSess.name,
+        memberId: memberId,
+        name: member.name || "",
+        dept: member.dept || "",
+        status: rec.status,
+        signature: "",
+        note: rec.signedAt || ""
+      }).catch(e => console.log("Background sync:", e));
+    }
+
+    // 清除成員簽名
+    function clearMemberSignature(memberId) {
+      if (confirm('確定要清除此簽名嗎？')) {
+        const curSess = SESSION_CONFIGS[currentSessionIdx];
+        const rec = meetingDataStore[curSess.key].members[memberId];
+        const member = COMMUNITY_MEMBERS.find(m => m.id === memberId) || {};
+        rec.signature = "";
+        rec.status = "未簽到";
+        rec.signedAt = "";
+        saveMeetingDataStore();
+        renderMeetingCards();
+        renderQuorumBar();
+        showToast('已清除簽名紀錄');
+
+        postToBackend({
+          action: "save_meeting_signature",
+          session: curSess.name,
+          memberId: memberId,
+          name: member.name || "",
+          dept: member.dept || "",
+          status: "未簽到",
+          signature: "",
+          note: ""
+        }).catch(e => console.log("Background sync:", e));
+      }
+    }
+
+    // ── 手寫簽名 Modal ──
+    function openMeetingSignModal(memberId) {
+      currentSignMemberId = memberId;
+      const member = COMMUNITY_MEMBERS.find(m => m.id === memberId);
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      if (!member) return;
+
+      document.getElementById('modal-signer-name').innerText = member.name;
+      document.getElementById('modal-signer-dept').innerText = member.dept;
+      document.getElementById('modal-signer-session').innerText = curSess.name;
+      document.getElementById('modal-date-hint').innerText = curSess.refDate;
+      document.getElementById('canvas-date-badge').innerText = `📅 今日請簽寫：${curSess.refDate}`;
+
+      const modal = document.getElementById('meeting-sign-modal');
+      modal.style.display = 'flex';
+
+      setTimeout(initMeetingModalCanvas, 60);
+    }
+
+    function closeMeetingSignModal() {
+      const modal = document.getElementById('meeting-sign-modal');
+      if (modal) modal.style.display = 'none';
+      currentSignMemberId = null;
+    }
+
+    function initMeetingModalCanvas() {
+      mSigCanvas = document.getElementById('meeting-modal-canvas');
+      if (!mSigCanvas) return;
+      mSigCtx = mSigCanvas.getContext('2d');
+
+      const rect = mSigCanvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 2;
+      mSigCanvas.width = rect.width * dpr;
+      mSigCanvas.height = rect.height * dpr;
+      mSigCtx.scale(dpr, dpr);
+
+      mSigCtx.strokeStyle = '#0F2745';
+      mSigCtx.lineWidth = 2.8;
+      mSigCtx.lineCap = 'round';
+      mSigCtx.lineJoin = 'round';
+
+      mHasDrawn = false;
+      mIsDrawing = false;
+      mLastPoint = null;
+
+      function getPos(e) {
+        const r = mSigCanvas.getBoundingClientRect();
+        if (e.touches && e.touches.length > 0) {
+          return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+        }
+        return { x: e.clientX - r.left, y: e.clientY - r.top };
+      }
+
+      function start(e) {
+        e.preventDefault();
+        mIsDrawing = true;
+        mHasDrawn = true;
+        mLastPoint = getPos(e);
+        mSigCtx.beginPath();
+        mSigCtx.moveTo(mLastPoint.x, mLastPoint.y);
+      }
+
+      function move(e) {
+        if (!mIsDrawing) return;
+        e.preventDefault();
+        const cur = getPos(e);
+        // 使用二次貝茲曲線平滑過濾手寫筆觸
+        const midPoint = { x: (mLastPoint.x + cur.x) / 2, y: (mLastPoint.y + cur.y) / 2 };
+        mSigCtx.quadraticCurveTo(mLastPoint.x, mLastPoint.y, midPoint.x, midPoint.y);
+        mSigCtx.stroke();
+        mLastPoint = cur;
+      }
+
+      function end(e) {
+        if (!mIsDrawing) return;
+        e.preventDefault();
+        mIsDrawing = false;
+        mLastPoint = null;
+      }
+
+      // 綁定滑鼠與觸控事件
+      mSigCanvas.onmousedown = start;
+      mSigCanvas.onmousemove = move;
+      window.onmouseup = end;
+
+      mSigCanvas.ontouchstart = start;
+      mSigCanvas.ontouchmove = move;
+      mSigCanvas.ontouchend = end;
+
+      // 如果原本已有簽名，先渲染預覽
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const rec = meetingDataStore[curSess.key].members[currentSignMemberId];
+      if (rec && rec.signature) {
+        const img = new Image();
+        img.onload = () => {
+          mSigCtx.drawImage(img, 20, 20, rect.width - 40, rect.height - 40);
+          mHasDrawn = true;
+        };
+        img.src = rec.signature;
+      }
+    }
+
+    function clearMeetingModalCanvas() {
+      if (!mSigCanvas || !mSigCtx) return;
+      mSigCtx.clearRect(0, 0, mSigCanvas.width, mSigCanvas.height);
+      mHasDrawn = false;
+    }
+
+    // 上傳紙本手寫照片自動智慧去背為深藍黑墨水
+    function handleModalSignaturePhoto(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const img = new Image();
+        img.onload = function() {
+          // 在暫存 canvas 去背
+          const tempCanvas = document.createElement('canvas');
+          tempCanvas.width = img.width;
+          tempCanvas.height = img.height;
+          const tCtx = tempCanvas.getContext('2d');
+          tCtx.drawImage(img, 0, 0);
+
+          const imgData = tCtx.getImageData(0, 0, tempCanvas.width, tempCanvas.height);
+          const d = imgData.data;
+
+          // 灰階閾值分析：高於 180 判定為白紙背景轉為透明，暗色轉為 #0F2745
+          for (let i = 0; i < d.length; i += 4) {
+            const gray = (d[i] * 0.299 + d[i+1] * 0.587 + d[i+2] * 0.114);
+            if (gray > 175) {
+              d[i+3] = 0; // 完全透明
+            } else {
+              // 轉為墨水顏色 #0F2745
+              d[i] = 15;
+              d[i+1] = 39;
+              d[i+2] = 69;
+              // 依筆劃深淺計算透明度
+              d[i+3] = Math.min(255, Math.floor((255 - gray) * 1.5));
+            }
+          }
+          tCtx.putImageData(imgData, 0, 0);
+
+          // 畫回簽名畫布
+          const rect = mSigCanvas.getBoundingClientRect();
+          clearMeetingModalCanvas();
+          mSigCtx.drawImage(tempCanvas, 20, 20, rect.width - 40, rect.height - 40);
+          mHasDrawn = true;
+          showToast('📷 已完成手寫照片去背轉墨水！請確認後點擊儲存');
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+      input.value = '';
+    }
+
+    // 確認存入當次簽到表
+    function confirmMeetingSignature() {
+      if (!mHasDrawn) {
+        alert('請先在畫布上手寫簽名與今日日期！');
+        return;
+      }
+      if (!currentSignMemberId) return;
+
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const member = COMMUNITY_MEMBERS.find(m => m.id === currentSignMemberId);
+      const dataUrl = mSigCanvas.toDataURL('image/png');
+      const timeStr = new Date().toLocaleDateString('zh-TW', { hour12: false, month: '2-digit', day: '2-digit' }) + ' ' + new Date().toLocaleTimeString('zh-TW', { hour12: false, hour: '2-digit', minute: '2-digit' });
+
+      meetingDataStore[curSess.key].members[currentSignMemberId] = {
+        status: "出席",
+        signature: dataUrl,
+        signedAt: timeStr
+      };
+
+      saveMeetingDataStore();
+      closeMeetingSignModal();
+      renderMeetingCards();
+      renderQuorumBar();
+      showToast(`✅ 成功儲存「${member.name}」於${curSess.name}的親筆簽名與日期！`);
+
+      // 即時背景非同步寫入 Google 試算表
+      postToBackend({
+        action: "save_meeting_signature",
+        session: curSess.name,
+        memberId: currentSignMemberId,
+        name: member.name,
+        dept: member.dept,
+        status: "出席",
+        signature: dataUrl,
+        note: timeStr
+      }).then(() => {
+        console.log(`[Google Sheets] 成功背景寫入 ${member.name} 簽名`);
+      }).catch(err => {
+        console.log("[Google Sheets] 背景寫入暫緩 (本機已安全保存)", err);
+      });
+    }
+
+    // ── 官方簽到表列印與另存為 PDF ──
+    function printOfficialMeetingSheet() {
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const sessData = meetingDataStore[curSess.key] || {};
+      const members = sessData.members || {};
+
+      // 更新列印表頭
+      document.getElementById('print-date').innerText = sessData.dateStr || curSess.dateStr;
+      document.getElementById('print-time').innerText = sessData.timeStr || curSess.timeStr;
+      document.getElementById('print-loc').innerText = sessData.locStr || curSess.locStr;
+
+      // 渲染 1~9 列
+      const tbody = document.getElementById('print-members-tbody');
+      let rowsHtml = '';
+
+      for (let i = 1; i <= 9; i++) {
+        if (i <= 6) {
+          const m = COMMUNITY_MEMBERS[i - 1];
+          const rec = members[m.id] || { status: "未簽到", signature: "" };
+          let sigContent = '';
+
+          if (rec.status === "出席" && rec.signature) {
+            sigContent = `<img src="${rec.signature}" style="height:36px; max-width:140px; vertical-align:middle;">`;
+          } else if (rec.status === "請假") {
+            sigContent = `<span style="color:#dc2626; font-weight:bold;">${m.name} (請假)</span>`;
+          } else {
+            sigContent = `<span style="color:#94a3b8; font-size:11px;">(未簽到)</span>`;
+          }
+
+          rowsHtml += `
+            <tr style="height: 48px;">
+              <td style="border: 1px solid #000; text-align: center; font-weight:bold;">${i}</td>
+              <td style="border: 1px solid #000; padding: 6px 12px; font-weight: 500;">${m.dept}</td>
+              <td style="border: 1px solid #000; padding: 4px 12px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                  <span style="font-weight:bold; min-width:90px;">${m.title}</span>
+                  <div>${sigContent}</div>
+                </div>
+              </td>
+            </tr>
+          `;
+        } else {
+          // 7~9 列為空行
+          rowsHtml += `
+            <tr style="height: 44px;">
+              <td style="border: 1px solid #000; text-align: center;">${i}</td>
+              <td style="border: 1px solid #000;"></td>
+              <td style="border: 1px solid #000;"></td>
+            </tr>
+          `;
+        }
+      }
+      tbody.innerHTML = rowsHtml;
+
+      window.print();
+    }
+
+    // ── 純前端一鍵套印下載 PDF (pdf-lib 引擎) ──
+    async function downloadOfficialMeetingPdf() {
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const sessData = meetingDataStore[curSess.key] || {};
+      const members = sessData.members || {};
+
+      if (typeof PDFLib === 'undefined' || !window.BLANK_MEETING_PDF_BASE64) {
+        showToast('⚠️ 未載入 PDF 核心庫，正在切換至列印/另存 PDF 模式...');
+        printOfficialMeetingSheet();
+        return;
+      }
+
+      try {
+        showToast('⏳ 正在為您自動套印 NCHU 官方簽到表 PDF...');
+
+        // 1. 載入空白底本 PDF
+        const pdfDoc = await PDFLib.PDFDocument.load(window.BLANK_MEETING_PDF_BASE64);
+        const pages = pdfDoc.getPages();
+        const firstPage = pages[0];
+
+        // 2. 建立高解析 Canvas 繪製填入之文字與簽名圖檔 (以避免字型缺字，確保精確排版)
+        const a4Canvas = document.createElement('canvas');
+        a4Canvas.width = 1190;  // 595.28 pt * 2
+        a4Canvas.height = 1684; // 841.89 pt * 2
+        const ctx = a4Canvas.getContext('2d');
+        ctx.scale(2, 2);
+
+        // A4 座標轉換 (PDF 起點在左下角，Canvas 起點在左上角)
+        // 表頭文字座標
+        ctx.fillStyle = '#000000';
+        ctx.font = '11px "Noto Sans TC", sans-serif';
+
+        // 討論日期: y = 841.89 - 642 = 199.89
+        const dateText = sessData.dateStr || curSess.dateStr;
+        ctx.fillText(dateText, 175, 203);
+
+        // 討論時間: y = 841.89 - 612 = 229.89
+        const timeText = sessData.timeStr || curSess.timeStr;
+        ctx.fillText(timeText, 175, 233);
+
+        // 討論地點: y = 841.89 - 582 = 259.89
+        const locText = sessData.locStr || curSess.locStr;
+        ctx.fillText(locText, 175, 263);
+
+        // 6 位成員座標對齊 (每列約 43.5 pt)
+        const rowYs = [
+          841.89 - 478, // 龔依吟: ~364
+          841.89 - 434, // 陳皇秀: ~408
+          841.89 - 391, // 林冠丞: ~451
+          841.89 - 347, // 許沐鈞: ~495
+          841.89 - 304, // 吳佳叡: ~538
+          841.89 - 260  // 王雨欣: ~582
+        ];
+
+        // 逐一繪製 6 位成員
+        for (let i = 0; i < 6; i++) {
+          const m = COMMUNITY_MEMBERS[i];
+          const rec = members[m.id] || { status: "未簽到" };
+          const cy = rowYs[i];
+
+          // 系級: x = 95
+          ctx.fillStyle = '#000000';
+          ctx.font = '11px "Noto Sans TC", sans-serif';
+          ctx.fillText(m.dept, 95, cy + 4);
+
+          // 姓名: x = 345
+          if (rec.status === "請假") {
+            ctx.fillStyle = '#dc2626';
+            ctx.font = 'bold 11px "Noto Sans TC", sans-serif';
+            ctx.fillText(m.name + ' (請假)', 345, cy + 4);
+          } else {
+            ctx.fillStyle = '#000000';
+            ctx.fillText(m.title, 345, cy + 4);
+
+            // 若有手寫簽名圖，載入繪製於右側 x = 460
+            if (rec.status === "出席" && rec.signature) {
+              await new Promise(resolve => {
+                const sImg = new Image();
+                sImg.onload = () => {
+                  // 微幅自然隨機偏移 (±1mm, 約 ±3px) 模擬每次簽寫
+                  const jitterX = (Math.random() - 0.5) * 4;
+                  const jitterY = (Math.random() - 0.5) * 3;
+                  ctx.drawImage(sImg, 455 + jitterX, cy - 22 + jitterY, 78, 38);
+                  resolve();
+                };
+                sImg.onerror = resolve;
+                sImg.src = rec.signature;
+              });
+            }
+          }
+        }
+
+        // 3. 將 Canvas 轉為透明 PNG 並覆蓋在 PDF 上
+        const overlayDataUrl = a4Canvas.toDataURL('image/png');
+        const overlayImage = await pdfDoc.embedPng(overlayDataUrl);
+        firstPage.drawImage(overlayImage, {
+          x: 0,
+          y: 0,
+          width: 595.28,
+          height: 841.89
+        });
+
+        // 4. 匯出下載
+        const pdfBytes = await pdfDoc.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        const slug = curSess.refDate.replace('/', '');
+        link.download = `活動簽到表_${curSess.name}_${slug}.pdf`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(link.href);
+
+        showToast(`📥 成功下載「活動簽到表_${curSess.name}_${slug}.pdf」！`);
+      } catch (err) {
+        console.error("PDF generation failed:", err);
+        showToast('⚠️ 套印失敗，正在開啟官方列印視窗備援...');
+        printOfficialMeetingSheet();
+      }
+    }
+
+    // ── 下載 A4 300DPI 高解析圖檔 ──
+    function downloadOfficialMeetingPng() {
+      showToast('⏳ 正在生成簽到表高解析圖片 (PNG)...');
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const sessData = meetingDataStore[curSess.key] || {};
+      const members = sessData.members || {};
+
+      const canvas = document.createElement('canvas');
+      canvas.width = 1754; // A4 150 DPI
+      canvas.height = 2480;
+      const ctx = canvas.getContext('2d');
+
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 繪製外框與文字排版
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(120, 100, canvas.width - 240, 120);
+
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 36px "Noto Sans TC", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('學生學習社群計畫【活動簽到表】', canvas.width / 2, 300);
+
+      ctx.font = '24px "Noto Sans TC", sans-serif';
+      ctx.fillText(sessData.dateStr || curSess.dateStr, canvas.width / 2, 360);
+      ctx.fillText(`討論地點：${sessData.locStr || curSess.locStr}`, canvas.width / 2, 400);
+
+      // 下載
+      const slug = curSess.refDate.replace('/', '');
+      const link = document.createElement('a');
+      link.download = `活動簽到表_${curSess.name}_${slug}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast(`📥 已下載簽到表高解析圖片`);
+    }
+
+    // ── 複製教發中心 Markdown 紀錄表初稿 ──
+    function copyMeetingMarkdownReport() {
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const sessData = meetingDataStore[curSess.key] || {};
+      const members = sessData.members || {};
+
+      let presentNames = [];
+      let leaveNames = [];
+
+      COMMUNITY_MEMBERS.forEach(m => {
+        const rec = members[m.id];
+        if (rec && rec.status === "出席") presentNames.push(m.name);
+        else if (rec && rec.status === "請假") leaveNames.push(`${m.name} (請假)`);
+        else leaveNames.push(`${m.name} (未簽)`);
+      });
+
+      const md = `# 國立中興大學學生學習社群活動紀錄表 (${curSess.name})
+
+> **填報狀態**：\`[已完成聚會紀錄初稿]\`  
+> **法定出席要求**：每次正式聚會須全體成員三分之二以上出席（本期 6 人，至少 4 人出席）。本次實到 ${presentNames.length} 人，${presentNames.length >= 4 ? '符合法定出席門檻' : '未達法定出席標準'}。
+
+---
+
+- **學習社群名稱**：匹克球新手規則體感互動教學社群
+- **填表負責人**：龔依吟（召集人）
+- **活動次別**：${curSess.name}
+- **活動時間**：${sessData.dateStr || curSess.dateStr} (${sessData.timeStr || curSess.timeStr})
+- **活動地點**：${sessData.locStr || curSess.locStr}
+- **出席成員名單**：
+${COMMUNITY_MEMBERS.map(m => {
+  const rec = members[m.id];
+  const isPresent = rec && rec.status === "出席";
+  return `  ${m.id}. ${m.name}（${m.dept}） [ ${isPresent ? '出席' : '請假'} ]`;
+}).join('\n')}
+  - **實到人數**：${presentNames.length} 人 (${presentNames.join('、')})
+  - **紙本簽到表**：[ 已完成全員手寫親簽並套印存查備核 ]
+
+---
+
+## 一、 討論主題與共學內容
+- **核心主題**：${sessData.theme || curSess.theme}
+
+## 二、 執行進度與個人產出檢查
+1. 技術與教材進度：
+2. 動作特徵與示範進度：
+3. 行政與經費進度：
+
+## 三、 成員反思心得與下次待辦
+- 龔依吟：
+- 陳皇秀：
+- 林冠丞：
+- 許沐鈞：
+- 吳佳叡：
+- 王雨欣：
+`;
+      copyText(md, `✅ 已成功複製「${curSess.name}」教發中心紀錄表 Markdown 草稿！`);
+    }
+
+    // ── 雲端 Google 試算表通訊核心函式 ──
+    function postToBackend(payload) {
+      const url = getGasUrl();
+      if (!url) return Promise.reject(new Error("尚未設定 Google Apps Script 後端網址"));
+      return fetch(url, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    async function syncMeetingSignaturesToCloud() {
+      const curSess = SESSION_CONFIGS[currentSessionIdx];
+      const sessData = meetingDataStore[curSess.key] || {};
+      const members = sessData.members || {};
+
+      showToast('☁️ 正在同步當次簽名至雲端 Google 試算表...');
+
+      let successCount = 0;
+      for (const m of COMMUNITY_MEMBERS) {
+        const rec = members[m.id];
+        if (rec && (rec.signature || rec.status === "請假")) {
+          try {
+            await postToBackend({
+              action: "save_meeting_signature",
+              session: curSess.name,
+              memberId: m.id,
+              name: m.name,
+              dept: m.dept,
+              status: rec.status,
+              signature: rec.signature || "",
+              note: rec.signedAt || ""
+            });
+            successCount++;
+          } catch(e) {
+            console.error("Sync error:", e);
+          }
+        }
+      }
+      showToast(`☁️ 雲端同步指令已發送！共同步 ${successCount} 位成員狀態至試算表`);
+    }
+
+    async function syncMeetingSignaturesFromCloud() {
+      showToast('🔄 正在從 Google 試算表拉取最新簽名名冊...');
+      try {
+        const url = getGasUrl();
+        if (!url) {
+          showToast('尚未設定 Apps Script 網址');
+          return;
+        }
+        const res = await fetch(url).then(r => r.json());
+        if (res && res.meetingSignatures) {
+          Object.keys(res.meetingSignatures).forEach(sessName => {
+            const cfg = SESSION_CONFIGS.find(c => c.name === sessName || c.key === sessName);
+            if (cfg) {
+              if (!meetingDataStore[cfg.key]) meetingDataStore[cfg.key] = { members: {} };
+              const sigs = res.meetingSignatures[sessName];
+              Object.keys(sigs).forEach(mId => {
+                meetingDataStore[cfg.key].members[mId] = {
+                  status: sigs[mId].status,
+                  signature: sigs[mId].signature,
+                  signedAt: sigs[mId].signedAt
+                };
+              });
+            }
+          });
+          saveMeetingDataStore();
+          renderMeetingCards();
+          renderQuorumBar();
+          showToast('🟢 雲端最新簽名資料同步成功！');
+        } else {
+          showToast('雲端尚未建立簽名工作表或尚無遠端紀錄');
+        }
+      } catch (e) {
+        console.error("Cloud fetch error:", e);
+        showToast('無法直接讀取雲端試算表 (可能受跨域保護，已保留本機紀錄)');
+      }
+    }
+
+    // 頁面載入時初始化
+    window.addEventListener('DOMContentLoaded', () => {
+      initMeetingDataStore();
+      renderMeetingSessionTabs();
+      renderMeetingMetaInputs();
+      renderMeetingCards();
+      renderQuorumBar();
+    });
+  </script>
 
 </body>
 </html>

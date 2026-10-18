@@ -17,6 +17,7 @@ var SHEET_ATTENDANCE = "出席簽到";
 var SHEET_LOANS = "器材借還";
 var SHEET_EXPENSES = "經費收支";
 var SHEET_NOTES = "幹部筆記";
+var SHEET_MEETING_SIGS = "聚會手寫簽名";
 
 /**
  * 取得或自動建立目標 Google 試算表
@@ -217,6 +218,48 @@ function doPost(e) {
         message: "幹部筆記已同步至雲端試算表！"
       });
 
+    // 7. 儲存歷次共學聚會幹部手寫簽名 (每次重簽＋手寫壓日期)
+    } else if (action === "save_meeting_signature") {
+      var sheet = getOrCreateSheet(ss, SHEET_MEETING_SIGS, [
+        "聚會次別", "成員編號", "成員姓名", "成員系級", "狀態", "手寫簽名Base64", "簽名時間", "備註"
+      ]);
+
+      var session = String(data.session || "第 1 次聚會");
+      var memberId = Number(data.memberId || 1);
+      var name = String(data.name || "");
+      var dept = String(data.dept || "");
+      var status = String(data.status || "出席");
+      var signature = String(data.signature || "");
+      var note = String(data.note || "");
+
+      var lastRow = sheet.getLastRow();
+      var foundRow = 0;
+      if (lastRow > 1) {
+        var sValues = sheet.getRange(2, 1, lastRow - 1, 2).getValues();
+        for (var si = 0; si < sValues.length; si++) {
+          if (String(sValues[si][0]) === session && Number(sValues[si][1]) === memberId) {
+            foundRow = si + 2;
+            break;
+          }
+        }
+      }
+
+      if (foundRow > 0) {
+        sheet.getRange(foundRow, 3).setValue(name);
+        sheet.getRange(foundRow, 4).setValue(dept);
+        sheet.getRange(foundRow, 5).setValue(status);
+        sheet.getRange(foundRow, 6).setValue(signature);
+        sheet.getRange(foundRow, 7).setValue(formattedDate);
+        sheet.getRange(foundRow, 8).setValue(note);
+      } else {
+        sheet.appendRow([session, memberId, name, dept, status, signature, formattedDate, note]);
+      }
+
+      return createJsonResponse({
+        success: true,
+        message: "簽名資料已成功同步至「" + session + "」！"
+      });
+
     } else {
       return createJsonResponse({
         success: false,
@@ -354,7 +397,33 @@ function doGet(e) {
       }
     }
 
-    // 6. 統計系所分佈
+    // 6. 抓取「聚會手寫簽名」
+    var sigSheet = getOrCreateSheet(ss, SHEET_MEETING_SIGS, [
+      "聚會次別", "成員編號", "成員姓名", "成員系級", "狀態", "手寫簽名Base64", "簽名時間", "備註"
+    ]);
+    var meetingSigsMap = {};
+    if (sigSheet.getLastRow() > 1) {
+      var sData = sigSheet.getRange(2, 1, sigSheet.getLastRow() - 1, 8).getValues();
+      for (var s = 0; s < sData.length; s++) {
+        var sRow = sData[s];
+        var sessKey = String(sRow[0] || "");
+        var mId = String(sRow[1] || "");
+        if (sessKey && mId) {
+          if (!meetingSigsMap[sessKey]) meetingSigsMap[sessKey] = {};
+          meetingSigsMap[sessKey][mId] = {
+            memberId: mId,
+            name: String(sRow[2] || ""),
+            dept: String(sRow[3] || ""),
+            status: String(sRow[4] || "出席"),
+            signature: String(sRow[5] || ""),
+            signedAt: sRow[6] ? (sRow[6] instanceof Date ? Utilities.formatDate(sRow[6], "Asia/Taipei", "yyyy/MM/dd HH:mm") : String(sRow[6])) : "",
+            note: String(sRow[7] || "")
+          };
+        }
+      }
+    }
+
+    // 7. 統計系所分佈
     var deptStats = {};
     for (var k = 0; k < recruitRows.length; k++) {
       var d = recruitRows[k].department || "未填寫";
@@ -375,7 +444,8 @@ function doGet(e) {
       attendance: attendRows,
       loans: loanRows,
       expenses: expRows,
-      notes: notesMap
+      notes: notesMap,
+      meetingSignatures: meetingSigsMap
     });
 
   } catch (err) {
