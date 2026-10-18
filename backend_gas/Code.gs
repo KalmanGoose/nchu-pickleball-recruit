@@ -12,6 +12,9 @@
 
 var SPECIFIC_SPREADSHEET_ID = ""; 
 
+// 幹部身分鑑權 SHA-256 憑證 (由幹部授權密碼 + 專屬鹽值生成，阻絕未授權存取與爬取)
+var ADMIN_AUTH_TOKEN = "ce8c9d796ccb0a82e8ab228558975c91c2fab2e4a4d547034b700a7cfa4dbb38";
+
 var SHEET_RECRUIT = "報名名冊";
 var SHEET_ATTENDANCE = "出席簽到";
 var SHEET_LOANS = "器材借還";
@@ -74,7 +77,19 @@ function doPost(e) {
     var timestamp = new Date();
     var formattedDate = Utilities.formatDate(timestamp, "Asia/Taipei", "yyyy/MM/dd HH:mm:ss");
 
-    // 1. 線上報名
+    // ── 資安權限檢查：除一般大眾報名 (register) 外，其餘幹部管理操作皆須比對金鑰 ──
+    if (action !== "register") {
+      var reqToken = String(data.token || (e.parameter ? e.parameter.token : "") || "").trim();
+      if (reqToken !== ADMIN_AUTH_TOKEN) {
+        return createJsonResponse({
+          success: false,
+          status: "unauthorized",
+          message: "【權限鎖定】未授權操作：幹部管理功能需要授權金鑰憑證！"
+        });
+      }
+    }
+
+    // 1. 線上報名 (開放公開寫入，但不洩漏試算表 URL 與其他成員個資)
     if (action === "register") {
       var sheet = getOrCreateSheet(ss, SHEET_RECRUIT, [
         "登記時間", "姓名", "系所年級", "學號", "LINE ID", "聯絡 Email", "感興趣角色", "備註 / 自我介紹"
@@ -101,8 +116,7 @@ function doPost(e) {
 
       return createJsonResponse({
         success: true,
-        message: "報名成功！資料已成功寫入 Google 試算表！",
-        sheetUrl: ss.getUrl()
+        message: "報名成功！資料已成功寫入 Google 試算表！"
       });
 
     // 2. 現場打卡簽到
@@ -282,6 +296,17 @@ function doPost(e) {
  */
 function doGet(e) {
   try {
+    // ── 資安權限檢查：驗證幹部身分金鑰憑證，阻絕匿名存取全體學員個資 ──
+    var reqToken = (e && e.parameter && e.parameter.token) ? String(e.parameter.token).trim() : "";
+    if (reqToken !== ADMIN_AUTH_TOKEN) {
+      return createJsonResponse({
+        success: false,
+        status: "locked",
+        message: "【權限鎖定】未授權存取：此 Google Sheets 後端受幹部金鑰保護，拒絕匿名存取以保護全體學員個資與簽名檔。",
+        data: null
+      });
+    }
+
     var sheetId = (e && e.parameter) ? e.parameter.sheetId : null;
     var ss = getTargetSpreadsheet(sheetId);
     

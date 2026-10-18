@@ -1927,87 +1927,22 @@
         </div>
 
         <!-- ══════════════════════════════════════════════════ -->
-        <!-- 🏓 歷次共學聚會・手寫簽到與表單自動套印中心 -->
+        <!-- 🧰 現場活動抽屜快捷入口 (第一順位) -->
         <!-- ══════════════════════════════════════════════════ -->
-        <div style="margin: 20px 0 28px; padding-bottom: 24px; border-bottom: 2px dashed rgba(0, 75, 151, 0.15);">
-          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:14px;">
-            <div>
-              <h3 style="font-weight: 900; color: var(--primary); font-size: 18px; display:flex; align-items:center; gap:8px;">
-                🏓 歷次共學聚會・幹部手寫簽到與表單自動套印中心
-              </h3>
-              <div style="font-size: 13px; color: var(--text-muted); margin-top: 3px;">
-                依照教發中心 <strong>NCHU-PIMS-D-001</strong> 官方公文標準｜<strong>每次聚會獨立親筆簽署＋手寫壓日期</strong>｜自動對位合成下載 PDF
-              </div>
+        <div style="background: linear-gradient(135deg, rgba(0,75,151,0.06), rgba(171,218,213,0.18)); border: 1.5px solid rgba(0,75,151,0.2); border-radius: 14px; padding: 20px; margin: 16px 0 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+          <div>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <span style="font-size: 24px;">🧰</span>
+              <h3 style="font-size: 17px; font-weight: 900; color: var(--primary); margin: 0;">7 次共學聚會幹部手寫簽到與自動套印中心</h3>
+              <span class="badge badge-emerald">已收納至現場活動抽屜・第一順位</span>
             </div>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <span class="badge badge-primary">做法 A：手寫簽名＋壓日期</span>
-              <span class="badge badge-emerald">法定 2/3 出席門檻檢核</span>
+            <div style="font-size: 13px; color: var(--text-muted); margin-top: 5px;">
+              已依照您的指示，完整收納至右側「現場活動抽屜」第一順位！支援 7 次聚會獨立重簽、手寫姓名與壓日期 (做法 A)、即時法定門檻檢核與官方簽到表 (NCHU-PIMS-D-001) 1 秒自動套印。
             </div>
           </div>
-
-          <!-- 聚會次別切換標籤列 (7 次聚會) -->
-          <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">
-            📅 選擇聚會次別（各次別簽名獨立保存，每次聚會皆須親自重簽）：
-          </div>
-          <div class="session-tabs-wrap" id="meeting-session-tabs">
-            <!-- 由 JS 動態生成 7 次按鈕 -->
-          </div>
-
-          <!-- 當前次別基本資訊列 (可手動校對微調) -->
-          <div class="meeting-meta-grid">
-            <div class="meeting-meta-item">
-              <label>討論日期（含次別）</label>
-              <input type="text" id="meeting-input-date" onchange="updateMeetingMeta('date', this.value)">
-            </div>
-            <div class="meeting-meta-item">
-              <label>討論時間</label>
-              <input type="text" id="meeting-input-time" onchange="updateMeetingMeta('time', this.value)">
-            </div>
-            <div class="meeting-meta-item">
-              <label>討論地點</label>
-              <input type="text" id="meeting-input-loc" onchange="updateMeetingMeta('loc', this.value)">
-            </div>
-            <div class="meeting-meta-item">
-              <label>研討核心主題</label>
-              <input type="text" id="meeting-input-theme" onchange="updateMeetingMeta('theme', this.value)">
-            </div>
-          </div>
-
-          <!-- 法定出席指標看板 (三分之二以上出席) -->
-          <div id="meeting-quorum-bar" class="quorum-banner quorum-pass">
-            <!-- 由 JS 即時計算實到人數並顯示狀態 -->
-          </div>
-
-          <!-- 6 位成員簽名卡網格 (手寫簽名＋壓日期) -->
-          <div class="member-sig-grid" id="meeting-member-sig-grid">
-            <!-- 由 JS 動態渲染 6 位成員卡片 -->
-          </div>
-
-          <!-- 簽到表匯出與同步操作工具列 -->
-          <div style="background: #f1f5f9; padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <button class="btn-action primary" onclick="printOfficialMeetingSheet()" title="調用官方版型另存為無損向量 PDF">
-                🖨️ 列印 / 另存為官方 PDF
-              </button>
-              <button class="btn-action" style="background: #004B97; color: #fff;" onclick="downloadOfficialMeetingPdf()" title="使用瀏覽器端 PDF 引擎直接下載">
-                📥 一鍵套印下載 PDF
-              </button>
-              <button class="btn-action" onclick="downloadOfficialMeetingPng()" title="下載 300DPI A4 簽到表高解析圖片">
-                🖼️ 下載高解析圖檔 (PNG)
-              </button>
-            </div>
-            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-              <button class="btn-action" onclick="copyMeetingMarkdownReport()">
-                📋 複製紀錄表 Markdown 草稿
-              </button>
-              <button class="btn-action" style="background:#059669; color:#fff;" onclick="syncMeetingSignaturesToCloud()">
-                ☁️ 雲端同步到試算表
-              </button>
-              <button class="btn-action" onclick="syncMeetingSignaturesFromCloud()">
-                🔄 從雲端載入最新簽名
-              </button>
-            </div>
-          </div>
+          <button class="btn-action primary" style="padding: 10px 18px; font-size: 13.5px; box-shadow: 0 4px 12px rgba(0,75,151,0.2);" onclick="toggleDrawer(true)">
+            🧰 立即打開現場簽到抽屜 (第一順位) →
+          </button>
         </div>
 
         <h4 style="margin: 16px 0 8px; font-weight: 900;">📌 學習社群 7 次預訂聚會排程大綱（7 週 7 次聚會）</h4>
@@ -2733,16 +2668,41 @@
     const TARGET_USER = 'nchupickleball';
     // SHA-256 hash of 'NCHU2026.115.1'
     const TARGET_PWD_HASH = '8c19c44fb7994599f9247be78acd67edbd2e1807cf2dd11082b4c230635c3336';
+    const GAS_TOKEN_SALT = '_nchu_gas_api_key_2026';
 
     async function sha256Hex(str) {
       const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
       return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
     }
 
+    function getGasToken() {
+      return localStorage.getItem('picklefit_gas_token') || '';
+    }
+
+    function getGasUrlWithToken() {
+      const baseUrl = getGasUrl();
+      if (!baseUrl) return '';
+      const token = getGasToken();
+      if (!token) return baseUrl;
+      const sep = baseUrl.indexOf('?') !== -1 ? '&' : '?';
+      return `${baseUrl}${sep}token=${encodeURIComponent(token)}`;
+    }
+
     function checkAuth() {
       const isAuth = localStorage.getItem(AUTH_KEY) === 'true';
+      const token = getGasToken();
       const overlay = document.getElementById('login-overlay');
       const logoutBtn = document.getElementById('btn-logout');
+
+      // 若有舊登入但無 GAS 憑證，要求重新驗證以生成憑證
+      if (isAuth && !token) {
+        localStorage.removeItem(AUTH_KEY);
+        if (overlay) overlay.style.display = 'flex';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+        const passInp = document.getElementById('login-password');
+        if (passInp) setTimeout(() => passInp.focus(), 200);
+        return;
+      }
 
       if (isAuth) {
         if (overlay) overlay.style.display = 'none';
@@ -2777,6 +2737,9 @@
 
       if (username === TARGET_USER && inputHash === TARGET_PWD_HASH) {
         localStorage.setItem(AUTH_KEY, 'true');
+        // 自動生成 GAS 專屬授權憑證 (雜湊後密鑰，不存明碼)
+        const gasToken = await sha256Hex(password + GAS_TOKEN_SALT);
+        localStorage.setItem('picklefit_gas_token', gasToken);
         if (errBox) errBox.style.display = 'none';
         checkAuth();
         showToast('🎉 幹部身分驗證成功，歡迎使用！');
@@ -2795,6 +2758,7 @@
     function logoutOfficer() {
       if (confirm('確定要登出幹部工作台嗎？')) {
         localStorage.removeItem(AUTH_KEY);
+        localStorage.removeItem('picklefit_gas_token');
         checkAuth();
         showToast('已安全登出幹部工作台');
       }
@@ -2820,7 +2784,7 @@
 
     // ── 向 Google Sheets 後端同步完整資料 (每次開啟與手動觸發) ──
     function syncFullData() {
-      const url = getGasUrl();
+      const url = getGasUrlWithToken();
       const dot = document.getElementById('sync-status-dot');
       const title = document.getElementById('sync-status-title');
       const timeLabel = document.getElementById('sync-time-label');
@@ -2833,6 +2797,13 @@
       fetch(url)
         .then(res => res.json())
         .then(data => {
+          if (data && data.status === 'locked') {
+            if (dot) dot.className = 'sync-status-dot offline';
+            if (title) title.innerText = '🔒 後端權限鎖定 (請重新登入)';
+            if (spinIcon) spinIcon.style.transform = 'none';
+            showToast('⚠️ Google 試算表存取被鎖定：缺少有效授權金鑰');
+            return;
+          }
           window.liveData = data;
           const nowStr = new Date().toLocaleTimeString('zh-TW', { hour12: false });
 
@@ -3119,7 +3090,8 @@
         studentId: studentId,
         name: name,
         session: session,
-        note: note
+        note: note,
+        token: getGasToken()
       };
 
       fetch(getGasUrl(), {
@@ -3318,9 +3290,16 @@
       resultDiv.style.display = 'block';
       resultDiv.innerHTML = '連線測試中...請稍候 ⏳';
 
-      fetch(url)
+      const testUrl = `${url}${url.indexOf('?') !== -1 ? '&' : '?'}token=${encodeURIComponent(getGasToken())}`;
+      fetch(testUrl)
         .then(res => res.json())
         .then(data => {
+          if (data && data.status === 'locked') {
+            badge.className = 'badge badge-amber';
+            badge.innerText = '🔒 權限鎖定';
+            resultDiv.innerHTML = `<span style="color:var(--rose); font-weight:700;">⚠️ 後端存取受保護</span><br>缺少幹部金鑰或金鑰無效，請確認登入身分！`;
+            return;
+          }
           badge.className = 'badge badge-emerald';
           badge.innerText = '🟢 已連線';
           resultDiv.innerHTML = `<span style="color:var(--emerald); font-weight:700;">✅ 連線成功！</span><br>試算表狀態：${data.status}｜已報名人數：${data.totalRegistered} 人｜連線名稱：${data.spreadsheetName}`;
@@ -3375,6 +3354,7 @@
           headers: { 'Content-Type': 'text/plain;charset=utf-8' },
           body: JSON.stringify({
             action: 'save_note',
+            token: getGasToken(),
             role: role,
             roleName: getRoleChineseName(role),
             content: value
@@ -3627,6 +3607,7 @@ ${next}
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           action: 'add_loan',
+          token: getGasToken(),
           name: name,
           sid: sid,
           item: item,
@@ -3649,6 +3630,7 @@ ${next}
             headers: { 'Content-Type': 'text/plain;charset=utf-8' },
             body: JSON.stringify({
               action: 'toggle_loan',
+              token: getGasToken(),
               rowIndex: loans[idx].rowIndex
             })
           }).catch(e => console.log('Loan toggle err:', e));
@@ -3772,6 +3754,7 @@ ${next}
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
         body: JSON.stringify({
           action: 'add_expense',
+          token: getGasToken(),
           name: name,
           amount: amount,
           inv: inv,
@@ -3903,6 +3886,12 @@ ${next}
         backdrop.classList.add('active');
         panel.classList.add('active');
         document.body.style.overflow = 'hidden';
+        if (typeof renderMeetingSessionTabs === 'function') {
+          renderMeetingSessionTabs();
+          renderMeetingMetaInputs();
+          renderMeetingCards();
+          renderQuorumBar();
+        }
       } else {
         backdrop.classList.remove('active');
         panel.classList.remove('active');
@@ -4333,9 +4322,12 @@ ${next}
       </div>
     </div>
 
-    <!-- 抽屜內部分頁切換 -->
+    <!-- 抽屜內部分頁切換 (幹部簽到套印為第一順位) -->
     <div class="drawer-nav">
-      <button class="drawer-tab-btn active" id="drawer-btn-roster" onclick="switchDrawerTab('drawer-pane-roster', this)">
+      <button class="drawer-tab-btn active" id="drawer-btn-meeting-sign" onclick="switchDrawerTab('drawer-pane-meeting-sign', this)">
+        ✍️ 共學幹部簽到套印 (7次聚會)
+      </button>
+      <button class="drawer-tab-btn" id="drawer-btn-roster" onclick="switchDrawerTab('drawer-pane-roster', this)">
         👥 即時報名名冊 (<span id="stat-reg-count">--</span> 人)
       </button>
       <button class="drawer-tab-btn" id="drawer-btn-checkin" onclick="switchDrawerTab('drawer-pane-checkin', this)">
@@ -4345,8 +4337,88 @@ ${next}
 
     <!-- 抽屜主內容區 -->
     <div class="drawer-body">
-      <!-- 抽屜分頁 1: 即時報名名冊 -->
-      <div class="drawer-pane active" id="drawer-pane-roster">
+      <!-- 抽屜分頁 1 (第一順位): ✍️ 歷次共學聚會・幹部手寫簽到與表單自動套印中心 -->
+      <div class="drawer-pane active" id="drawer-pane-meeting-sign">
+        <div class="module-card" style="margin-bottom: 0;">
+          <div class="module-header">
+            <div>
+              <div class="module-title">✍️ 歷次共學聚會・幹部手寫簽到與表單自動套印中心</div>
+              <div class="module-desc">依照教發中心 <strong>NCHU-PIMS-D-001</strong> 標準｜每次聚會獨立親筆重簽＋手寫壓日期｜自動對位合成下載 PDF</div>
+            </div>
+            <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+              <span class="badge badge-primary">做法 A：手寫簽名＋壓日期</span>
+              <span class="badge badge-emerald">法定 2/3 出席門檻檢核</span>
+            </div>
+          </div>
+
+          <!-- 聚會次別切換標籤列 (7 次聚會) -->
+          <div style="font-size: 12px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px;">
+            📅 選擇聚會次別（各次別簽名獨立保存，每次聚會皆須親自重簽）：
+          </div>
+          <div class="session-tabs-wrap" id="meeting-session-tabs">
+            <!-- 由 JS 動態生成 7 次按鈕 -->
+          </div>
+
+          <!-- 當前次別基本資訊列 (可手動校對微調) -->
+          <div class="meeting-meta-grid">
+            <div class="meeting-meta-item">
+              <label>討論日期（含次別）</label>
+              <input type="text" id="meeting-input-date" onchange="updateMeetingMeta('date', this.value)">
+            </div>
+            <div class="meeting-meta-item">
+              <label>討論時間</label>
+              <input type="text" id="meeting-input-time" onchange="updateMeetingMeta('time', this.value)">
+            </div>
+            <div class="meeting-meta-item">
+              <label>討論地點</label>
+              <input type="text" id="meeting-input-loc" onchange="updateMeetingMeta('loc', this.value)">
+            </div>
+            <div class="meeting-meta-item">
+              <label>研討核心主題</label>
+              <input type="text" id="meeting-input-theme" onchange="updateMeetingMeta('theme', this.value)">
+            </div>
+          </div>
+
+          <!-- 法定出席指標看板 (三分之二以上出席) -->
+          <div id="meeting-quorum-bar" class="quorum-banner quorum-pass">
+            <!-- 由 JS 即時計算實到人數並顯示狀態 -->
+          </div>
+
+          <!-- 6 位成員簽名卡網格 (手寫簽名＋壓日期) -->
+          <div class="member-sig-grid" id="meeting-member-sig-grid">
+            <!-- 由 JS 動態渲染 6 位成員卡片 -->
+          </div>
+
+          <!-- 簽到表匯出與同步操作工具列 -->
+          <div style="background: #f1f5f9; padding: 16px; border-radius: 12px; border: 1px solid #cbd5e1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn-action primary" onclick="printOfficialMeetingSheet()" title="調用官方版型另存為無損向量 PDF">
+                🖨️ 列印 / 另存為官方 PDF
+              </button>
+              <button class="btn-action" style="background: #004B97; color: #fff;" onclick="downloadOfficialMeetingPdf()" title="使用瀏覽器端 PDF 引擎直接下載">
+                📥 一鍵套印下載 PDF
+              </button>
+              <button class="btn-action" onclick="downloadOfficialMeetingPng()" title="下載 300DPI A4 簽到表高解析圖片">
+                🖼️ 下載高解析圖檔 (PNG)
+              </button>
+            </div>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button class="btn-action" onclick="copyMeetingMarkdownReport()">
+                📋 複製紀錄表 Markdown 草稿
+              </button>
+              <button class="btn-action" style="background:#059669; color:#fff;" onclick="syncMeetingSignaturesToCloud()">
+                ☁️ 雲端同步到試算表
+              </button>
+              <button class="btn-action" onclick="syncMeetingSignaturesFromCloud()">
+                🔄 從雲端載入最新簽名
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 抽屜分頁 2: 即時報名名冊 -->
+      <div class="drawer-pane" id="drawer-pane-roster">
         <div class="module-card" style="margin-bottom: 0;">
           <div class="module-header">
             <div>
@@ -5444,6 +5516,9 @@ ${COMMUNITY_MEMBERS.map(m => {
     function postToBackend(payload) {
       const url = getGasUrl();
       if (!url) return Promise.reject(new Error("尚未設定 Google Apps Script 後端網址"));
+      if (!payload.token) {
+        payload.token = getGasToken();
+      }
       return fetch(url, {
         method: 'POST',
         mode: 'no-cors',
@@ -5486,12 +5561,16 @@ ${COMMUNITY_MEMBERS.map(m => {
     async function syncMeetingSignaturesFromCloud() {
       showToast('🔄 正在從 Google 試算表拉取最新簽名名冊...');
       try {
-        const url = getGasUrl();
+        const url = getGasUrlWithToken();
         if (!url) {
           showToast('尚未設定 Apps Script 網址');
           return;
         }
         const res = await fetch(url).then(r => r.json());
+        if (res && res.status === 'locked') {
+          showToast('⚠️ Google 試算表存取被鎖定：缺少有效授權金鑰');
+          return;
+        }
         if (res && res.meetingSignatures) {
           Object.keys(res.meetingSignatures).forEach(sessName => {
             const cfg = SESSION_CONFIGS.find(c => c.name === sessName || c.key === sessName);
