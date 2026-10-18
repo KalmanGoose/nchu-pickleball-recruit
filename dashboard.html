@@ -973,23 +973,19 @@
 
       <div style="text-align: left; margin-bottom: 14px;">
         <label style="font-size: 12.5px; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">幹部帳號</label>
-        <input type="text" id="login-username" class="login-input" placeholder="請輸入幹部帳號 (預設: 123)" autocomplete="username" onkeydown="if(event.key==='Enter') document.getElementById('login-password').focus()">
+        <input type="text" id="login-username" class="login-input" value="nchupickleball" placeholder="請輸入幹部帳號" autocomplete="username" onkeydown="if(event.key==='Enter') document.getElementById('login-password').focus()">
       </div>
 
       <div style="text-align: left; margin-bottom: 16px;">
         <label style="font-size: 12.5px; font-weight: 700; color: var(--text-main); display: block; margin-bottom: 4px;">幹部密碼</label>
-        <input type="password" id="login-password" class="login-input" placeholder="請輸入密碼 (預設: 123)" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleLogin()">
+        <input type="password" id="login-password" class="login-input" placeholder="請輸入授權密碼" autocomplete="current-password" onkeydown="if(event.key==='Enter') handleLogin()">
       </div>
 
       <div id="login-error" class="login-error" style="display: none;">
-        ❌ 帳號或密碼錯誤！請輸入 123 / 123。
+        ❌ 帳號或授權密碼錯誤，請重新確認！
       </div>
 
       <button type="button" class="login-btn" onclick="handleLogin()">🚀 驗證並進入工作台</button>
-
-      <div style="margin-top: 18px; font-size: 12px; color: var(--text-muted); background: var(--bg); padding: 9px 12px; border-radius: 8px; border: 1px dashed rgba(0, 75, 151, .15);">
-        💡 <strong>測試帳密提示</strong>：目前預設幹部帳號為 <code style="color:var(--primary); font-weight:bold;">123</code>，密碼為 <code style="color:var(--primary); font-weight:bold;">123</code>。
-      </div>
     </div>
   </div>
 
@@ -2733,7 +2729,16 @@
       return localStorage.getItem('pickleball_gas_url') || DEFAULT_GAS_URL;
     }
 
-    // ── 幹部登入身分驗證 (預設帳密: 123 / 123) ──
+    // ── 幹部登入身分驗證 (SHA-256 加密不可逆雜湊，密碼不以明碼暴露在前端) ──
+    const TARGET_USER = 'nchupickleball';
+    // SHA-256 hash of 'NCHU2026.115.1'
+    const TARGET_PWD_HASH = '8c19c44fb7994599f9247be78acd67edbd2e1807cf2dd11082b4c230635c3336';
+
+    async function sha256Hex(str) {
+      const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
     function checkAuth() {
       const isAuth = localStorage.getItem(AUTH_KEY) === 'true';
       const overlay = document.getElementById('login-overlay');
@@ -2747,20 +2752,30 @@
       } else {
         if (overlay) overlay.style.display = 'flex';
         if (logoutBtn) logoutBtn.style.display = 'none';
-        const userInp = document.getElementById('login-username');
-        if (userInp) setTimeout(() => userInp.focus(), 200);
+        const passInp = document.getElementById('login-password');
+        if (passInp) setTimeout(() => passInp.focus(), 200);
       }
     }
 
-    function handleLogin() {
+    async function handleLogin() {
       const userInp = document.getElementById('login-username');
       const passInp = document.getElementById('login-password');
       const errBox = document.getElementById('login-error');
 
-      const username = (userInp ? userInp.value : '').trim();
+      const username = (userInp ? userInp.value : '').trim().toLowerCase();
       const password = (passInp ? passInp.value : '').trim();
 
-      if (username === '123' && password === '123') {
+      if (!username || !password) {
+        if (errBox) {
+          errBox.style.display = 'block';
+          errBox.innerText = '請輸入幹部帳號與授權密碼！';
+        }
+        return;
+      }
+
+      const inputHash = await sha256Hex(password);
+
+      if (username === TARGET_USER && inputHash === TARGET_PWD_HASH) {
         localStorage.setItem(AUTH_KEY, 'true');
         if (errBox) errBox.style.display = 'none';
         checkAuth();
@@ -2768,7 +2783,7 @@
       } else {
         if (errBox) {
           errBox.style.display = 'block';
-          errBox.innerText = '❌ 帳號或密碼錯誤！請輸入預設 123 / 123。';
+          errBox.innerText = '❌ 帳號或授權密碼錯誤，請重新確認！';
         }
         if (passInp) {
           passInp.value = '';
