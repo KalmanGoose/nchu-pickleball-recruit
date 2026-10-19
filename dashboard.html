@@ -2896,6 +2896,14 @@
     // ══════════════════════════════════════════════════
     // ⚡ 歷次共學幹部簽名雲端雙向合併核心 (相容現有線上版 + 新版)
     // ══════════════════════════════════════════════════
+    // 驗證是否為有效親筆簽名圖檔 (排除無效長度、空值或 1x1 綠色像素等測試資料)
+    function isValidSignatureImage(sig) {
+      if (!sig || typeof sig !== 'string') return false;
+      if (sig.length < 300) return false;
+      if (sig.includes('AAAAEAAAAB')) return false; // 1x1 像素特徵識別
+      return true;
+    }
+
     function mergeCloudSignatures(data) {
       if (!data) return false;
       let changed = false;
@@ -2912,15 +2920,19 @@
                 Object.keys(cloudMembers).forEach(mId => {
                   const mData = cloudMembers[mId];
                   const curRec = meetingDataStore[sess.key].members[mId] || {};
-                  if (mData.signature && mData.signature !== curRec.signature) {
+                  const hasValidSig = isValidSignatureImage(mData.signature);
+                  const cleanSig = hasValidSig ? mData.signature : "";
+                  const cleanStatus = (mData.status === "出席" && !hasValidSig) ? "未簽到" : (mData.status || "未簽到");
+
+                  if (cleanSig !== (curRec.signature || "")) {
                     changed = true;
                   }
-                  if (mData.status && mData.status !== curRec.status) {
+                  if (cleanStatus !== (curRec.status || "")) {
                     changed = true;
                   }
                   meetingDataStore[sess.key].members[mId] = {
-                    status: mData.status,
-                    signature: mData.signature || "",
+                    status: cleanStatus,
+                    signature: cleanSig,
                     signedAt: mData.signedAt || ""
                   };
                 });
@@ -2929,6 +2941,31 @@
               console.log("Error parsing note signatures:", err);
             }
           }
+        });
+
+        // 雙重保險：合併獨立成員筆記通道 meeting_sig_${sess.key}_m${mId} (隔離儲存格)
+        SESSION_CONFIGS.forEach(sess => {
+          COMMUNITY_MEMBERS.forEach(m => {
+            const indKey = 'meeting_sig_' + sess.key + '_m' + m.id;
+            if (data.notes[indKey] && data.notes[indKey].content) {
+              try {
+                const indData = JSON.parse(data.notes[indKey].content);
+                if (indData && typeof indData === 'object') {
+                  const hasValidSig = isValidSignatureImage(indData.signature);
+                  const cleanSig = hasValidSig ? indData.signature : "";
+                  const cleanStatus = (indData.status === "出席" && !hasValidSig) ? "未簽到" : (indData.status || "未簽到");
+                  if (!meetingDataStore[sess.key]) meetingDataStore[sess.key] = { members: {} };
+                  const curRec = meetingDataStore[sess.key].members[m.id] || {};
+                  if (cleanSig && cleanSig !== curRec.signature) {
+                    curRec.signature = cleanSig;
+                    curRec.status = cleanStatus;
+                    curRec.signedAt = indData.signedAt || curRec.signedAt;
+                    changed = true;
+                  }
+                }
+              } catch (e) {}
+            }
+          });
         });
       }
 
@@ -2941,16 +2978,20 @@
             const sigs = data.meetingSignatures[sessName];
             Object.keys(sigs).forEach(mId => {
               const curRec = meetingDataStore[cfg.key].members[mId] || {};
-              if (sigs[mId].signature && sigs[mId].signature !== curRec.signature) {
+              const hasValidSig = isValidSignatureImage(sigs[mId].signature);
+              const cleanSig = hasValidSig ? sigs[mId].signature : "";
+              const cleanStatus = (sigs[mId].status === "出席" && !hasValidSig) ? "未簽到" : (sigs[mId].status || "未簽到");
+
+              if (cleanSig !== (curRec.signature || "")) {
                 changed = true;
               }
-              if (sigs[mId].status && sigs[mId].status !== curRec.status) {
+              if (cleanStatus !== (curRec.status || "")) {
                 changed = true;
               }
               meetingDataStore[cfg.key].members[mId] = {
-                status: sigs[mId].status,
-                signature: sigs[mId].signature,
-                signedAt: sigs[mId].signedAt
+                status: cleanStatus,
+                signature: cleanSig,
+                signedAt: sigs[mId].signedAt || ""
               };
             });
           }
@@ -4900,6 +4941,22 @@ ${next}
         console.error("Failed to read localStorage:", e);
       }
 
+      // 檢查並徹底清理本地舊快取中的無效/測試綠點簽名
+      if (meetingDataStore && typeof meetingDataStore === 'object') {
+        Object.keys(meetingDataStore).forEach(sKey => {
+          const mObj = meetingDataStore[sKey] && meetingDataStore[sKey].members;
+          if (mObj && typeof mObj === 'object') {
+            Object.keys(mObj).forEach(mId => {
+              const rec = mObj[mId];
+              if (rec && rec.signature && !isValidSignatureImage(rec.signature)) {
+                rec.signature = "";
+                if (rec.status === "出席") rec.status = "未簽到";
+              }
+            });
+          }
+        });
+      }
+
       // 補齊 7 次聚會結構 (確保每次獨立隔離)
       SESSION_CONFIGS.forEach((sess, idx) => {
         if (!meetingDataStore[sess.key]) {
@@ -5018,7 +5075,7 @@ ${next}
       let presentCount = 0;
       COMMUNITY_MEMBERS.forEach(m => {
         const rec = members[m.id];
-        if (rec && rec.status === "出席" && rec.signature) {
+        if (rec && rec.status === "出席" && isValidSignatureImage(rec.signature)) {
           presentCount++;
         }
       });
@@ -5048,7 +5105,8 @@ ${next}
 
       grid.innerHTML = COMMUNITY_MEMBERS.map(m => {
         const rec = members[m.id] || { status: "未簽到", signature: "", signedAt: "" };
-        const isSigned = rec.status === "出席" && rec.signature;
+        const hasValidSig = isValidSignatureImage(rec.signature);
+        const isSigned = rec.status === "出席" && hasValidSig;
         const isLeave = rec.status === "請假";
 
         let cardClass = "member-sig-card";
@@ -5137,6 +5195,13 @@ ${next}
       }).catch(e => console.log("Background sync:", e));
 
       postToBackend({
+        action: "save_note",
+        role: "meeting_sig_" + curSess.key + "_m" + memberId,
+        roleName: curSess.name + " " + member.name + " 簽署紀錄",
+        content: JSON.stringify(rec)
+      }).catch(e => {});
+
+      postToBackend({
         action: "save_meeting_signature",
         session: curSess.name,
         memberId: memberId,
@@ -5170,6 +5235,13 @@ ${next}
         }).then(() => {
           setTimeout(silentLiveSync, 800);
         }).catch(e => console.log("Background sync:", e));
+
+        postToBackend({
+          action: "save_note",
+          role: "meeting_sig_" + curSess.key + "_m" + memberId,
+          roleName: curSess.name + " " + member.name + " 簽署紀錄",
+          content: JSON.stringify({ status: "未簽到", signature: "", signedAt: "" })
+        }).catch(e => {});
 
         postToBackend({
           action: "save_meeting_signature",
@@ -5340,6 +5412,62 @@ ${next}
       input.value = '';
     }
 
+    // 智慧裁切畫布墨水筆劃多餘留白並最佳化尺寸 (確保雲端同步不超限，清晰且僅 ~2KB~4KB)
+    function getOptimizedSignatureDataUrl(sourceCanvas) {
+      if (!sourceCanvas) return "";
+      const w = sourceCanvas.width;
+      const h = sourceCanvas.height;
+      const ctx = sourceCanvas.getContext('2d');
+      const imgData = ctx.getImageData(0, 0, w, h);
+      const data = imgData.data;
+
+      let minX = w, minY = h, maxX = 0, maxY = 0;
+      let hasInk = false;
+
+      // 掃描墨水筆劃外框 (alpha 門檻 > 20)
+      for (let y = 0; y < h; y++) {
+        for (let x = 0; x < w; x++) {
+          const alpha = data[(y * w + x) * 4 + 3];
+          if (alpha > 20) {
+            hasInk = true;
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+          }
+        }
+      }
+
+      if (!hasInk) return "";
+
+      // 墨水周圍加上微幅安全留白 (12px)
+      const pad = 12;
+      minX = Math.max(0, minX - pad);
+      minY = Math.max(0, minY - pad);
+      maxX = Math.min(w, maxX + pad);
+      maxY = Math.min(h, maxY + pad);
+
+      const cropW = maxX - minX;
+      const cropH = maxY - minY;
+
+      // 目標最佳尺寸 (寬度上限 320px, 高度上限 120px，保持高解析度但限制總體積)
+      const maxW = 320;
+      const maxH = 120;
+      const scale = Math.min(1.0, maxW / cropW, maxH / cropH);
+      const targetW = Math.max(1, Math.round(cropW * scale));
+      const targetH = Math.max(1, Math.round(cropH * scale));
+
+      const outCanvas = document.createElement('canvas');
+      outCanvas.width = targetW;
+      outCanvas.height = targetH;
+      const outCtx = outCanvas.getContext('2d');
+      outCtx.imageSmoothingEnabled = true;
+      outCtx.imageSmoothingQuality = 'high';
+      outCtx.drawImage(sourceCanvas, minX, minY, cropW, cropH, 0, 0, targetW, targetH);
+
+      return outCanvas.toDataURL('image/png');
+    }
+
     // 確認存入當次簽到表
     function confirmMeetingSignature() {
       if (!mHasDrawn) {
@@ -5350,7 +5478,11 @@ ${next}
 
       const curSess = SESSION_CONFIGS[currentSessionIdx];
       const member = COMMUNITY_MEMBERS.find(m => m.id === currentSignMemberId);
-      const dataUrl = mSigCanvas.toDataURL('image/png');
+      const dataUrl = getOptimizedSignatureDataUrl(mSigCanvas);
+      if (!dataUrl) {
+        alert('畫布上尚未偵測到有效手寫墨水，請簽名後再儲存！');
+        return;
+      }
       const timeStr = new Date().toLocaleDateString('zh-TW', { hour12: false, month: '2-digit', day: '2-digit' }) + ' ' + new Date().toLocaleTimeString('zh-TW', { hour12: false, hour: '2-digit', minute: '2-digit' });
 
       meetingDataStore[curSess.key].members[currentSignMemberId] = {
@@ -5365,7 +5497,7 @@ ${next}
       renderQuorumBar();
       showToast(`✅ 成功儲存「${member.name}」於${curSess.name}的親筆簽名與日期！`);
 
-      // 雲端雙向即時同步：通道 A (相容現有線上 GAS 筆記通道，即刻跨裝置生效)
+      // 雲端雙向即時同步：通道 A (總整名冊)
       postToBackend({
         action: "save_note",
         role: "meeting_sigs_" + curSess.key,
@@ -5377,6 +5509,14 @@ ${next}
       }).catch(err => {
         console.log("[Google Sheets] 背景寫入暫緩 (本機已安全保存)", err);
       });
+
+      // 雲端雙向即時同步：通道 A-2 (單一成員獨立隔離格，永不超限)
+      postToBackend({
+        action: "save_note",
+        role: "meeting_sig_" + curSess.key + "_m" + currentSignMemberId,
+        roleName: curSess.name + " " + member.name + " 簽署紀錄",
+        content: JSON.stringify(meetingDataStore[curSess.key].members[currentSignMemberId])
+      }).catch(err => {});
 
       // 通道 B (新版 GAS 專屬獨立簽名工作表)
       postToBackend({
@@ -5411,8 +5551,9 @@ ${next}
           const m = COMMUNITY_MEMBERS[i - 1];
           const rec = members[m.id] || { status: "未簽到", signature: "" };
           let sigContent = '';
+          const hasValidSig = isValidSignatureImage(rec.signature);
 
-          if (rec.status === "出席" && rec.signature) {
+          if (rec.status === "出席" && hasValidSig) {
             sigContent = `<img src="${rec.signature}" style="height:36px; max-width:140px; vertical-align:middle;">`;
           } else if (rec.status === "請假") {
             sigContent = `<span style="color:#dc2626; font-weight:bold;">${m.name} (請假)</span>`;
@@ -5523,7 +5664,7 @@ ${next}
             ctx.fillText(m.title, 345, cy + 4);
 
             // 若有手寫簽名圖，載入繪製於右側 x = 460
-            if (rec.status === "出席" && rec.signature) {
+            if (rec.status === "出席" && isValidSignatureImage(rec.signature)) {
               await new Promise(resolve => {
                 const sImg = new Image();
                 sImg.onload = () => {
@@ -5619,7 +5760,7 @@ ${next}
 
       COMMUNITY_MEMBERS.forEach(m => {
         const rec = members[m.id];
-        if (rec && rec.status === "出席") presentNames.push(m.name);
+        if (rec && rec.status === "出席" && isValidSignatureImage(rec.signature)) presentNames.push(m.name);
         else if (rec && rec.status === "請假") leaveNames.push(`${m.name} (請假)`);
         else leaveNames.push(`${m.name} (未簽)`);
       });
@@ -5639,8 +5780,8 @@ ${next}
 - **出席成員名單**：
 ${COMMUNITY_MEMBERS.map(m => {
   const rec = members[m.id];
-  const isPresent = rec && rec.status === "出席";
-  return `  ${m.id}. ${m.name}（${m.dept}） [ ${isPresent ? '出席' : '請假'} ]`;
+  const isPresent = rec && rec.status === "出席" && isValidSignatureImage(rec.signature);
+  return `  ${m.id}. ${m.name}（${m.dept}） [ ${isPresent ? '出席' : (rec && rec.status === '請假' ? '請假' : '未簽到')} ]`;
 }).join('\n')}
   - **實到人數**：${presentNames.length} 人 (${presentNames.join('、')})
   - **紙本簽到表**：[ 已完成全員手寫親簽並套印存查備核 ]
@@ -5725,27 +5866,11 @@ ${COMMUNITY_MEMBERS.map(m => {
           showToast('⚠️ Google 試算表存取被鎖定：缺少有效授權金鑰');
           return;
         }
-        if (res && res.meetingSignatures) {
-          Object.keys(res.meetingSignatures).forEach(sessName => {
-            const cfg = SESSION_CONFIGS.find(c => c.name === sessName || c.key === sessName);
-            if (cfg) {
-              if (!meetingDataStore[cfg.key]) meetingDataStore[cfg.key] = { members: {} };
-              const sigs = res.meetingSignatures[sessName];
-              Object.keys(sigs).forEach(mId => {
-                meetingDataStore[cfg.key].members[mId] = {
-                  status: sigs[mId].status,
-                  signature: sigs[mId].signature,
-                  signedAt: sigs[mId].signedAt
-                };
-              });
-            }
-          });
-          saveMeetingDataStore();
-          renderMeetingCards();
-          renderQuorumBar();
-          showToast('🟢 雲端最新簽名資料同步成功！');
+        const changed = mergeCloudSignatures(res);
+        if (changed) {
+          showToast('🟢 雲端最新簽名資料已即時同步更新！');
         } else {
-          showToast('雲端尚未建立簽名工作表或尚無遠端紀錄');
+          showToast('✅ 本地簽名資料已是雲端最新狀態！');
         }
       } catch (e) {
         console.error("Cloud fetch error:", e);
