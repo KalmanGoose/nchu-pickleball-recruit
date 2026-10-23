@@ -1,4 +1,34 @@
+# System & Temporary
 .DS_Store
 */.DS_Store
 *~
 *.tmp
+*.bak
+*.swp
+
+# Sensitive Personal Data & Real Signatures
+*_簽名.png
+*.sig
+*活動簽到表*.pdf
+02_聚會紀錄與簽到/第一次/陳皇秀_第1次簽名.png
+02_聚會紀錄與簽到/第一次/活動簽到表_第1次聚會_1007.pdf
+114-2/sla_event_table_output_.pdf
+
+# Secrets & Environment
+.env
+.env.*
+*.key
+*.pem
+*.cert
+*.p12
+
+# Archives & Backups
+*.tar.gz
+*.zip
+*.rar
+
+# Agent & CLI caches
+.agents/
+.codex/
+skills-lock.json
+.taste-skill/

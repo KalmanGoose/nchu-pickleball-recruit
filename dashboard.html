@@ -12,25 +12,28 @@
   <style>
     :root {
       --primary: #004B97;
-      --primary-dark: #003a75;
-      --mint: #ABDAD5;
-      --mint-light: rgba(171, 218, 213, 0.35);
-      --mint-subtle: rgba(171, 218, 213, 0.15);
-      --text-main: #0F2745;
-      --text-muted: #5b7290;
-      --bg: #F0F8FF;
+      --primary-dark: #003770;
+      --primary-surface: #eff6ff;
+      --mint: #0f766e;
+      --mint-light: #f0fdfa;
+      --mint-subtle: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --bg: #f8fafc;
       --card-radius: 14px;
       --pill-radius: 999px;
-      --shadow-sm: 0 2px 8px rgba(15, 39, 69, .07);
-      --shadow-md: 0 8px 24px rgba(15, 39, 69, .10);
-      --rose: #e11d48;
-      --rose-bg: rgba(225, 29, 72, 0.08);
-      --emerald: #059669;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, .06), 0 1px 2px rgba(15, 23, 42, .04);
+      --shadow-md: 0 4px 14px -2px rgba(15, 23, 42, .08), 0 2px 6px -2px rgba(15, 23, 42, .04);
+      --rose: #be123c;
+      --rose-bg: #fff1f2;
+      --emerald: #047857;
       --emerald-bg: #ecfdf5;
-      --amber: #d97706;
+      --amber: #b45309;
       --amber-bg: #fffbeb;
-      --purple: #7c3aed;
+      --purple: #6d28d9;
       --purple-bg: #f5f3ff;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
@@ -121,18 +124,19 @@
     }
     .time-card {
       background: #fff; border-radius: var(--card-radius); padding: 18px;
-      border: 1px solid rgba(0, 75, 151, .08); box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-subtle); box-shadow: var(--shadow-sm);
       display: flex; flex-direction: column; justify-content: space-between;
+      transition: all .2s;
     }
-    .time-card.urgent { border-left: 4px solid var(--rose); }
-    .time-card.important { border-left: 4px solid var(--amber); }
-    .time-card.normal { border-left: 4px solid var(--primary); }
-    .time-card.success { border-left: 4px solid var(--emerald); }
+    .time-card.urgent { border-color: rgba(190, 18, 60, 0.25); background: #fff1f2; }
+    .time-card.important { border-color: rgba(180, 83, 9, 0.25); background: #fffbeb; }
+    .time-card.normal { border-color: rgba(0, 75, 151, 0.2); background: #eff6ff; }
+    .time-card.success { border-color: rgba(4, 120, 87, 0.25); background: #ecfdf5; }
     .time-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
-    .time-date { font-size: 12px; font-weight: 900; color: var(--text-muted); }
-    .time-tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: var(--pill-radius); }
-    .time-title { font-size: 14.5px; font-weight: 900; color: var(--text-main); margin-bottom: 4px; }
-    .time-desc { font-size: 12.5px; color: var(--text-muted); line-height: 1.5; }
+    .time-date { font-size: 12.5px; font-weight: 900; color: var(--text-muted); }
+    .time-tag { font-size: 12px; font-weight: 700; padding: 3px 8px; border-radius: var(--pill-radius); }
+    .time-title { font-size: 15px; font-weight: 900; color: var(--text-main); margin-bottom: 4px; }
+    .time-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
 
     /* 分頁切換選單 (Tabs) */
     .dash-tabs {
@@ -140,7 +144,7 @@
       scrollbar-width: thin;
     }
     .tab-btn {
-      white-space: nowrap; background: #fff; border: 1.5px solid rgba(0, 75, 151, .12);
+      white-space: nowrap; background: #fff; border: 1.5px solid var(--border-subtle);
       color: var(--text-muted); font-size: 13.5px; font-weight: 700; padding: 9px 18px;
       border-radius: var(--pill-radius); cursor: pointer; transition: all .2s;
       display: inline-flex; align-items: center; gap: 6px;
@@ -148,7 +152,7 @@
     .tab-btn:hover { color: var(--primary); border-color: var(--primary); }
     .tab-btn.active {
       background: var(--primary); color: #fff; border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(0, 75, 151, .2);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
     }
 
     /* 各模組主要內容區 */
@@ -158,32 +162,33 @@
 
     .module-card {
       background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
-      border: 1px solid rgba(0, 75, 151, .08); padding: 28px; margin-bottom: 24px;
+      border: 1px solid var(--border-subtle); padding: 28px; margin-bottom: 24px;
     }
     .module-header {
       display: flex; justify-content: space-between; align-items: flex-start;
-      margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid rgba(0, 75, 151, .08);
+      margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border-subtle);
       flex-wrap: wrap; gap: 10px;
     }
     .module-title { font-size: 19px; font-weight: 900; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-    .module-desc { font-size: 13px; color: var(--text-muted); margin-top: 4px; }
-    .module-source { font-size: 11.5px; font-family: monospace; background: var(--bg); padding: 3px 8px; border-radius: 6px; color: var(--primary); }
+    .module-desc { font-size: 13.5px; color: var(--text-muted); margin-top: 4px; }
+    .module-source { font-size: 12px; font-family: monospace; background: var(--bg); padding: 3px 8px; border-radius: 6px; color: var(--primary); border: 1px solid var(--border-subtle); }
 
     /* 表格樣式 */
-    .table-responsive { overflow-x: auto; margin: 16px 0; border-radius: 8px; border: 1px solid rgba(0, 75, 151, .1); }
-    table { width: 100%; border-collapse: collapse; font-size: 13.5px; text-align: left; }
-    th { background: #f8fafc; color: var(--text-muted); font-weight: 700; padding: 12px 14px; border-bottom: 1px solid rgba(0, 75, 151, .1); white-space: nowrap; }
-    td { padding: 12px 14px; border-bottom: 1px solid rgba(0, 75, 151, .06); }
+    .table-responsive { overflow-x: auto; margin: 16px 0; }
+    table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13.5px; text-align: left; border: 1px solid var(--border-subtle); border-radius: 8px; overflow: hidden; }
+    th { background: #f8fafc; color: var(--text-muted); font-weight: 700; padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); white-space: nowrap; }
+    td { padding: 12px 14px; border-bottom: 1px solid var(--border-subtle); }
     tr:last-child td { border-bottom: none; }
-    tr:hover td { background: rgba(171, 218, 213, 0.08); }
+    tr:hover td { background: #f1f5f9; }
 
     /* 任務檢核勾選清單 (Checklist) */
     .todo-list { list-style: none; margin: 16px 0; }
     .todo-item {
       display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px;
       background: var(--bg); border-radius: 8px; margin-bottom: 8px; transition: all .2s;
+      border: 1px solid var(--border-subtle);
     }
-    .todo-item:hover { background: #e8f4fc; }
+    .todo-item:hover { background: #f1f5f9; }
     .todo-checkbox { margin-top: 5px; width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; }
     .todo-text { font-size: 13.5px; font-weight: 500; color: var(--text-main); flex: 1; }
     .todo-item.done .todo-text { text-decoration: line-through; color: var(--text-muted); }
@@ -191,11 +196,11 @@
     /* 區塊提示框 (Alert / Callout) */
     .callout {
       padding: 14px 18px; border-radius: 10px; font-size: 13.5px; line-height: 1.6;
-      margin: 16px 0; display: flex; gap: 10px; align-items: flex-start;
+      margin: 16px 0; display: flex; gap: 10px; align-items: flex-start; border: 1px solid transparent;
     }
-    .callout-info { background: var(--bg); border-left: 4px solid var(--primary); color: var(--text-main); }
-    .callout-warning { background: var(--amber-bg); border-left: 4px solid var(--amber); color: #92400e; }
-    .callout-danger { background: var(--rose-bg); border-left: 4px solid var(--rose); color: #9f1239; }
+    .callout-info { background: #eff6ff; border-color: #bfdbfe; color: #1e3a8a; }
+    .callout-warning { background: var(--amber-bg); border-color: #fde68a; color: #78350f; }
+    .callout-danger { background: var(--rose-bg); border-color: #fecdd3; color: #881337; }
 
     /* 一鍵複製按鈕 */
     .btn-copy {
@@ -231,7 +236,7 @@
       width: 58px; height: 58px; border-radius: 16px;
       background: linear-gradient(135deg, var(--primary), var(--mint));
       display: inline-flex; align-items: center; justify-content: center;
-      font-size: 28px; margin-bottom: 12px; box-shadow: 0 4px 12px rgba(0, 75, 151, .2);
+      font-size: 28px; margin-bottom: 12px; box-shadow: var(--shadow-sm);
     }
     .login-input {
       width: 100%; padding: 11px 14px; border: 1.5px solid #cbd5e1; border-radius: 9px;
@@ -241,7 +246,7 @@
     .login-btn {
       width: 100%; background: var(--primary); color: #fff; border: none; font-size: 14.5px;
       font-weight: 800; padding: 12px; border-radius: var(--pill-radius); cursor: pointer;
-      transition: all .2s; margin-top: 6px; box-shadow: 0 4px 12px rgba(0, 75, 151, .25);
+      transition: all .2s; margin-top: 6px; box-shadow: var(--shadow-sm);
     }
     .login-btn:hover { background: var(--primary-dark); transform: translateY(-1px); }
     .login-error {
@@ -266,7 +271,7 @@
     .sync-status-dot.loading { background: #f59e0b; animation: pulse 1s infinite; }
     .sync-status-dot.error { background: #ef4444; }
     @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
-    .sync-time { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+    .sync-time { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
     .sync-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .sync-stat-chip {
       background: var(--bg); border: 1px solid rgba(0, 75, 151, .1); padding: 5px 12px;
@@ -316,7 +321,7 @@
       padding: 3px 10px; border-radius: var(--pill-radius); font-size: 12px; font-weight: 600;
       color: var(--text-main); display: inline-flex; align-items: center; gap: 5px;
     }
-    .dept-badge span { background: var(--primary); color: #fff; font-size: 10px; padding: 1px 6px; border-radius: 999px; }
+    .dept-badge span { background: var(--primary); color: #fff; font-size: 12px; padding: 1px 6px; border-radius: 999px; }
 
     /* 現場打卡表單排版 */
     .checkin-container {
@@ -351,7 +356,7 @@
     .role-tab-btn:hover { background: #fff; border-color: var(--primary); color: var(--primary); }
     .role-tab-btn.active {
       background: var(--primary); color: #fff; border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(0, 75, 151, .25);
+      box-shadow: var(--shadow-sm);
     }
     .role-content-pane { display: none; }
     .role-content-pane.active { display: block; animation: fadeIn .25s ease; }
@@ -369,7 +374,7 @@
       font-size: 16px; font-weight: 900; color: var(--text-main); display: flex; align-items: center; gap: 8px;
     }
     .scratchpad-status {
-      font-size: 11.5px; font-weight: 700; color: #059669; background: #ecfdf5;
+      font-size: 12px; font-weight: 700; color: #059669; background: #ecfdf5;
       padding: 3px 10px; border-radius: var(--pill-radius); border: 1px solid rgba(5, 150, 105, .2);
     }
     .scratchpad-textarea {
@@ -414,7 +419,7 @@
     .sticky-blue { background: #e0f2fe; border: 1px solid #7dd3fc; color: #0c4a6e; }
     .sticky-pink { background: #fce7f3; border: 1px solid #f9a8d4; color: #831843; }
     .sticky-text { font-size: 13.5px; line-height: 1.5; white-space: pre-wrap; flex: 1; outline: none; }
-    .sticky-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 11px; }
+    .sticky-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 12px; }
 
     /* 響應式優化 */
     @media (max-width: 768px) {
@@ -516,7 +521,7 @@
       width: min(920px, 94vw);
       height: 100vh;
       background: #ffffff;
-      box-shadow: -8px 0 32px rgba(15, 39, 69, 0.2);
+      box-shadow: -8px 0 28px rgba(0, 0, 0, 0.15);
       z-index: 9999;
       transform: translateX(100%);
       transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -681,6 +686,7 @@
       position: relative;
       touch-action: none;
       margin: 12px 0;
+      padding: 6px;
     }
     #signature-pad-canvas {
       width: 100%;
@@ -748,7 +754,7 @@
       background: var(--primary);
       color: #fff;
       border-color: var(--primary);
-      box-shadow: 0 4px 12px rgba(0, 75, 151, 0.25);
+      box-shadow: var(--shadow-sm);
     }
     .meeting-meta-grid {
       display: grid;
@@ -875,11 +881,11 @@
     }
     .guide-box-a {
       background: #eff6ff;
-      border-left: 4px solid var(--primary);
+      border: 1px solid #bfdbfe;
       padding: 12px 16px;
       border-radius: 8px;
       margin-bottom: 14px;
-      font-size: 13px;
+      font-size: 13.5px;
       color: #1e3a8a;
       line-height: 1.6;
     }
@@ -894,6 +900,7 @@
       touch-action: none;
       margin-bottom: 12px;
       overflow: hidden;
+      padding: 6px;
       box-shadow: inset 0 2px 6px rgba(0,0,0,0.04);
     }
     .sig-modal-canvas-wrap canvas {
@@ -914,13 +921,13 @@
       position: absolute;
       right: 14px;
       bottom: 10px;
-      font-size: 11.5px;
-      color: #64748b;
-      background: rgba(241, 245, 249, 0.9);
-      padding: 3px 8px;
+      font-size: 12px;
+      color: #475569;
+      background: rgba(241, 245, 249, 0.95);
+      padding: 4px 10px;
       border-radius: 6px;
       pointer-events: none;
-      border: 1px solid #e2e8f0;
+      border: 1px solid #cbd5e1;
     }
     
     /* 官方公文 1:1 列印樣式 (NCHU-PIMS-D-001) */
@@ -1026,11 +1033,11 @@
         <div class="quick-chips">
           <div class="chip" onclick="copyText('52024101', '中興大學學校統編 (52024101) 已複製！')">
             <span>🏫 學校統編：<strong>52024101</strong></span>
-            <span style="color: var(--primary); font-size: 11px;">(點擊複製)</span>
+            <span style="color: var(--primary); font-size: 12px;">(點擊複製)</span>
           </div>
           <div class="chip" onclick="copyText('匹克球新手規則體感互動教學社群', '學習社群全稱已複製！')">
             <span>🏷️ 計畫名稱：<strong>匹克球新手規則體感互動教學社群</strong></span>
-            <span style="color: var(--primary); font-size: 11px;">(複製)</span>
+            <span style="color: var(--primary); font-size: 12px;">(複製)</span>
           </div>
         </div>
         <div>
@@ -1133,7 +1140,7 @@
               <span class="portal-icon">💰</span>
               <span class="badge badge-amber">8,000 元合規上限</span>
             </div>
-            <h3 class="portal-title">總務財務與單據核銷專區</h3>
+            <h2 class="portal-title">總務財務與單據核銷專區</h2>
             <p class="portal-desc">
               • 8,000 元預算動態記帳與剩餘額度即時試算（材料費上限 $5,600 / 誤餐費上限 $2,400）<br>
               • 單據拍照上傳預覽 ＋ 統編 52024101 防呆檢核<br>
@@ -1152,7 +1159,7 @@
               <span class="portal-icon">👑</span>
               <span class="badge badge-primary">召集人與全體幹部</span>
             </div>
-            <h3 class="portal-title">召集人總管與開會進度專區</h3>
+            <h2 class="portal-title">召集人總管與開會進度專區</h2>
             <p class="portal-desc">
               • 7 次聚會開會排程、核心目標與檢查點總覽<br>
               • 6 位正式成員具體職掌與個人可檢查產出（林冠丞、王雨欣、陳皇秀、許沐鈞、吳佳叡、龔依吟）<br>
@@ -1171,7 +1178,7 @@
               <span class="portal-icon">📝</span>
               <span class="badge badge-primary">7次聚會手寫簽名・官方套印</span>
             </div>
-            <h3 class="portal-title">行政文書與共學簽到專區</h3>
+            <h2 class="portal-title">行政文書與共學簽到專區</h2>
             <p class="portal-desc">
               • <strong>🏓 7 次聚會手寫簽到板</strong>：各次別獨立手寫親筆簽名＋壓日期 (做法 A)<br>
               • <strong>📄 一鍵自動套印官方簽到表</strong>：自動合成下載 NCHU 1:1 標準公文 PDF<br>
@@ -1190,7 +1197,7 @@
               <span class="portal-icon">💻</span>
               <span class="badge badge-emerald">MediaPipe × 網頁教材</span>
             </div>
-            <h3 class="portal-title">教學研發與影音發表專區</h3>
+            <h2 class="portal-title">教學研發與影音發表專區</h2>
             <p class="portal-desc">
               • 六題匹克球新手規則情境互動教材規格<br>
               • MediaPipe 純前端人體姿態推論表現驗證<br>
@@ -1296,31 +1303,31 @@
           <!-- 工具 2: 2小時聚會時間掌控表 -->
           <div class="tool-card">
             <div class="tool-card-title">⏱️ 每次 2 小時聚會標準流程節奏把控卡</div>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid var(--primary);">
-                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">00 - 15 分鐘</div>
-                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">集合點名與暖身</div>
-                <div style="font-size:12px; color:var(--text-muted);">行政點名、動態熱身拉筋、架設球網。</div>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px;">
+              <div style="background:#fff; padding:14px; border-radius:10px; border:1px solid #bfdbfe;">
+                <div style="font-size:12px; font-weight:700; color:var(--primary);">00 - 15 分鐘</div>
+                <div style="font-weight:800; font-size:14px; color:var(--text-main); margin:3px 0 2px;">集合點名與暖身</div>
+                <div style="font-size:12.5px; color:var(--text-muted);">行政點名、動態熱身拉筋、架設球網。</div>
               </div>
-              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid #0284c7;">
-                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">15 - 45 分鐘</div>
-                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">技術示範與多球練習</div>
-                <div style="font-size:12px; color:var(--text-muted);">示範組成員帶領基礎持拍、定點擊球。</div>
+              <div style="background:#fff; padding:14px; border-radius:10px; border:1px solid #bae6fd;">
+                <div style="font-size:12px; font-weight:700; color:#0284c7;">15 - 45 分鐘</div>
+                <div style="font-weight:800; font-size:14px; color:var(--text-main); margin:3px 0 2px;">技術示範與多球練習</div>
+                <div style="font-size:12.5px; color:var(--text-muted);">示範組成員帶領基礎持拍、定點擊球。</div>
               </div>
-              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid var(--purple);">
-                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">45 - 65 分鐘</div>
-                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">AI 體感互動實測</div>
-                <div style="font-size:12px; color:var(--text-muted);">輪流在筆電鏡頭前挑戰 3D 遊戲與骨架分析。</div>
+              <div style="background:#fff; padding:14px; border-radius:10px; border:1px solid #ddd6fe;">
+                <div style="font-size:12px; font-weight:700; color:var(--purple);">45 - 65 分鐘</div>
+                <div style="font-weight:800; font-size:14px; color:var(--text-main); margin:3px 0 2px;">AI 體感互動實測</div>
+                <div style="font-size:12.5px; color:var(--text-muted);">輪流在筆電鏡頭前挑戰 3D 遊戲與骨架分析。</div>
               </div>
-              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid var(--emerald);">
-                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">65 - 110 分鐘</div>
-                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">分組雙打實戰對抗</div>
-                <div style="font-size:12px; color:var(--text-muted);">實戰循環交流，影音組側拍揮拍與大合照。</div>
+              <div style="background:#fff; padding:14px; border-radius:10px; border:1px solid #a7f3d0;">
+                <div style="font-size:12px; font-weight:700; color:var(--emerald);">65 - 110 分鐘</div>
+                <div style="font-weight:800; font-size:14px; color:var(--text-main); margin:3px 0 2px;">分組雙打實戰對抗</div>
+                <div style="font-size:12.5px; color:var(--text-muted);">實戰循環交流，影音組側拍揮拍與大合照。</div>
               </div>
-              <div style="background:#fff; padding:12px; border-radius:8px; border-left:3px solid var(--amber);">
-                <div style="font-size:11px; font-weight:700; color:var(--text-muted);">110 - 120 分鐘</div>
-                <div style="font-weight:800; font-size:13.5px; color:var(--text-main);">收尾收球與心得圍圈</div>
-                <div style="font-size:12px; color:var(--text-muted);">伸展、清點借出球拍、發布下週預告。</div>
+              <div style="background:#fff; padding:14px; border-radius:10px; border:1px solid #fde68a;">
+                <div style="font-size:12px; font-weight:700; color:var(--amber);">110 - 120 分鐘</div>
+                <div style="font-weight:800; font-size:14px; color:var(--text-main); margin:3px 0 2px;">收尾收球與心得圍圈</div>
+                <div style="font-size:12.5px; color:var(--text-muted);">伸展、清點借出球拍、發布下週預告。</div>
               </div>
             </div>
           </div>
@@ -1880,33 +1887,33 @@
 
         <h4 style="margin: 24px 0 12px; font-weight: 900;">👥 全體 7 大角色具體工作職掌說明</h4>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px;">
-          <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border-left: 3px solid var(--primary);">
-            <div style="font-weight: 900; font-size: 14px; color: var(--primary); margin-bottom: 4px;">🎯 社群召集人 (專案負責人 / PM)</div>
-            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">對外窗口、與教發中心及許銘華老師接洽、系統線上送件與公文簽核、出席期末發表會。</div>
+          <div style="background: var(--bg); padding: 16px 18px; border-radius: 10px; border: 1px solid #bfdbfe;">
+            <div style="font-weight: 900; font-size: 14.5px; color: var(--primary); margin-bottom: 5px;">🎯 社群召集人 (專案負責人 / PM)</div>
+            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">對外窗口、與教發中心及許銘華老師接洽、系統線上送件與公文簽核、出席期末發表會。</div>
           </div>
-          <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border-left: 3px solid #0284c7;">
-            <div style="font-weight: 900; font-size: 14px; color: #0284c7; margin-bottom: 4px;">📝 行政文書組 (程序守護)</div>
-            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">確認成員防撞課、聚會前印簽到表、聚會後48h填寫討論紀錄表、彙整結案報告文字。</div>
+          <div style="background: var(--bg); padding: 16px 18px; border-radius: 10px; border: 1px solid #bae6fd;">
+            <div style="font-weight: 900; font-size: 14.5px; color: #0284c7; margin-bottom: 5px;">📝 行政文書組 (程序守護)</div>
+            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">確認成員防撞課、聚會前印簽到表、聚會後48h填寫討論紀錄表、彙整結案報告文字。</div>
           </div>
-          <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border-left: 3px solid var(--amber);">
-            <div style="font-weight: 900; font-size: 14px; color: var(--amber); margin-bottom: 4px;">💰 總務財務組 (管錢與器材)</div>
-            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">保管網子球拍、預約場地、採購打統編 52024101、當天拍照上傳發票、製作支出黏存單。</div>
+          <div style="background: var(--bg); padding: 16px 18px; border-radius: 10px; border: 1px solid #fde68a;">
+            <div style="font-weight: 900; font-size: 14.5px; color: var(--amber); margin-bottom: 5px;">💰 總務財務組 (管錢與器材)</div>
+            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">保管網子球拍、預約場地、採購打統編 52024101、當天拍照上傳發票、製作支出黏存單。</div>
           </div>
-          <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border-left: 3px solid #ec4899;">
-            <div style="font-weight: 900; font-size: 14px; color: #ec4899; margin-bottom: 4px;">📢 社群行銷夥伴 (🔥急缺新血)</div>
-            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">經營官方 IG/LINE、設計校園招募文案、協助期末發表會海報與成果 Pitch 簡報商業包裝。</div>
+          <div style="background: var(--bg); padding: 16px 18px; border-radius: 10px; border: 1px solid #fbcfe8;">
+            <div style="font-weight: 900; font-size: 14.5px; color: #db2777; margin-bottom: 5px;">📢 社群行銷夥伴 (🔥急缺新血)</div>
+            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">經營官方 IG/LINE、設計校園招募文案、協助期末發表會海報與成果 Pitch 簡報商業包裝。</div>
           </div>
-          <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border-left: 3px solid var(--emerald);">
-            <div style="font-weight: 900; font-size: 14px; color: var(--emerald); margin-bottom: 4px;">💻 AI與前端工程組 (技術打磨)</div>
-            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">優化 MediaPipe 33節點動態殘影、Three.js 遊戲體驗、串接 GPUtw.ai 算力微調模型。</div>
+          <div style="background: var(--bg); padding: 16px 18px; border-radius: 10px; border: 1px solid #a7f3d0;">
+            <div style="font-weight: 900; font-size: 14.5px; color: var(--emerald); margin-bottom: 5px;">💻 AI與前端工程組 (技術打磨)</div>
+            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">優化 MediaPipe 33節點動態殘影、Three.js 遊戲體驗、串接純前端 Edge 推論模型。</div>
           </div>
-          <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border-left: 3px solid var(--rose);">
-            <div style="font-weight: 900; font-size: 14px; color: var(--rose); margin-bottom: 4px;">🎥 活動影音組 (回憶主導)</div>
-            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">每次練球拍 4~6 張高清側拍、依 4 幕分鏡腳本剪輯 3~10 分鐘 1080P 期末成果影片。</div>
+          <div style="background: var(--bg); padding: 16px 18px; border-radius: 10px; border: 1px solid #fecdd3;">
+            <div style="font-weight: 900; font-size: 14.5px; color: var(--rose); margin-bottom: 5px;">🎥 活動影音組 (回憶主導)</div>
+            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">每次練球拍 4~6 張高清側拍、依 4 幕分鏡腳本剪輯 3~10 分鐘 1080P 期末成果影片。</div>
           </div>
-          <div style="background: var(--bg); padding: 14px 16px; border-radius: 10px; border-left: 3px solid #6366f1;">
-            <div style="font-weight: 900; font-size: 14px; color: #6366f1; margin-bottom: 4px;">🏸 動作特徵與示範組 (林冠丞、王雨欣)</div>
-            <div style="font-size: 12.5px; color: var(--text-muted); line-height: 1.5;">示範動作、拆解動作特徵、交叉標記片段、複核六題教材規則與教學意義。</div>
+          <div style="background: var(--bg); padding: 16px 18px; border-radius: 10px; border: 1px solid #c7d2fe;">
+            <div style="font-weight: 900; font-size: 14.5px; color: #4f46e5; margin-bottom: 5px;">🏸 動作特徵與示範組 (林冠丞、王雨欣)</div>
+            <div style="font-size: 13px; color: var(--text-muted); line-height: 1.6;">示範動作、拆解動作特徵、交叉標記片段、複核六題教材規則與教學意義。</div>
           </div>
         </div>
       </div>
@@ -1940,7 +1947,7 @@
               已依照您的指示，完整收納至右側「現場活動抽屜」第一順位！支援 7 次聚會獨立重簽、手寫姓名與壓日期 (做法 A)、即時法定門檻檢核與官方簽到表 (NCHU-PIMS-D-001) 1 秒自動套印。
             </div>
           </div>
-          <button class="btn-action primary" style="padding: 10px 18px; font-size: 13.5px; box-shadow: 0 4px 12px rgba(0,75,151,0.2);" onclick="toggleDrawer(true)">
+          <button class="btn-action primary" style="padding: 10px 18px; font-size: 13.5px;" onclick="toggleDrawer(true)">
             🧰 立即打開現場簽到抽屜 (第一順位) →
           </button>
         </div>
@@ -2114,7 +2121,7 @@
 
           <!-- 圖片縮圖預覽 -->
           <div id="exp-photo-preview-box" style="display:none; margin: 10px 0; align-items:center; gap:12px; background:#f8fafc; padding:10px 14px; border-radius:8px; border:1px solid #e2e8f0;">
-            <img id="exp-photo-preview" src="" style="max-height:80px; max-width:140px; border-radius:6px; object-fit:cover; border:1px solid #cbd5e1;">
+            <img id="exp-photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" style="max-height:80px; max-width:140px; border-radius:6px; object-fit:cover; border:1px solid #cbd5e1;">
             <span style="font-size:12.5px; color:var(--text-muted);">單據照片已載入！</span>
             <button type="button" class="btn-action" style="padding:4px 8px; font-size:12px; color:var(--rose); border-color:#fca5a5;" onclick="clearExpensePhoto()">移除照片</button>
           </div>
@@ -2183,7 +2190,7 @@
           <!-- Canvas 畫布 -->
           <div class="sig-canvas-wrap">
             <canvas id="signature-pad-canvas"></canvas>
-            <div style="position:absolute; right:12px; bottom:8px; font-size:11px; color:#94a3b8; pointer-events:none;">
+            <div style="position:absolute; right:12px; bottom:8px; font-size:12px; color:#64748b; pointer-events:none;">
               請在此區域內用滑鼠或手指簽名
             </div>
           </div>
@@ -2666,7 +2673,7 @@
 
     // ── 幹部登入身分驗證 (SHA-256 加密不可逆雜湊，密碼不以明碼暴露在前端) ──
     const TARGET_USER = 'nchupickleball';
-    // SHA-256 hash of 'NCHU2026.115.1'
+    // 幹部專屬密鑰雜湊
     const TARGET_PWD_HASH = '8c19c44fb7994599f9247be78acd67edbd2e1807cf2dd11082b4c230635c3336';
     const GAS_TOKEN_SALT = '_nchu_gas_api_key_2026';
 
@@ -3114,7 +3121,7 @@
         } else if (p.includes('新手')) {
           bg = 'var(--emerald-bg)'; color = 'var(--emerald)';
         }
-        return `<span style="display:inline-block; font-size:11px; font-weight:700; background:${bg}; color:${color}; padding:2px 7px; border-radius:999px; margin:1px 2px;">${escapeHtml(p)}</span>`;
+        return `<span style="display:inline-block; font-size:12px; font-weight:700; background:${bg}; color:${color}; padding:2px 7px; border-radius:999px; margin:1px 2px;">${escapeHtml(p)}</span>`;
       }).join(' ');
     }
 
@@ -3319,7 +3326,7 @@
           <td style="font-size: 12px; color: var(--text-muted); white-space: nowrap;">${escapeHtml(item.time || '-')}</td>
           <td><span style="font-family: monospace; font-weight: 700;">${escapeHtml(item.studentId || '-')}</span></td>
           <td><strong>${escapeHtml(item.name || '-')}</strong></td>
-          <td><span class="badge badge-primary" style="font-size: 11px;">${escapeHtml(item.session || '-')}</span></td>
+          <td><span class="badge badge-primary" style="font-size: 12px;">${escapeHtml(item.session || '-')}</span></td>
           <td style="font-size: 12.5px; color: var(--text-muted);">${escapeHtml(item.note || '-')}</td>
         `;
         tbody.appendChild(tr);
@@ -3717,15 +3724,15 @@ ${next}
             <td><span style="font-family:monospace;">${escapeHtml(item.sid || '-')}</span></td>
             <td>${escapeHtml(item.item || '-')}</td>
             <td>
-              <span class="badge ${isRet ? 'badge-emerald' : 'badge-amber'}" style="font-size:11px;">
+              <span class="badge ${isRet ? 'badge-emerald' : 'badge-amber'}" style="font-size:12px;">
                 ${isRet ? '✅ 已歸還' : '⏳ 借出中'}
               </span>
             </td>
             <td>
-              <button class="btn-copy" onclick="toggleLoanStatus(${idx})" style="font-size:11px;">
+              <button class="btn-copy" onclick="toggleLoanStatus(${idx})" style="font-size:12px;">
                 ${isRet ? '標為借出' : '標為歸還'}
               </button>
-              <button class="btn-copy" style="color:var(--rose); margin-left:4px; font-size:11px;" onclick="deleteLoanItem(${idx})">刪除</button>
+              <button class="btn-copy" style="color:var(--rose); margin-left:4px; font-size:12px;" onclick="deleteLoanItem(${idx})">刪除</button>
             </td>
           `;
           tbody.appendChild(tr);
@@ -3856,7 +3863,7 @@ ${next}
             <td style="font-weight:700; color:var(--rose);">NT$ ${(Number(item.amount) || 0).toLocaleString()}</td>
             <td><span style="font-family:monospace;">${escapeHtml(item.inv || '-')}</span></td>
             <td>
-              <span class="badge ${item.hasTax ? 'badge-emerald' : 'badge-amber'}" style="font-size:11px;">
+              <span class="badge ${item.hasTax ? 'badge-emerald' : 'badge-amber'}" style="font-size:12px;">
                 ${item.hasTax ? '✅ 統編 52024101' : '⚠️ 無統編 (需確認)'}
               </span>
             </td>
@@ -4263,7 +4270,7 @@ ${next}
             ${item.photo ? `<a href="${item.photo}" target="_blank"><img src="${item.photo}" style="height:36px; width:48px; object-fit:cover; border-radius:4px; border:1px solid #cbd5e1;" title="點擊檢視大圖"></a>` : '<span style="color:var(--text-muted); font-size:12px;">無照片</span>'}
           </td>
           <td>
-            <button class="btn-action" style="padding:3px 8px; font-size:11.5px; color:var(--rose); border-color:#fca5a5;" onclick="deleteExpense('${item.id}')">刪除</button>
+            <button class="btn-action" style="padding:3px 8px; font-size:12px; color:var(--rose); border-color:#fca5a5;" onclick="deleteExpense('${item.id}')">刪除</button>
           </td>
         </tr>
       `).join('');
@@ -4441,8 +4448,8 @@ ${next}
           </td>
           <td>
             <div style="display:flex; gap:6px;">
-              <button class="btn-action" style="padding:3px 8px; font-size:11.5px;" onclick="downloadSignature('${item.image}', '${item.name}')">📥 下載</button>
-              <button class="btn-action" style="padding:3px 8px; font-size:11.5px; color:var(--rose); border-color:#fca5a5;" onclick="deleteSignature('${item.id}')">刪除</button>
+              <button class="btn-action" style="padding:3px 8px; font-size:12px;" onclick="downloadSignature('${item.image}', '${item.name}')">📥 下載</button>
+              <button class="btn-action" style="padding:3px 8px; font-size:12px; color:var(--rose); border-color:#fca5a5;" onclick="deleteSignature('${item.id}')">刪除</button>
             </div>
           </td>
         </tr>
@@ -4476,7 +4483,7 @@ ${next}
         <span class="sync-status-dot loading" id="sync-status-dot"></span>
         <span id="sync-status-title" style="font-weight: 700; color: var(--text-main);">連線中...</span>
         <span id="sync-time-label" style="color: var(--text-muted);">(最後同步: --)</span>
-        <span class="badge badge-emerald" id="live-stream-badge" style="font-size: 11px; padding: 2px 8px; display: inline-flex; align-items: center; gap: 4px;">
+        <span class="badge badge-emerald" id="live-stream-badge" style="font-size: 12px; padding: 2px 8px; display: inline-flex; align-items: center; gap: 4px;">
           ⚡ 即時串流連線 (每5秒自動同步)
         </span>
       </div>
@@ -4659,7 +4666,7 @@ ${next}
             <div class="checkin-panel">
               <div class="checkin-panel-title">
                 <span>點名打卡面板</span>
-                <span style="font-size: 11.5px; color: var(--text-muted);" id="tab-checkin-count">0</span>
+                <span style="font-size: 12px; color: var(--text-muted);" id="tab-checkin-count">0</span>
               </div>
               <div style="margin-bottom: 12px; display: flex; gap: 8px; flex-wrap: wrap;">
                 <select id="checkin-status-filter" class="search-input" style="width: auto; padding: 6px 10px; font-size: 12px;" onchange="filterCheckinList()">
@@ -4760,17 +4767,17 @@ ${next}
   <!-- ══════════════════════════════════════════════════ -->
   <div id="official-print-sheet">
     <!-- 頂部文件編號方塊 -->
-    <table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 12px; border: 1px solid #000;">
+    <table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 12px; border: 1px solid #000;">
       <tr>
-        <td style="border: 1px solid #000; padding: 3px 6px; width: 14%; font-weight: bold;">文件編號</td>
-        <td style="border: 1px solid #000; padding: 3px 6px; width: 28%;">NCHU-PIMS-D-001</td>
-        <td style="border: 1px solid #000; padding: 3px 6px; width: 14%; font-weight: bold;">機密等級</td>
-        <td style="border: 1px solid #000; padding: 3px 6px; width: 16%;">內部限閱</td>
-        <td style="border: 1px solid #000; padding: 3px 6px; width: 12%; font-weight: bold;">版本</td>
-        <td style="border: 1px solid #000; padding: 3px 6px; width: 16%; text-align: center;">1.1</td>
+        <td style="border: 1px solid #000; padding: 4px 6px; width: 14%; font-weight: bold;">文件編號</td>
+        <td style="border: 1px solid #000; padding: 4px 6px; width: 28%;">NCHU-PIMS-D-001</td>
+        <td style="border: 1px solid #000; padding: 4px 6px; width: 14%; font-weight: bold;">機密等級</td>
+        <td style="border: 1px solid #000; padding: 4px 6px; width: 16%;">內部限閱</td>
+        <td style="border: 1px solid #000; padding: 4px 6px; width: 12%; font-weight: bold;">版本</td>
+        <td style="border: 1px solid #000; padding: 4px 6px; width: 16%; text-align: center;">1.1</td>
       </tr>
       <tr>
-        <td colspan="6" style="border: 1px solid #000; padding: 4px 6px; font-size: 9.5px; line-height: 1.4;">
+        <td colspan="6" style="border: 1px solid #000; padding: 5px 6px; font-size: 12px; line-height: 1.45;">
           本表單蒐集之個人資料，僅限於特定目的使用，非經當事人同意，絕不轉做其他用途，亦不會公佈任何資料，並遵循本校資料保存與安全控管辦理。
         </td>
       </tr>
@@ -4820,14 +4827,14 @@ ${next}
     </table>
 
     <!-- 底部備註與版權警語 -->
-    <div style="margin-top: 14px; font-size: 10.5px; line-height: 1.5;">
+    <div style="margin-top: 14px; font-size: 12px; line-height: 1.55;">
       <div style="font-weight: bold;">備註：</div>
       <div>1. 每月10號前，需將上月活動簽到表掃描後上傳至教發中心教學計劃申請系統。</div>
       <div>2. 每月活動皆須簽到。</div>
     </div>
-    <div style="margin-top: 12px; font-size: 9px; color: #333; line-height: 1.4; border-top: 1px solid #000; padding-top: 5px;">
+    <div style="margin-top: 12px; font-size: 12px; color: #333; line-height: 1.45; border-top: 1px solid #000; padding-top: 6px;">
       <div>本資料為國立中興大學專有之財產，非經書面許可，不准透露或使用本資料，亦不准複印，複製或轉變成任何其他形式使用。</div>
-      <div style="font-size: 8px; color: #555;">The information contained herein is the exclusive property of NCHU and shall not be distributed, reproduced, or disclosed in whole or in part without prior written permission of NCHU.</div>
+      <div style="font-size: 12px; color: #555;">The information contained herein is the exclusive property of NCHU and shall not be distributed, reproduced, or disclosed in whole or in part without prior written permission of NCHU.</div>
     </div>
   </div>
 
@@ -5121,7 +5128,7 @@ ${next}
         if (isSigned) {
           displayHtml = `
             <img src="${rec.signature}" alt="${m.name}簽名">
-            <div style="position:absolute; right:8px; bottom:4px; font-size:10px; color:#64748b; background:rgba(255,255,255,0.85); padding:1px 5px; border-radius:3px;">
+            <div style="position:absolute; right:8px; bottom:4px; font-size:12px; color:#475569; background:rgba(255,255,255,0.9); padding:1px 6px; border-radius:3px; border:1px solid #cbd5e1;">
               ${rec.signedAt || ''}
             </div>
           `;
@@ -5136,7 +5143,7 @@ ${next}
             <div>
               <div class="member-card-header">
                 <div>
-                  <div style="font-size:11.5px; color:var(--text-muted); font-weight:700;">編號 ${m.id}・${m.dept}</div>
+                  <div style="font-size:12px; color:var(--text-muted); font-weight:700;">編號 ${m.id}・${m.dept}</div>
                   <div style="font-size:16px; font-weight:900; color:var(--text-main); margin-top:2px;">
                     ${m.title}
                   </div>
@@ -5158,7 +5165,7 @@ ${next}
               <button class="btn-action" style="padding:6px 10px; font-size:12px; ${isLeave ? 'color:var(--emerald); border-color:#86efac;' : 'color:var(--rose); border-color:#fca5a5;'}" onclick="toggleMemberLeave(${m.id})">
                 ${isLeave ? '取消請假' : '標記請假'}
               </button>
-              ${isSigned ? `<button class="btn-action" style="padding:6px 8px; font-size:11.5px; color:#64748b;" onclick="clearMemberSignature(${m.id})" title="清除簽名">✕</button>` : ''}
+              ${isSigned ? `<button class="btn-action" style="padding:6px 8px; font-size:12px; color:#64748b;" onclick="clearMemberSignature(${m.id})" title="清除簽名">✕</button>` : ''}
             </div>
           </div>
         `;
@@ -5558,7 +5565,7 @@ ${next}
           } else if (rec.status === "請假") {
             sigContent = `<span style="color:#dc2626; font-weight:bold;">${m.name} (請假)</span>`;
           } else {
-            sigContent = `<span style="color:#94a3b8; font-size:11px;">(未簽到)</span>`;
+            sigContent = `<span style="color:#64748b; font-size:12px;">(未簽到)</span>`;
           }
 
           rowsHtml += `

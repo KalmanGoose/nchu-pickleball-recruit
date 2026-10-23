@@ -6,197 +6,316 @@
   <title>PickleFit AI 體感互動社群｜興大 115-1 學生學習社群夥伴招募</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #004B97;
-      --primary-dark: #003a75;
-      --mint: #ABDAD5;
-      --mint-light: rgba(171, 218, 213, 0.35);
-      --text-main: #0F2745;
-      --text-muted: #5b7290;
-      --bg: #F0F8FF;
+      --primary-hover: #003770;
+      --primary-surface: #eff6ff;
+      --court-green: #047857;
+      --court-green-hover: #065f46;
+      --court-green-surface: #ecfdf5;
+      --court-green-border: #a7f3d0;
+      --amber-main: #b45309;
+      --amber-surface: #fffbeb;
+      --amber-border: #fde68a;
+      --rose-main: #be123c;
+      --rose-surface: #fff1f2;
+      --rose-border: #fecdd3;
+      --text-main: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #475569;
+      --bg-page: #f8fafc;
+      --surface-card: #ffffff;
       --card-radius: 14px;
-      --pill-radius: 999px;
-      --shadow-sm: 0 2px 8px rgba(15, 39, 69, .08);
-      --shadow-md: 0 8px 24px rgba(15, 39, 69, .12);
-      --rose: #e11d48;
-      --rose-bg: rgba(225, 29, 72, 0.08);
+      --pill-radius: 9999px;
+      --border-subtle: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 14px -2px rgba(15, 23, 42, 0.07), 0 2px 6px -2px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 12px 28px -4px rgba(15, 23, 42, 0.09), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
     }
+
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      font-family: 'Noto Sans TC', sans-serif;
-      background: var(--bg);
+      font-family: 'Noto Sans TC', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+      background: var(--bg-page);
       color: var(--text-main);
-      line-height: 1.7;
+      line-height: 1.75;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
       max-width: 100vw;
     }
 
-    /* ── 頂部導覽列 (與興生指南 100% 同款) ── */
+    /* ── 頂部導覽列 ── */
     .site-header {
-      position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, .94);
-      backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 75, 151, .1);
-      padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      transition: border-color .2s;
     }
     .brand {
       display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 15px;
-      color: var(--primary); text-decoration: none;
+      color: var(--primary); text-decoration: none; letter-spacing: -0.01em;
     }
     .brand-logo {
-      width: 32px; height: 32px; border-radius: 9px;
-      background: linear-gradient(135deg, var(--primary), var(--mint));
-      display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px;
+      width: 32px; height: 32px; border-radius: 8px;
+      background: #004B97;
+      display: flex; align-items: center; justify-content: center; color: #ffffff; font-size: 17px;
     }
-    .nav-links { display: flex; gap: 8px; align-items: center; }
+    .nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .nav-btn {
       text-decoration: none; font-size: 12.5px; font-weight: 700; padding: 7px 14px;
-      border-radius: var(--pill-radius); transition: all .22s; display: inline-flex; align-items: center; gap: 4px;
+      border-radius: var(--pill-radius); transition: all .2s ease; display: inline-flex; align-items: center; gap: 6px;
+      border: 1px solid transparent;
     }
-    .nav-btn.line { background: #06C755; color: #fff; }
-    .nav-btn.line:hover { background: #05a847; transform: translateY(-1px); }
-    .nav-btn.ig { background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; }
-    .nav-btn.ig:hover { filter: brightness(1.1); transform: translateY(-1px); }
-    .nav-btn.demo { background: var(--primary); color: #fff; box-shadow: var(--shadow-sm); }
-    .nav-btn.demo:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .nav-btn.admin { background: #0f172a; color: #ffffff; }
+    .nav-btn.admin:hover { background: #1e293b; }
+    .nav-btn.proposal { background: #ffffff; color: var(--primary); border-color: #bfdbfe; }
+    .nav-btn.proposal:hover { background: var(--primary-surface); }
+    .nav-btn.proto { background: #065f46; color: #ffffff; }
+    .nav-btn.proto:hover { background: #044e39; }
+    .nav-btn.demo { background: var(--primary); color: #ffffff; }
+    .nav-btn.demo:hover { background: var(--primary-hover); }
+    .nav-btn.line { background: #047857; color: #ffffff; }
+    .nav-btn.line:hover { background: #065f46; }
+    .nav-btn.ig { background: #be123c; color: #ffffff; }
+    .nav-btn.ig:hover { background: #9f1239; }
 
     /* ── Hero 區塊 ── */
-    .hero { max-width: 960px; margin: 0 auto; padding: 48px 20px 24px; text-align: center; }
+    .hero { max-width: 980px; margin: 0 auto; padding: 48px 20px 28px; text-align: center; }
+    .hero-badge-wrap { display: inline-flex; align-items: center; margin-bottom: 18px; }
     .hero-badge {
-      display: inline-block; background: var(--mint-light); color: var(--primary-dark);
-      font-size: 13px; font-weight: 700; padding: 6px 18px; border-radius: var(--pill-radius); margin-bottom: 16px;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--primary-surface); color: var(--primary);
+      border: 1px solid #bfdbfe;
+      font-size: 13px; font-weight: 700; padding: 6px 18px; border-radius: var(--pill-radius);
     }
     .hero h1 {
-      font-size: clamp(24px, 4.2vw, 38px); font-weight: 900; line-height: 1.35; margin-bottom: 14px;
+      font-size: clamp(26px, 4.4vw, 40px); font-weight: 900; line-height: 1.35; margin-bottom: 16px;
+      color: var(--text-main); letter-spacing: -0.02em;
     }
-    .hero h1 em { font-style: normal; color: var(--primary); }
+    .hero h1 em { font-style: normal; color: var(--primary); text-decoration: underline decoration-thickness-2 decoration-from-font; }
     .hero p {
-      color: var(--text-muted); font-size: 15px; max-width: 640px; margin: 0 auto 24px;
+      color: var(--text-secondary); font-size: 15.5px; max-width: 680px; margin: 0 auto 28px; line-height: 1.8;
     }
     .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-bottom: 32px; }
-    .btn-cta-primary {
-      background: linear-gradient(135deg, var(--primary), #2b6cb0); color: #fff;
-      text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 28px;
-      border-radius: var(--pill-radius); box-shadow: var(--shadow-md); transition: all .25s;
+    
+    .btn-cta-green {
+      background: var(--court-green); color: #ffffff;
+      text-decoration: none; font-size: 14.5px; font-weight: 700; padding: 12px 26px;
+      border-radius: var(--pill-radius); box-shadow: var(--shadow-sm); transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 6px;
     }
-    .btn-cta-primary:hover { background: var(--primary-dark); transform: translateY(-2px); }
-    .btn-cta-sub {
-      background: #fff; color: var(--primary); border: 1.5px solid var(--mint);
-      text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 22px;
-      border-radius: var(--pill-radius); box-shadow: var(--shadow-sm); transition: all .22s;
-    }
-    .btn-cta-sub:hover { background: var(--mint-light); transform: translateY(-2px); }
+    .btn-cta-green:hover { background: var(--court-green-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
 
-    /* ── 多元系所 ＆ 行銷急缺橫幅 ── */
-    .banner-depts {
-      max-width: 960px; margin: 0 auto 30px; padding: 18px 24px;
-      background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
-      border: 1px solid rgba(0, 75, 151, .08); text-align: left;
+    .btn-cta-blue {
+      background: var(--primary); color: #ffffff;
+      text-decoration: none; font-size: 14.5px; font-weight: 700; padding: 12px 24px;
+      border-radius: var(--pill-radius); box-shadow: var(--shadow-sm); transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 6px;
     }
-    .banner-depts-title { font-weight: 900; font-size: 15px; color: var(--primary); margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-    .dept-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 14px; }
+    .btn-cta-blue:hover { background: var(--primary-hover); transform: translateY(-1px); box-shadow: var(--shadow-md); }
+
+    .btn-cta-sub {
+      background: #ffffff; color: var(--text-main); border: 1px solid var(--border-strong);
+      text-decoration: none; font-size: 14px; font-weight: 700; padding: 11px 20px;
+      border-radius: var(--pill-radius); box-shadow: var(--shadow-sm); transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-cta-sub:hover { background: #f1f5f9; color: var(--primary); border-color: #94a3b8; transform: translateY(-1px); }
+
+    /* ── 審查重要聲明橫幅 ── */
+    .notice-card {
+      max-width: 960px; margin: 0 auto 28px; padding: 20px 24px;
+      background: var(--amber-surface); border: 1px solid var(--amber-border);
+      border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
+      text-align: left;
+    }
+    .notice-header {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+      font-size: 14.5px; font-weight: 800; color: var(--amber-main);
+    }
+    .notice-body { font-size: 13.5px; line-height: 1.75; color: #78350f; }
+
+    /* ── 多元系所橫幅 ── */
+    .banner-depts {
+      max-width: 960px; margin: 0 auto 32px; padding: 24px 28px;
+      background: var(--surface-card); border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-subtle); text-align: left;
+    }
+    .banner-depts-title {
+      font-weight: 900; font-size: 16px; color: var(--text-main); margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .dept-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 18px; }
     .dept-tag {
-      font-size: 12px; font-weight: 700; color: var(--primary-dark); background: var(--mint-light);
-      padding: 4px 12px; border-radius: var(--pill-radius);
+      font-size: 12.5px; font-weight: 700; color: var(--primary);
+      background: var(--primary-surface); border: 1px solid #bfdbfe;
+      padding: 5px 14px; border-radius: var(--pill-radius);
     }
     .urgent-box {
-      background: var(--rose-bg); border: 1.5px solid rgba(225, 29, 72, .25);
-      border-radius: 10px; padding: 12px 16px; display: flex; gap: 10px; align-items: flex-start;
+      background: var(--rose-surface); border: 1px solid var(--rose-border);
+      border-radius: 10px; padding: 14px 18px; display: flex; gap: 12px; align-items: flex-start;
     }
-    .urgent-badge { background: var(--rose); color: #fff; font-size: 11px; font-weight: 900; padding: 2px 8px; border-radius: var(--pill-radius); flex-shrink: 0; margin-top: 2px; }
-    .urgent-text { font-size: 12.5px; color: #881337; line-height: 1.6; }
+    .urgent-badge {
+      background: var(--rose-main); color: #ffffff; font-size: 12px; font-weight: 800;
+      padding: 3px 10px; border-radius: var(--pill-radius); flex-shrink: 0; margin-top: 1px;
+    }
+    .urgent-text { font-size: 13.5px; color: #881337; line-height: 1.7; }
 
-    /* ── 發起人真心話卡片 (暖心風格) ── */
+    /* ── 發起人真心話卡片 ── */
     .letter-card {
-      max-width: 960px; margin: 0 auto 36px; padding: 26px;
-      background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
-      border-left: 5px solid var(--primary); text-align: left;
+      max-width: 960px; margin: 0 auto 36px; padding: 28px 30px;
+      background: var(--surface-card); border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
+      border: 1px solid var(--border-subtle); text-align: left;
+      position: relative;
     }
-    .letter-title { font-size: 17px; font-weight: 900; color: var(--primary); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
-    .letter-body { font-size: 14px; color: var(--text-main); line-height: 1.85; }
-    .letter-body p { margin-bottom: 10px; }
+    .letter-header {
+      display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
+      padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);
+    }
+    .letter-title {
+      font-size: 17.5px; font-weight: 900; color: var(--text-main);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .letter-meta { font-size: 12.5px; font-weight: 700; color: var(--text-muted); }
+    .letter-body { font-size: 14.5px; color: var(--text-secondary); line-height: 1.85; }
+    .letter-body p { margin-bottom: 12px; }
     .letter-highlight {
-      background: #fdf6e3; border: 1px solid #f0e0b0; border-radius: 10px; padding: 12px 16px;
-      margin-top: 14px; font-size: 13px; color: #7a5c10;
+      background: #f8fafc; border: 1px solid var(--border-subtle); border-radius: 10px;
+      padding: 14px 18px; margin-top: 16px; font-size: 13.5px; color: var(--text-main);
     }
 
     /* ── 3 大核心優勢小卡 ── */
-    .grid-3 { max-width: 960px; margin: 0 auto 40px; display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; }
+    .grid-3 {
+      max-width: 960px; margin: 0 auto 40px; display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px;
+    }
     .feat-card {
-      background: #fff; border-radius: var(--card-radius); padding: 22px;
-      box-shadow: var(--shadow-sm); border: 1.5px solid transparent; transition: all .25s; text-align: left;
+      background: var(--surface-card); border-radius: var(--card-radius); padding: 24px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-subtle);
+      transition: all .2s ease; text-align: left;
     }
-    .feat-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: var(--mint); }
-    .feat-icon { font-size: 26px; margin-bottom: 8px; }
-    .feat-title { font-size: 16px; font-weight: 900; color: var(--text-main); margin-bottom: 6px; }
-    .feat-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+    .feat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: #cbd5e1; }
+    .feat-icon-badge {
+      width: 44px; height: 44px; border-radius: 10px; background: #f1f5f9;
+      display: flex; align-items: center; justify-content: center; font-size: 22px; margin-bottom: 14px;
+    }
+    .feat-title { font-size: 16.5px; font-weight: 900; color: var(--text-main); margin-bottom: 8px; }
+    .feat-desc { font-size: 13.5px; color: var(--text-muted); line-height: 1.7; }
 
-    /* ── 角色卡片網格 (仿 FAQ 卡片) ── */
-    .section-wrap { max-width: 960px; margin: 0 auto 44px; padding: 0 4px; }
-    .section-header { text-align: center; margin-bottom: 24px; }
-    .section-header h2 { font-size: 22px; font-weight: 900; color: var(--text-main); margin-bottom: 6px; }
-    .section-header p { font-size: 13.5px; color: var(--text-muted); }
+    /* ── 果蠅黑科技亮點橫幅 ── */
+    .tech-spotlight {
+      max-width: 960px; margin: 0 auto 36px; padding: 24px 28px;
+      background: var(--court-green-surface); border: 1px solid var(--court-green-border);
+      border-radius: var(--card-radius); box-shadow: var(--shadow-sm); text-align: left;
+    }
+    .tech-spotlight-title {
+      font-size: 16.5px; font-weight: 900; color: var(--court-green-hover);
+      display: flex; align-items: center; gap: 8px; margin-bottom: 8px;
+    }
+    .tech-spotlight-body { font-size: 14px; color: #064e3b; line-height: 1.75; }
 
-    .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
+    /* ── 角色卡片網格 ── */
+    .section-wrap { max-width: 960px; margin: 0 auto 48px; padding: 0 4px; }
+    .section-header { text-align: center; margin-bottom: 28px; }
+    .section-header h2 { font-size: 24px; font-weight: 900; color: var(--text-main); margin-bottom: 8px; }
+    .section-header p { font-size: 14.5px; color: var(--text-muted); }
+
+    .role-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
     .role-card {
-      background: #fff; border-radius: var(--card-radius); padding: 22px;
-      box-shadow: var(--shadow-sm); border: 1.5px solid transparent; transition: all .28s cubic-bezier(.2,.7,.3,1.1);
-      display: flex; flex-direction: column; text-align: left; position: relative;
+      background: var(--surface-card); border-radius: var(--card-radius); padding: 26px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-subtle);
+      transition: all .2s ease; display: flex; flex-direction: column; text-align: left;
     }
-    .role-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: var(--mint); }
-    .role-card.urgent { border-color: rgba(225, 29, 72, .3); }
+    .role-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: #cbd5e1; }
+    .role-card.urgent { border-color: var(--rose-border); }
     .role-tag {
-      align-self: flex-start; font-size: 11px; font-weight: 700; color: var(--primary);
-      background: var(--mint-light); padding: 3px 12px; border-radius: var(--pill-radius); margin-bottom: 12px;
+      align-self: flex-start; font-size: 12px; font-weight: 800; color: var(--primary);
+      background: var(--primary-surface); border: 1px solid #bfdbfe;
+      padding: 4px 12px; border-radius: var(--pill-radius); margin-bottom: 14px;
     }
-    .role-tag.urgent { color: var(--rose); background: var(--rose-bg); }
-    .role-name { font-size: 17px; font-weight: 900; margin-bottom: 8px; color: var(--text-main); }
-    .role-desc { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; flex: 1; }
+    .role-tag.urgent { color: var(--rose-main); background: var(--rose-surface); border-color: var(--rose-border); }
+    .role-name { font-size: 18px; font-weight: 900; margin-bottom: 10px; color: var(--text-main); }
+    .role-desc { font-size: 13.5px; color: var(--text-secondary); line-height: 1.75; margin-bottom: 18px; flex: 1; }
     .role-skills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
-    .skill-pill { font-size: 11px; color: var(--text-muted); background: var(--bg); padding: 3px 10px; border-radius: var(--pill-radius); }
+    .skill-pill {
+      font-size: 12px; color: var(--text-muted); background: #f1f5f9;
+      border: 1px solid var(--border-subtle); padding: 4px 10px; border-radius: var(--pill-radius);
+    }
 
-    /* ── FAQ 摺疊區 (與興生指南 100% 同款收合) ── */
-    .faq-list { max-width: 960px; margin: 0 auto 50px; display: flex; flex-direction: column; gap: 12px; text-align: left; }
+    /* ── 表單專區 ── */
+    .form-container {
+      background: var(--surface-card); border-radius: var(--card-radius);
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-subtle); padding: 36px 32px;
+    }
+    .form-input {
+      width: 100%; padding: 11px 14px; border-radius: 8px; border: 1px solid var(--border-strong);
+      font-size: 14.5px; outline: none; box-sizing: border-box; transition: border-color .15s, box-shadow .15s;
+    }
+    .form-input:focus {
+      border-color: var(--primary); box-shadow: 0 0 0 3px rgba(0, 75, 151, 0.15);
+    }
+    .role-choice-label {
+      display: flex; align-items: center; gap: 8px; font-size: 13.5px; font-weight: 500;
+      background: #f8fafc; border: 1px solid var(--border-subtle); padding: 9px 12px;
+      border-radius: 8px; cursor: pointer; transition: background .15s, border-color .15s;
+    }
+    .role-choice-label:hover { background: #f1f5f9; border-color: #cbd5e1; }
+
+    /* ── FAQ 摺疊區 ── */
+    .faq-list { max-width: 960px; margin: 0 auto 52px; display: flex; flex-direction: column; gap: 12px; text-align: left; }
     .faq-item {
-      background: #fff; border-radius: var(--card-radius); padding: 18px 22px;
-      box-shadow: var(--shadow-sm); border: 1px solid rgba(0, 75, 151, .06);
+      background: var(--surface-card); border-radius: var(--card-radius); padding: 18px 24px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--border-subtle);
     }
     .faq-item summary {
-      font-size: 15px; font-weight: 800; color: var(--primary-dark); cursor: pointer;
+      font-size: 15.5px; font-weight: 800; color: var(--text-main); cursor: pointer;
       display: flex; justify-content: space-between; align-items: center; list-style: none;
     }
     .faq-item summary::-webkit-details-marker { display: none; }
-    .faq-item summary::after { content: "▼"; font-size: 11px; color: var(--text-muted); transition: transform .2s; }
+    .faq-item summary::after { content: "▾"; font-size: 14px; color: var(--text-muted); transition: transform .2s; }
     .faq-item[open] summary::after { transform: rotate(180deg); color: var(--primary); }
-    .faq-answer { font-size: 13.5px; color: var(--text-main); line-height: 1.8; margin-top: 12px; padding-top: 10px; border-top: 1px dashed #e2e8f0; }
+    .faq-answer {
+      font-size: 14px; color: var(--text-secondary); line-height: 1.8;
+      margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-subtle);
+    }
 
     /* ── 底部 CTA 行動橫幅 ── */
     .footer-cta {
-      max-width: 960px; margin: 0 auto 50px; padding: 40px 24px;
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      border-radius: 20px; color: #fff; text-align: center; box-shadow: var(--shadow-md);
+      max-width: 960px; margin: 0 auto 52px; padding: 44px 28px;
+      background: #0f172a; border-radius: 18px; color: #ffffff; text-align: center;
+      box-shadow: var(--shadow-lg); border: 1px solid #1e293b;
     }
-    .footer-cta h3 { font-size: 24px; font-weight: 900; margin-bottom: 8px; }
-    .footer-cta p { font-size: 14px; opacity: .88; max-width: 520px; margin: 0 auto 24px; line-height: 1.65; }
+    .footer-cta h3 { font-size: 25px; font-weight: 900; margin-bottom: 10px; letter-spacing: -0.01em; }
+    .footer-cta p { font-size: 14.5px; color: #cbd5e1; max-width: 560px; margin: 0 auto 26px; line-height: 1.7; }
     .cta-buttons { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-    .btn-line-cta {
-      background: #06C755; color: #fff; text-decoration: none; font-size: 14px; font-weight: 700;
-      padding: 12px 24px; border-radius: var(--pill-radius); box-shadow: 0 4px 12px rgba(6, 199, 85, .3); transition: all .22s;
-    }
-    .btn-line-cta:hover { filter: brightness(1.08); transform: translateY(-2px); }
-    .btn-ig-cta {
-      background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; text-decoration: none;
-      font-size: 14px; font-weight: 700; padding: 12px 24px; border-radius: var(--pill-radius); transition: all .22s;
-    }
-    .btn-ig-cta:hover { filter: brightness(1.08); transform: translateY(-2px); }
-    .btn-web-cta {
-      background: rgba(255, 255, 255, .15); color: #fff; border: 1.5px solid rgba(255, 255, 255, .4);
-      text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 22px; border-radius: var(--pill-radius); transition: all .22s;
-    }
-    .btn-web-cta:hover { background: rgba(255, 255, 255, .28); transform: translateY(-2px); }
 
-    footer { text-align: center; padding: 24px 20px 48px; color: var(--text-muted); font-size: 12px; }
+    .btn-contact-line {
+      background: var(--court-green); color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 700;
+      padding: 12px 24px; border-radius: var(--pill-radius); box-shadow: var(--shadow-sm); transition: all .2s;
+    }
+    .btn-contact-line:hover { background: var(--court-green-hover); transform: translateY(-1px); }
+
+    .btn-contact-ig {
+      background: var(--rose-main); color: #ffffff; text-decoration: none; font-size: 14px; font-weight: 700;
+      padding: 12px 24px; border-radius: var(--pill-radius); box-shadow: var(--shadow-sm); transition: all .2s;
+    }
+    .btn-contact-ig:hover { background: #9f1239; transform: translateY(-1px); }
+
+    .btn-contact-demo {
+      background: rgba(255, 255, 255, 0.12); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.35);
+      text-decoration: none; font-size: 14px; font-weight: 700; padding: 12px 22px; border-radius: var(--pill-radius); transition: all .2s;
+    }
+    .btn-contact-demo:hover { background: rgba(255, 255, 255, 0.22); transform: translateY(-1px); }
+
+    footer { text-align: center; padding: 24px 20px 48px; color: var(--text-muted); font-size: 13px; line-height: 1.8; }
+    footer a { color: var(--primary); text-decoration: none; font-weight: 700; }
+    footer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -207,42 +326,57 @@
       <div class="brand-logo">🏓</div>
       <span>NCHU 匹克球學習社群</span>
     </a>
-    <div class="nav-links">
-      <a href="dashboard.html" class="nav-btn demo" style="background: #0f172a; color: #fff; box-shadow: 0 2px 6px rgba(15,23,42,.2);">🛠️ 幹部工作台</a>
-      <a href="proposal.html" class="nav-btn demo" style="background: var(--primary);">📄 完整計畫企劃書</a>
-      <a href="https://kalmangoose.github.io/niche-pickleballV5/" target="_blank" class="nav-btn demo" style="background: #047857;">🧠 果蠅大腦對手 V5</a>
-      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="nav-btn demo">🎮 試玩體感 Demo</a>
-      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="nav-btn line">LINE 聊聊</a>
-      <a href="https://www.instagram.com/nchupickleball_lab1.0?igsi=MW5hN3Z5dzF2MDI3Nw%3D%3D" target="_blank" class="nav-btn ig">官方 IG</a>
-    </div>
+    <nav class="nav-links">
+      <a href="dashboard.html" class="nav-btn admin">🛠️ 幹部工作台</a>
+      <a href="proposal.html" class="nav-btn proposal">📄 計畫企劃書</a>
+      <a href="https://kalmangoose.github.io/niche-pickleballV5/" target="_blank" class="nav-btn proto">⚡ 原型 Demo V5</a>
+      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="nav-btn demo">🎮 體感 Demo V4</a>
+      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="nav-btn line">💬 官方 LINE</a>
+      <a href="https://www.instagram.com/nchupickleball_lab1.0?igsi=MW5hN3Z5dzF2MDI3Nw%3D%3D" target="_blank" class="nav-btn ig">📸 官方 IG</a>
+    </nav>
   </header>
 
   <!-- Hero 區塊 -->
   <section class="hero">
-    <div class="hero-badge">🌲 中興大學 115-1 學生學習社群計畫｜自主共學與實證研究</div>
+    <div class="hero-badge-wrap">
+      <div class="hero-badge">🌲 中興大學 115-1 學生學習社群計畫｜自主共學與實證研究</div>
+    </div>
     <h1>不為爭名次，只為好玩與熱忱！<br>用 <em>AI 體感玩匹克球</em>，一起拿學校補助</h1>
     <p>
       「現在 AI 工具這麼強，你不需要是神級工程師！」<br>
-      我們已有跑得動的 3D 體感遊戲雛形，這次比賽是為了找有好奇心、想一起探索運動科技的夥伴。
-      哪怕只是剛修過程式、或是純粹行政文書想參與，我們都超級無敵歡迎！
+      我們已有跑得動的 3D 體感遊戲雛形，這次招募是為了找有好奇心、想一起探索運動科技的夥伴。
+      哪怕只是剛修過基礎程式、或是純粹行政文書想參與，我們都超級無敵歡迎！
     </p>
 
     <div class="hero-actions">
-      <a href="#join-form" class="btn-cta-primary" style="background: linear-gradient(135deg, #059669, #047857);">✍️ 30 秒線上填表加入</a>
-      <a href="proposal.html" class="btn-cta-primary" style="background: linear-gradient(135deg, #004B97, #1d4ed8);">📄 115-1 企劃書全文與經費預算</a>
-      <a href="https://kalmangoose.github.io/niche-pickleballV5/" target="_blank" class="btn-cta-sub">🧠 果蠅大腦 (V5)</a>
+      <a href="#join-form" class="btn-cta-green">✍️ 30 秒線上填表加入</a>
+      <a href="proposal.html" class="btn-cta-blue">📄 115-1 企劃書全文與預算</a>
+      <a href="https://kalmangoose.github.io/niche-pickleballV5/" target="_blank" class="btn-cta-sub">⚡ 原型 Demo (V5)</a>
       <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="btn-cta-sub">🎮 體感 Demo (V4)</a>
       <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-cta-sub">💬 LINE 聊聊</a>
     </div>
   </section>
 
+  <!-- 專案類別與送件範疇重要聲明橫幅 -->
+  <div class="notice-card">
+    <div class="notice-header">
+      <span>📌</span>
+      <span>專案計畫類別與審查範疇重要聲明</span>
+    </div>
+    <div class="notice-body">
+      本網頁為跨領域匹克球運動科技專案之入口與夥伴招募首頁。<br>
+      若為<strong>【115-1 國立中興大學教發中心學生學習社群計畫】</strong>，本期正式送件內容嚴格限定於「匹克球新手規則體感互動教學社群」（基本補助 8,000 元：合規實體耗材 5,600 元 ＋ 誤餐費上限 2,400 元，純前端 GitHub Pages 靜態推論，零雲端算力與軟體訂閱，7 週 7 次自主共學聚會）。<br>
+      本頁提及之「30,000 元創新創業補助／校外指導鐘點／雲端算力／果蠅大腦仿生模型研究」屬於後續大專競賽、黑客松與延伸專案探索範疇，絕非本次教發中心 8,000 元學習社群之申請或核銷範圍，特此聲明以昭公信。
+    </div>
+  </div>
+
   <!-- 多元系所 ＆ 行銷系急缺專區 -->
   <div class="banner-depts">
     <div class="banner-depts-title">
       <span>🎓</span>
-      <span>我們是一支超酷的「跨領域」團隊！</span>
+      <span>我們是一支多元的「跨領域」共學團隊</span>
     </div>
-    <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 4px;">在 114-2 學期，我們的團隊成員就已經橫跨了興大多個專業領域：</p>
+    <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 6px;">在 114-2 學期，我們的團隊成員就已經橫跨了興大多個專業領域：</p>
     <div class="dept-tags">
       <span class="dept-tag">企業管理學系</span>
       <span class="dept-tag">化學學系</span>
@@ -261,19 +395,22 @@
 
   <!-- 發起人真心話卡片 -->
   <div class="letter-card">
-    <div class="letter-title">
-      <span>💬</span>
-      <span>發起人真心話：身為文組笨蛋，我都可以做出來，你絕對沒問題！</span>
+    <div class="letter-header">
+      <div class="letter-title">
+        <span>💬</span>
+        <span>發起人真心話：身為文組同學，我都可以做出來，你絕對沒問題！</span>
+      </div>
+      <span class="letter-meta">創始召集人筆記</span>
     </div>
     <div class="letter-body">
       <p>
-        老實說，我<strong>完全不是資訊背景</strong>，純粹身為文組、只是上了簡單的程式課，當時純粹覺得好玩，靠著好奇心跟 AI 協作，就手刻出現在這個有 <strong>Three.js 3D 場景、MediaPipe 骨骼追蹤、甚至考慮到個資去識別化的興大學號登入機制</strong> 的網頁 Demo！
+        老實說，我<strong>完全不是資訊工程背景</strong>，純粹身為文組、只是修了基礎程式課，當時純粹覺得好玩，靠著好奇心跟 AI 工具輔助，就手刻出現在這個有 <strong>Three.js 3D 場景、MediaPipe 骨骼追蹤、甚至考慮到個資去識別化的興大學號登入機制</strong> 的網頁 Demo！
       </p>
       <p>
-        這真的是新手亂兜出來的，但我相信：<strong style="color: var(--primary);">「中興大學任何在校學生的實力與成績，絕對都比我更強！」</strong>
+        這真的是新手邊學邊做出來的，但我相信：<strong style="color: var(--primary);">「中興大學任何在校學生的實力與認真，絕對都更值得發光發熱！」</strong>
       </p>
       <p>
-        我完全不希望招募搞得像科技大廠面試那樣嚴肅。現在 AI 工具（像 ChatGPT、Claude）這麼強大，哪怕你剛學寫程式、底子不深厚，只要有興趣、想試試看機器學習或動態捕捉，都超級大加分！
+        我完全不希望招募搞得像科技大廠面試那樣嚴肅。現在 AI 工具這麼強大，哪怕你剛學寫程式、底子不深厚，只要有興趣、想試試看機器學習或動態捕捉，都超級大加分！
       </p>
       <div class="letter-highlight">
         💖 <strong>特別呼叫行政與文書小天使</strong>：<br>
@@ -285,33 +422,34 @@
   <!-- 3 大核心優勢 -->
   <div class="grid-3">
     <div class="feat-card">
-      <div class="feat-icon">🤝</div>
-      <div class="feat-title">不求得獎，志在開心協作</div>
+      <div class="feat-icon-badge">🤝</div>
+      <div class="feat-title">不求內卷，志在開心協作</div>
       <div class="feat-desc">我們不追求瘋狂內卷，志在體驗一個完整的跨域專案，累積真實的團隊合作與科技應用經歷！</div>
     </div>
     <div class="feat-card">
-      <div class="feat-icon">💰</div>
-      <div class="feat-title">學校買單 3 萬元全額經費</div>
-      <div class="feat-desc">雲端 GPU 算力租借、競賽報名費、外縣市差旅費，還能聘請校外專家與教授指導（含8,000指導鐘點）！</div>
+      <div class="feat-icon-badge">💰</div>
+      <div class="feat-title">延伸大專競賽 3 萬元專案爭取</div>
+      <div class="feat-desc">以本期 8,000 元學習社群成果為基石，後續協助團隊共同爭取校外創客/體育科技競賽 3 萬元專案補助與展示機會！（非本次校內社群審查範圍）</div>
     </div>
     <div class="feat-card">
-      <div class="feat-icon">⚡</div>
-      <div class="feat-title">已有跑得動的 MVP（但不等於能用！）</div>
-      <div class="feat-desc">MediaPipe 骨骼與 3D 球路雖然寫好了，但「跑得動完全不等於好用」！還有超多 Bug 等大家一起抓蟲、打磨升級！</div>
+      <div class="feat-icon-badge">⚡</div>
+      <div class="feat-title">已有跑得動的 MVP（但不等於完美！）</div>
+      <div class="feat-desc">MediaPipe 骨骼與 3D 球路雖然寫好了，但跑得動不等於體驗完美！還有超多改進空間等大家一起打磨升級！</div>
     </div>
   </div>
 
-  <!-- 果蠅大腦黑科技亮點橫幅 -->
-  <div class="banner-depts" style="border-left: 5px solid #10b981; background: linear-gradient(to right, #f0fdf4, #ffffff);">
-    <div class="banner-depts-title" style="color: #047857;">
+  <!-- 果蠅大腦黑科技亮點橫幅 (延伸探索專案) -->
+  <div class="tech-spotlight">
+    <div class="tech-spotlight-title">
       <span>🧠</span>
-      <span>硬核黑科技爆點：我們把「普林斯頓果蠅神經大腦」做成匹克球對手了！</span>
+      <span>延伸探索專案：我們把「普林斯頓果蠅神經大腦」做成匹克球對手了！（非學習社群審查範圍）</span>
     </div>
-    <p style="font-size: 13.5px; color: #065f46; line-height: 1.7; margin-top: 6px;">
+    <div class="tech-spotlight-body">
       國外工程師最近在瘋「逼果蠅打 DOOM、開計程車」，<strong>而我們直接把 2024《Nature》發表的普林斯頓 FlyWire 果蠅神經大腦（13.9 萬神經元連接組）放進匹克球場當對手！</strong><br>
       實作生物物理膜電位（LIF-A）與光流逃逸反射迴路，甚至連打短球還會讓它「神經囊泡過載（Stunned）」！<br>
-      👉 <strong>全台大專競賽絕對沒人見過的題目！行銷超好炒話題、AI 與各系夥伴能一起玩的硬核題材！</strong>
-    </p>
+      👉 <strong>全台大專競賽絕對少見的特色題目！行銷超好炒話題、AI 與各系夥伴能一起玩的硬核題材！</strong><br>
+      <span style="font-size: 12.5px; opacity: 0.9;">（*註：本項為社群延伸黑客松與體育科技競賽之探索題材，非本次 115-1 教發中心 8,000 元學習社群送件範疇*）</span>
+    </div>
   </div>
 
   <!-- 4 大角色認領 -->
@@ -327,13 +465,13 @@
         <div class="role-tag">興趣導向</div>
         <div class="role-name">AI / 機器學習探索者</div>
         <div class="role-desc">
-          對機器學習感興趣！哪怕底子不深，<strong>如果有透過 TAICA（臺灣大專院校人工智慧學程聯盟）修過李宏毅老師的課，超級無敵大加分！</strong> 一起用學校補助的 GPU 算力玩玩看 MediaPipe 與果蠅神經網絡（SNN/LIF-A）！
+          對機器學習感興趣！哪怕底子不深，<strong>如果有透過 TAICA（臺灣大專院校人工智慧學程聯盟）修過李宏毅老師的課，超級無敵大加分！</strong> 一起探索 MediaPipe 姿態估計與純前端輕量化模型實作！
         </div>
         <div class="role-skills">
-          <span class="skill-pill">TAICA / 李宏毅老師課程 ⭐⭐⭐</span>
-          <span class="skill-pill">想試玩 MediaPipe</span>
-          <span class="skill-pill">探索果蠅神經網絡</span>
-          <span class="skill-pill">免費玩 GPU 算力</span>
+          <span class="skill-pill">TAICA 課程加分</span>
+          <span class="skill-pill">MediaPipe 姿態節點</span>
+          <span class="skill-pill">純前端 Edge 推論</span>
+          <span class="skill-pill">免安裝即開即玩</span>
         </div>
       </div>
 
@@ -359,10 +497,10 @@
           <strong>行銷學系同學大歡迎！</strong> 「逼果蠅大腦打匹克球」自帶全網爆發性話題！幫忙發想社群傳播（IG Reels/Threads）、受眾痛點分析與競賽 Pitch Deck 的行銷包裝。你加入絕對是全場最受寵愛的 MVP！
         </div>
         <div class="role-skills">
-          <span class="skill-pill">行銷學系 ⭐⭐⭐⭐⭐</span>
-          <span class="skill-pill">社群炒梗 / 迷因話題 🔥</span>
+          <span class="skill-pill">行銷學系大歡迎</span>
+          <span class="skill-pill">社群炒梗 / 迷因話題</span>
           <span class="skill-pill">競賽 Pitch 行銷包裝</span>
-          <span class="skill-pill">全場核心 MVP</span>
+          <span class="skill-pill">團隊宣傳核心</span>
         </div>
       </div>
 
@@ -380,17 +518,19 @@
         </div>
       </div>
     </div>
+  </section>
+
   <!-- 線上報名填表專區 (串接 Google Sheets 後端) -->
-  <section id="join-form" style="max-width: 840px; margin: 0 auto 40px; padding: 0 20px;">
-    <div style="background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm); border: 1.5px solid rgba(0, 75, 151, .15); padding: 32px 28px;">
-      <div style="text-align: center; margin-bottom: 24px;">
-        <span style="background: var(--mint-light); color: var(--primary-dark); font-size: 12px; font-weight: 700; padding: 4px 14px; border-radius: var(--pill-radius);">
+  <section id="join-form" style="max-width: 860px; margin: 0 auto 48px; padding: 0 20px;">
+    <div class="form-container">
+      <div style="text-align: center; margin-bottom: 28px;">
+        <span style="background: var(--primary-surface); color: var(--primary); border: 1px solid #bfdbfe; font-size: 12.5px; font-weight: 700; padding: 4px 14px; border-radius: var(--pill-radius);">
           ⚡ 免登入 Google 帳號・30 秒直通社群
         </span>
-        <h2 style="font-size: 24px; font-weight: 900; color: var(--text-main); margin-top: 10px;">
+        <h2 style="font-size: 25px; font-weight: 900; color: var(--text-main); margin-top: 12px;">
           🚀 線上快速加入登記表
         </h2>
-        <p style="color: var(--text-muted); font-size: 13.5px; margin-top: 6px;">
+        <p style="color: var(--text-muted); font-size: 14px; margin-top: 6px;">
           填妥送出後將自動寫入團隊 Google 試算表資料庫，我們將會主動邀請你進入社群！
         </p>
       </div>
@@ -398,84 +538,84 @@
       <form id="recruitForm" onsubmit="submitRecruitForm(event)">
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px;">
           <div>
-            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+            <label for="form-name" style="display: block; font-size: 13.5px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
               姓名 *
             </label>
-            <input type="text" id="form-name" required placeholder="例如：陳大明" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+            <input type="text" id="form-name" required placeholder="例如：陳大明" class="form-input">
           </div>
           <div>
-            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+            <label for="form-id" style="display: block; font-size: 13.5px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
               學號 *
             </label>
-            <input type="text" id="form-id" required placeholder="例如：4112056001" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+            <input type="text" id="form-id" required placeholder="例如：4112056001" class="form-input">
           </div>
         </div>
 
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 16px;">
           <div>
-            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+            <label for="form-dept" style="display: block; font-size: 13.5px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
               系所年級 *
             </label>
-            <input type="text" id="form-dept" required placeholder="例如：企管系大二 / 化學所碩一" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+            <input type="text" id="form-dept" required placeholder="例如：企管系大二 / 化學所碩一" class="form-input">
           </div>
           <div>
-            <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+            <label for="form-line" style="display: block; font-size: 13.5px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
               LINE ID 或 手機號碼 *
             </label>
-            <input type="text" id="form-line" required placeholder="加好友聯繫使用" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+            <input type="text" id="form-line" required placeholder="加好友聯繫使用" class="form-input">
           </div>
         </div>
 
         <div style="margin-bottom: 16px;">
-          <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+          <label for="form-email" style="display: block; font-size: 13.5px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
             聯絡 Email (選填)
           </label>
-          <input type="email" id="form-email" placeholder="例如：student@email.nchu.edu.tw" style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;">
+          <input type="email" id="form-email" placeholder="例如：student@email.nchu.edu.tw" class="form-input">
         </div>
 
-        <div style="margin-bottom: 18px;">
-          <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
+        <div style="margin-bottom: 20px;">
+          <label style="display: block; font-size: 13.5px; font-weight: 700; color: var(--text-main); margin-bottom: 8px;">
             想加入或嘗試的角色 (可多選) *
           </label>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 8px;">
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+            <label class="role-choice-label">
               <input type="checkbox" name="roleChoice" value="AI機器學習探索"> 🤖 AI / 機器學習探索
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+            <label class="role-choice-label">
               <input type="checkbox" name="roleChoice" value="網頁前端遊戲體驗"> 🌐 網頁前端 / 遊戲體驗
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+            <label class="role-choice-label">
               <input type="checkbox" name="roleChoice" value="行銷宣傳與社群經營"> 🔥 行銷系 / 社群傳播
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+            <label class="role-choice-label">
               <input type="checkbox" name="roleChoice" value="行政管家與核銷小天使"> 📝 行政文書 / 核銷天使
             </label>
-            <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; background: var(--bg); padding: 8px 12px; border-radius: 6px; cursor: pointer;">
+            <label class="role-choice-label">
               <input type="checkbox" name="roleChoice" value="單純打球交流與試玩"> 🏓 純打球交流 / 認識新朋友
             </label>
           </div>
         </div>
 
-        <div style="margin-bottom: 20px;">
-          <label style="display: block; font-size: 13px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
+        <div style="margin-bottom: 22px;">
+          <label for="form-note" style="display: block; font-size: 13.5px; font-weight: 700; color: var(--text-main); margin-bottom: 6px;">
             想對團隊說的話 / 備註 (選填)
           </label>
-          <textarea id="form-note" rows="2" placeholder="例如：平常三四下午有空、剛修過李弘毅老師的課、完全新手想學匹克球..." style="width: 100%; padding: 10px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; outline: none; box-sizing: border-box;"></textarea>
+          <textarea id="form-note" rows="2" placeholder="例如：平常三四下午有空、剛修過李弘毅老師的課、完全新手想學匹克球..." class="form-input"></textarea>
         </div>
 
-        <button type="submit" id="btn-submit-form" style="width: 100%; background: linear-gradient(135deg, var(--primary), #1d4ed8); color: #fff; font-size: 15px; font-weight: 900; padding: 12px; border: none; border-radius: var(--pill-radius); cursor: pointer; transition: all .2s; box-shadow: var(--shadow-sm);">
+        <button type="submit" id="btn-submit-form" style="width: 100%; background: var(--primary); color: #ffffff; font-size: 15.5px; font-weight: 800; padding: 13px; border: none; border-radius: var(--pill-radius); cursor: pointer; transition: background .2s, transform .15s; box-shadow: var(--shadow-sm);">
           🚀 確認送出報名
         </button>
       </form>
 
       <!-- 成功反饋卡片 -->
       <div id="form-success" style="display: none; text-align: center; padding: 24px 10px;">
-        <div style="font-size: 44px; margin-bottom: 10px;">🎉</div>
-        <h3 style="font-size: 20px; font-weight: 900; color: var(--emerald); margin-bottom: 8px;">報名成功！歡迎加入匹克球社群！</h3>
-        <p style="font-size: 13.5px; color: var(--text-muted); margin-bottom: 20px;">
+        <div style="font-size: 44px; margin-bottom: 12px;">🎉</div>
+        <h3 style="font-size: 21px; font-weight: 900; color: var(--court-green); margin-bottom: 8px;">報名成功！歡迎加入匹克球社群！</h3>
+        <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; line-height: 1.7;">
           你的資料已成功寫入 Google 試算表資料庫！接下來請點擊下方按鈕加入官方 LINE，與總召相認並取得最新練球行事曆：
         </p>
-        <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-line-cta" style="display: inline-flex; align-items: center; gap: 6px; text-decoration: none;">
+        <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-contact-line" style="display: inline-flex; align-items: center; gap: 6px;">
           💬 加入官方 LINE 立即聊聊
         </a>
       </div>
@@ -484,9 +624,9 @@
 
   <!-- FAQ 常見問答 -->
   <div class="faq-list">
-    <div class="section-header" style="margin-bottom: 16px;">
+    <div class="section-header" style="margin-bottom: 18px;">
       <h2>常見問答 (FAQ)</h2>
-      <p>點開卡片看詳細指引</p>
+      <p>點開卡片查看詳細指引</p>
     </div>
 
     <details class="faq-item">
@@ -523,14 +663,14 @@
     <h3>想一起聊聊、認識新朋友嗎？</h3>
     <p>
       不用有任何心理壓力，純粹想認識、想幫忙行政或行銷，都隨時敲我們！<br>
-      ⏰ <strong>送件截止死線：10/02 止</strong>（名額有限，額滿即止）
+      ⏰ <strong>送件截止：10/02 止</strong>（名額有限，額滿即止）
     </p>
     <div class="cta-buttons">
-      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-line-cta">💬 加入官方 LINE 聊聊</a>
-      <a href="https://www.instagram.com/nchupickleball_lab1.0?igsi=MW5hN3Z5dzF2MDI3Nw%3D%3D" target="_blank" class="btn-ig-cta">📸 私訊官方 IG</a>
-      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="btn-web-cta">🎮 試玩體感 Demo</a>
+      <a href="https://line.me/R/ti/p/@490hjerg" target="_blank" class="btn-contact-line">💬 加入官方 LINE 聊聊</a>
+      <a href="https://www.instagram.com/nchupickleball_lab1.0?igsi=MW5hN3Z5dzF2MDI3Nw%3D%3D" target="_blank" class="btn-contact-ig">📸 私訊官方 IG</a>
+      <a href="https://kalmangoose.github.io/nchu_pikleball-V4/" target="_blank" class="btn-contact-demo">🎮 試玩體感 Demo</a>
     </div>
-    <div style="font-size: 11px; opacity: .75; margin-top: 16px;">
+    <div style="font-size: 12px; color: #94a3b8; margin-top: 18px;">
       官方 LINE ID：@490hjerg｜IG：nchupickleball_lab1.0
     </div>
   </div>
@@ -538,10 +678,10 @@
   <footer>
     <p>國立中興大學 115-1 學生學習社群計畫｜NCHU 匹克球學習社群</p>
     <p style="margin-top: 6px;">
-      <a href="dashboard.html" style="color: var(--primary); text-decoration: underline; font-weight: 700;">🛠️ 幹部內部協作工作台 (Dashboard)</a> ｜ 
-      <a href="proposal.html" style="color: var(--primary); text-decoration: underline; font-weight: 700;">📄 115-1 計畫企劃書全文</a>
+      <a href="dashboard.html">🛠️ 幹部內部協作工作台 (Dashboard)</a> ｜ 
+      <a href="proposal.html">📄 115-1 計畫企劃書全文</a>
     </p>
-    <p style="margin-top: 4px; opacity: .7;">Inspired by 興生 N-GO 問答指南</p>
+    <p style="margin-top: 4px; color: var(--text-muted);">Inspired by 興生 N-GO 問答指南</p>
   </footer>
 
   <script>
@@ -573,12 +713,10 @@
       btn.innerText = "資料寫入中...請稍候 ⏳";
       btn.disabled = true;
 
-      // 若尚未設定 Apps Script 網址，給予溫馨提示並暫存
       if (!GAS_BACKEND_URL) {
         setTimeout(function() {
           form.style.display = "none";
           successDiv.style.display = "block";
-          // 儲存於本地備用
           var locals = JSON.parse(localStorage.getItem('pending_registrations') || '[]');
           locals.push(payload);
           localStorage.setItem('pending_registrations', JSON.stringify(locals));
@@ -597,7 +735,6 @@
         successDiv.style.display = "block";
       })
       .catch(function(err) {
-        // 部分瀏覽器即便成功接收亦可能拋出跨域警告，統一顯示成功
         form.style.display = "none";
         successDiv.style.display = "block";
       });
