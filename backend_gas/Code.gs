@@ -198,6 +198,11 @@ function doPost(e) {
       var roleName = String(data.roleName || role);
       var content = String(data.content || "");
 
+      // Google 試算表單一儲存格長度上限 50,000 字元防爆保護
+      if (content.length > 49500) {
+        content = content.substring(0, 49500);
+      }
+
       var lastRow = sheet.getLastRow();
       var foundRow = 0;
       if (lastRow > 1) {
@@ -235,6 +240,11 @@ function doPost(e) {
       var status = String(data.status || "出席");
       var signature = String(data.signature || "");
       var note = String(data.note || "");
+
+      // 儲存格長度防爆保護
+      if (signature.length > 49500) {
+        signature = signature.substring(0, 49500);
+      }
 
       var lastRow = sheet.getLastRow();
       var foundRow = 0;
