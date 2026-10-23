@@ -6,7 +6,7 @@
   <title>匹克球學生學習社群｜幹部內部協作工作台 (Dashboard)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="meeting_pdf_template.js"></script>
   <style>
@@ -37,7 +37,7 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body {
-      font-family: 'Noto Sans TC', sans-serif;
+      font-family: 'Noto Sans TC', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       background: var(--bg);
       color: var(--text-main);
       line-height: 1.7;
@@ -45,74 +45,95 @@
       overflow-x: hidden;
     }
 
-    /* 頂部導覽列 (與興生指南 100% 同款設計語彙) */
+    /* 頂部導覽列 (現代玻璃擬態高質感導覽) */
     .site-header {
-      position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, .96);
-      backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0, 75, 151, .1);
-      padding: 12px 24px; display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255, 255, 255, .94);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 24px;
+      display: flex; justify-content: space-between; align-items: center;
     }
     .brand {
-      display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 15px;
-      color: var(--primary); text-decoration: none;
+      display: flex; align-items: center; gap: 10px; font-weight: 900; font-size: 15.5px;
+      color: #0f172a; text-decoration: none; letter-spacing: -0.01em;
     }
     .brand-logo {
-      width: 32px; height: 32px; border-radius: 9px;
-      background: linear-gradient(135deg, var(--primary), var(--mint));
+      width: 32px; height: 32px; border-radius: 8px;
+      background: #004B97;
       display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px;
+      box-shadow: 0 1px 3px rgba(0, 75, 151, 0.25);
     }
     .nav-links { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
     .nav-btn {
       text-decoration: none; font-size: 12.5px; font-weight: 700; padding: 7px 14px;
-      border-radius: var(--pill-radius); transition: all .22s; display: inline-flex; align-items: center; gap: 5px;
+      border-radius: var(--pill-radius); transition: all .2s ease; display: inline-flex; align-items: center; gap: 5px;
+      border: 1px solid transparent;
     }
-    .nav-btn.home { background: #fff; color: var(--primary); border: 1px solid var(--primary); }
-    .nav-btn.home:hover { background: var(--mint-light); }
-    .nav-btn.proposal { background: #fff; color: var(--text-muted); border: 1px solid #cbd5e1; }
-    .nav-btn.proposal:hover { color: var(--primary); border-color: var(--primary); }
+    .nav-btn.home { background: #fff; color: var(--primary); border-color: #bfdbfe; }
+    .nav-btn.home:hover { background: var(--primary-surface); }
+    .nav-btn.proposal { background: #fff; color: var(--text-muted); border-color: var(--border-strong); }
+    .nav-btn.proposal:hover { color: var(--primary); border-color: var(--primary); background: #fff; }
     .nav-btn.demo { background: var(--primary); color: #fff; }
     .nav-btn.demo:hover { background: var(--primary-dark); }
-    .nav-btn.line { background: #06C755; color: #fff; }
-    .nav-btn.ig { background: linear-gradient(135deg, #e1306c, #fd1d1d); color: #fff; }
+    .nav-btn.line { background: #047857; color: #fff; }
+    .nav-btn.line:hover { background: #065f46; }
+    .nav-btn.ig { background: #be123c; color: #fff; }
+    .nav-btn.ig:hover { background: #9f1239; }
 
     /* 主容器 */
-    .container { max-width: 1080px; margin: 28px auto 80px; padding: 0 20px; }
+    .container { max-width: 1140px; margin: 28px auto 80px; padding: 0 20px; }
 
-    /* 頂部 Header Card */
+    /* 頂部 Header Card (儀表指揮中心) */
     .dash-hero {
       background: #fff; border-radius: var(--card-radius); box-shadow: var(--shadow-sm);
-      border: 1px solid rgba(0, 75, 151, .1); padding: 32px; margin-bottom: 24px; position: relative;
+      border: 1px solid var(--border-subtle); padding: 32px 30px; margin-bottom: 24px; position: relative;
     }
-    .dash-badge-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+    .dash-badge-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px; }
     .badge {
       display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700;
       padding: 4px 12px; border-radius: var(--pill-radius);
     }
-    .badge-primary { background: var(--primary); color: #fff; }
-    .badge-mint { background: var(--mint-light); color: var(--primary-dark); }
-    .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(217, 119, 6, .2); }
-    .badge-emerald { background: var(--emerald-bg); color: var(--emerald); border: 1px solid rgba(5, 150, 105, .2); }
+    .badge-primary { background: var(--primary-surface); color: var(--primary); border: 1px solid #bfdbfe; }
+    .badge-mint { background: #f0fdfa; color: var(--mint); border: 1px solid #99f6e4; }
+    .badge-amber { background: var(--amber-bg); color: var(--amber); border: 1px solid #fde68a; }
+    .badge-emerald { background: var(--emerald-bg); color: var(--emerald); border: 1px solid #a7f3d0; }
 
     .dash-title {
-      font-size: clamp(22px, 3.5vw, 30px); font-weight: 900; line-height: 1.35;
-      color: var(--text-main); margin-bottom: 10px;
+      font-size: clamp(23px, 3.6vw, 32px); font-weight: 900; line-height: 1.35;
+      color: var(--text-main); margin-bottom: 10px; letter-spacing: -0.01em;
     }
     .dash-title span { color: var(--primary); }
-    .dash-subtitle { color: var(--text-muted); font-size: 14.5px; margin-bottom: 20px; }
+    .dash-subtitle { color: var(--text-muted); font-size: 14.5px; margin-bottom: 24px; line-height: 1.7; }
+
+    /* 4 大核心 KPI 指標卡片 (現代化資訊牆) */
+    .kpi-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px; margin-bottom: 24px;
+    }
+    .kpi-card {
+      background: #f8fafc; border: 1px solid var(--border-subtle); border-radius: 12px;
+      padding: 16px 18px; transition: all .2s ease;
+    }
+    .kpi-card:hover { background: #fff; border-color: var(--border-strong); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
+    .kpi-label { font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-bottom: 6px; }
+    .kpi-value { font-size: 24px; font-weight: 900; color: var(--text-main); line-height: 1.2; letter-spacing: -0.02em; }
+    .kpi-sub { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
 
     /* 快捷資訊列 (統編、雙軌進度) */
     .quick-toolbar {
-      display: flex; flex-wrap: wrap; gap: 12px; padding-top: 18px;
-      border-top: 1px dashed rgba(0, 75, 151, .15); align-items: center; justify-content: space-between;
+      display: flex; flex-wrap: wrap; gap: 12px; padding-top: 20px;
+      border-top: 1px dashed var(--border-subtle); align-items: center; justify-content: space-between;
     }
     .quick-chips { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
     .chip {
-      background: var(--bg); border: 1px solid rgba(0, 75, 151, .12); padding: 6px 14px;
+      background: var(--bg); border: 1px solid var(--border-subtle); padding: 7px 16px;
       border-radius: var(--pill-radius); font-size: 13px; font-weight: 700; color: var(--text-main);
       display: inline-flex; align-items: center; gap: 6px; cursor: pointer; transition: all .2s;
     }
     .chip:hover { border-color: var(--primary); background: #fff; transform: translateY(-1px); }
     .copy-toast {
-      position: fixed; bottom: 24px; right: 24px; background: var(--text-main); color: #fff;
+      position: fixed; bottom: 24px; right: 24px; background: #0f172a; color: #fff;
       padding: 10px 20px; border-radius: var(--pill-radius); font-size: 13.5px; font-weight: 700;
       box-shadow: var(--shadow-md); z-index: 1000; display: none; align-items: center; gap: 8px;
     }
@@ -138,21 +159,29 @@
     .time-title { font-size: 15px; font-weight: 900; color: var(--text-main); margin-bottom: 4px; }
     .time-desc { font-size: 13px; color: var(--text-muted); line-height: 1.55; }
 
-    /* 分頁切換選單 (Tabs) */
+    /* 分頁切換選單 (現代浮動 Segmented Control) */
     .dash-tabs {
-      display: flex; gap: 8px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 20px;
-      scrollbar-width: thin;
+      display: flex; gap: 6px; overflow-x: auto; padding: 6px; margin-bottom: 24px;
+      background: #f1f5f9; border-radius: 14px; border: 1px solid var(--border-subtle);
+      scrollbar-width: none;
     }
+    .dash-tabs::-webkit-scrollbar { display: none; }
     .tab-btn {
-      white-space: nowrap; background: #fff; border: 1.5px solid var(--border-subtle);
-      color: var(--text-muted); font-size: 13.5px; font-weight: 700; padding: 9px 18px;
-      border-radius: var(--pill-radius); cursor: pointer; transition: all .2s;
+      white-space: nowrap; background: transparent; border: 1px solid transparent;
+      color: #64748b; font-size: 13.5px; font-weight: 700; padding: 9px 18px;
+      border-radius: 10px; cursor: pointer; transition: all .18s cubic-bezier(0.16, 1, 0.3, 1);
       display: inline-flex; align-items: center; gap: 6px;
     }
-    .tab-btn:hover { color: var(--primary); border-color: var(--primary); }
+    .tab-btn:hover { color: var(--text-main); background: rgba(255, 255, 255, 0.7); }
     .tab-btn.active {
-      background: var(--primary); color: #fff; border-color: var(--primary);
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.12);
+      background: #ffffff; color: var(--primary); border-color: rgba(203, 213, 225, 0.7);
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 2px 6px rgba(15, 23, 42, 0.04);
+    }
+    .tab-btn.btn-drawer {
+      background: #047857; color: #ffffff; border-color: #047857;
+    }
+    .tab-btn.btn-drawer:hover {
+      background: #065f46; color: #ffffff; border-color: #065f46;
     }
 
     /* 各模組主要內容區 */
@@ -431,36 +460,36 @@
   
     /* ── 首頁專區分流導航 (Portal Hub) ── */
     .portal-hero-banner {
-      background: linear-gradient(135deg, rgba(0, 75, 151, 0.08), rgba(171, 218, 213, 0.2));
-      border: 1px solid rgba(0, 75, 151, 0.15);
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
       border-radius: var(--card-radius);
       padding: 24px 28px;
       margin-bottom: 24px;
+      box-shadow: var(--shadow-sm);
     }
     .portal-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      gap: 18px;
       margin-bottom: 28px;
     }
     .portal-card {
       background: #ffffff;
-      border: 1.5px solid rgba(0, 75, 151, 0.12);
+      border: 1px solid var(--border-subtle);
       border-radius: var(--card-radius);
-      padding: 24px;
+      padding: 24px 22px;
       box-shadow: var(--shadow-sm);
       cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      overflow: hidden;
     }
     .portal-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-md);
-      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.04);
+      border-color: var(--border-strong);
     }
     .portal-card-header {
       display: flex;
@@ -469,24 +498,32 @@
       margin-bottom: 14px;
     }
     .portal-icon {
-      font-size: 32px;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
       line-height: 1;
     }
     .portal-title {
-      font-size: 18px;
+      font-size: 17.5px;
       font-weight: 900;
       color: var(--text-main);
       margin-bottom: 10px;
+      letter-spacing: -0.01em;
     }
     .portal-desc {
-      font-size: 13px;
+      font-size: 13.5px;
       color: var(--text-muted);
-      line-height: 1.7;
+      line-height: 1.75;
       margin-bottom: 18px;
       flex: 1;
     }
     .portal-card-footer {
-      border-top: 1px dashed rgba(0, 75, 151, 0.12);
+      border-top: 1px dashed var(--border-subtle);
       padding-top: 14px;
       display: flex;
       justify-content: flex-end;
@@ -1029,6 +1066,30 @@
         整合幕後總管 RACI 分工、行政計畫申請、總務經費核銷、影音分鏡腳本、社群行銷與 AI 體感技術清單。一站式掌握全專案核心文件！
       </p>
 
+      <!-- 4 大核心 KPI 指標卡片 (即時綜覽) -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">💰 經費核銷上限</div>
+          <div class="kpi-value">NT$ 8,000</div>
+          <div class="kpi-sub">材料費 $5,600 / 誤餐費 $2,400</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">📅 自主共學進度</div>
+          <div class="kpi-value">第 1 / 7 次</div>
+          <div class="kpi-sub">實到 5/6 人（超法定 2/3 出席門檻）</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">👥 跨領域核心成員</div>
+          <div class="kpi-value">6 位在學生</div>
+          <div class="kpi-sub">跨土環、企管、資工、運管、財金</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">⚡ 試算表即時連動</div>
+          <div class="kpi-value" style="color:var(--emerald);">雙向同步中</div>
+          <div class="kpi-sub">Google Sheets 自動串流更新</div>
+        </div>
+      </div>
+
       <div class="quick-toolbar">
         <div class="quick-chips">
           <div class="chip" onclick="copyText('52024101', '中興大學學校統編 (52024101) 已複製！')">
@@ -1046,7 +1107,15 @@
       </div>
     </div>
 
-    
+    <!-- 雲端同步狀態列 -->
+    <div class="sync-banner">
+      <div class="sync-info">
+        <span class="sync-status-dot online" id="sync-dot"></span>
+        <div>
+          <strong style="font-size: 13.5px;">Google Sheets 雙向即時同步中</strong>
+          <div class="sync-time" id="sync-last-time">最後同步：載入中...</div>
+        </div>
+      </div>
       <div class="sync-actions">
         <div class="sync-stat-chip">👥 報名名冊：<strong id="stat-reg-count">--</strong> 人</div>
         <div class="sync-stat-chip">🏓 出席簽到：<strong id="stat-att-count">--</strong> 人次</div>
@@ -1106,7 +1175,7 @@
       <button class="tab-btn" onclick="switchTab('tab-admin', this)">📝 行政文書 (申請/紀錄/諮詢)</button>
       <button class="tab-btn" onclick="switchTab('tab-tech', this)">💻 教學研發 (教材/體感/影片)</button>
       <button class="tab-btn" onclick="switchTab('tab-notes', this)">📓 幹部內部筆記本</button>
-      <button class="tab-btn" onclick="toggleDrawer(true)" style="background: linear-gradient(135deg, #059669, #10b981); color: #fff; border-color: #059669; font-weight:700;">🧰 現場活動抽屜 (名冊/簽到)</button>
+      <button class="tab-btn btn-drawer" onclick="toggleDrawer(true)">🧰 現場活動抽屜 (名冊/簽到)</button>
     </div>
 
     <!-- ────────────────────────────────────────────── -->
